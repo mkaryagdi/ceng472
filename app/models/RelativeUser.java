@@ -16,13 +16,13 @@ public class RelativeUser extends User {
 
     private Long phoneNumber;
 
+    public static final Finder<Long, RelativeUser> finder = new Finder<>(RelativeUser.class);
+
     public RelativeUser (String name, String surname, PatientUser patient, Long phoneNumber){
         super(name, surname);
         setPatient(patient);
         setPhoneNumber(phoneNumber);
     }
-
-    public static final Finder<Long, RelativeUser> finder = new Finder<>(RelativeUser.class);
 
     @Override
     public Long getId() {

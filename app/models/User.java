@@ -4,6 +4,7 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="usr")
@@ -14,8 +15,10 @@ public class User extends Model {
     @Id
     private Long id;
 
+    @NotNull
     private String name;
 
+    @NotNull
     private String surname;
 
     public static final Finder<Long, User> finder = new Finder<>(User.class);
