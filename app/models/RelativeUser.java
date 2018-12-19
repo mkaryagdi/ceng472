@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 
 import javax.persistence.DiscriminatorValue;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @DiscriminatorValue("relative")
 public class RelativeUser extends User {
 
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     private PatientUser patient;
 
     private Long phoneNumber;

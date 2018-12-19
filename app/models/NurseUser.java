@@ -5,7 +5,9 @@ import io.ebean.Finder;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @DiscriminatorValue("nurse")
@@ -19,13 +21,17 @@ public class NurseUser extends User {
     @OneToMany
     private List<PatientUser> patientList;
 
+    @OneToOne
+    private DoctorUser doctor;
+
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
 
-    public NurseUser(String name, String surname, String major, String email, List<PatientUser> patientList) {
+    public NurseUser(String name, String surname, String major, String email, DoctorUser doctor) {
         super(name, surname);
         setMajor(major);
         setEmail(email);
-        setPatientList(patientList);
+        setDoctor(doctor);
+        this.patientList = new ArrayList<>();
     }
 
     public String getMajor() {
@@ -42,6 +48,15 @@ public class NurseUser extends User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @JsonIgnore
+    public DoctorUser getDoctor() {
+        return doctor;
+    }
+
+    public void setDoctor(DoctorUser doctor) {
+        this.doctor = doctor;
     }
 
     @JsonIgnore

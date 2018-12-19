@@ -6,7 +6,9 @@ import org.joda.time.DateTime;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 @DiscriminatorValue("patient")
@@ -23,6 +25,12 @@ public class PatientUser extends User {
     @ManyToOne
     private List<DoctorUser> doctorList;
 
+    @OneToMany
+    private List<RelativeUser> relativeList;
+
+    @OneToMany
+    private List<Record> recordList;
+
     public static final Finder<Long, PatientUser> finder = new Finder<>(PatientUser.class);
 
     public PatientUser(String name, String surname, Long phoneNumber, DateTime birthDate, String address, List<DoctorUser> doctorList) {
@@ -31,6 +39,8 @@ public class PatientUser extends User {
         setBirthdate(birthDate);
         setAddress(address);
         setDoctorList(doctorList);
+        this.relativeList = new ArrayList<>();
+        this.recordList = new ArrayList<>();
     }
 
     public Long getPhoneNumber() {
@@ -39,6 +49,14 @@ public class PatientUser extends User {
 
     public void setPhoneNumber(Long phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public DateTime getBirthdate() {
+        return birthDate;
+    }
+
+    public void setBirthdate(DateTime birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getAddress() {
@@ -58,11 +76,19 @@ public class PatientUser extends User {
         this.doctorList = doctorList;
     }
 
-    public DateTime getBirthdate() {
-        return birthDate;
+    public List<RelativeUser> getRelativeList() {
+        return relativeList;
     }
 
-    public void setBirthdate(DateTime birthDate) {
-        this.birthDate = birthDate;
+    public void setRelativeList(List<RelativeUser> relativeList) {
+        this.relativeList = relativeList;
+    }
+
+    public List<Record> getRecordList() {
+        return recordList;
+    }
+
+    public void setRecordList(List<Record> recordList) {
+        this.recordList = recordList;
     }
 }
