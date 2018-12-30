@@ -3,15 +3,18 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
+@Entity
 @DiscriminatorValue("relative")
 public class RelativeUser extends User {
 
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private PatientUser patient;
 
     private Long phoneNumber;

@@ -1,74 +1,14 @@
-2018-12-30 03:49:06,202 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Creating Pool for datasource 'default'
-2018-12-30 03:49:06,429 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-3 - Database [default] connected at jdbc:postgresql://localhost/ceng472
-2018-12-30 03:49:07,639 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler is started...
-2018-12-30 03:49:07,717 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors are missing. Inserting default values...
-2018-12-30 03:49:07,720 [ERROR] from application in play-dev-mode-akka.actor.default-dispatcher-3 - error
-javax.persistence.PersistenceException: The type [class models.DoctorUser] is not a registered entity? If you don't explicitly list the entity classes to use Ebean will search for them in the classpath. If the entity is in a Jar check the ebean.search.jars property in ebean.properties file or check ServerConfig.addJar().
-	at io.ebeaninternal.server.persist.DefaultPersister.createRequestInternal(DefaultPersister.java:1435)
-	at io.ebeaninternal.server.persist.DefaultPersister.createRequest(DefaultPersister.java:1419)
-	at io.ebeaninternal.server.persist.DefaultPersister.insert(DefaultPersister.java:403)
-	at io.ebeaninternal.server.persist.DefaultPersister.save(DefaultPersister.java:393)
-	at io.ebeaninternal.server.core.DefaultServer.save(DefaultServer.java:1578)
-	at io.ebeaninternal.server.core.DefaultServer.save(DefaultServer.java:1570)
-	at io.ebean.Model.save(Model.java:190)
-	at generator.user.UserGeneratorImpl.generate(UserGeneratorImpl.java:30)
-	at handlers.DatabaseHandler.checkDoctors(DatabaseHandler.java:40)
-	at handlers.DatabaseHandler.start(DatabaseHandler.java:29)
-	at handlers.DatabaseHandler.<init>(DatabaseHandler.java:24)
-	at handlers.DatabaseHandler$$FastClassByGuice$$841683aa.newInstance(<generated>)
-	at com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:89)
-	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:111)
-	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:90)
-	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:268)
-	at com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46)
-	at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1092)
-	at com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)
-	at com.google.inject.internal.SingletonScope$1.get(SingletonScope.java:194)
-	at com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:41)
-	at com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:205)
-	at com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:199)
-	at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1085)
-	at com.google.inject.internal.InternalInjectorCreator.loadEagerSingletons(InternalInjectorCreator.java:199)
-	at com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:180)
-	at com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:110)
-	at com.google.inject.Guice.createInjector(Guice.java:99)
-	at com.google.inject.Guice.createInjector(Guice.java:84)
-	at play.api.inject.guice.GuiceBuilder.injector(GuiceInjectorBuilder.scala:185)
-	at play.api.inject.guice.GuiceApplicationBuilder.build(GuiceApplicationBuilder.scala:137)
-	at play.api.inject.guice.GuiceApplicationLoader.load(GuiceApplicationLoader.scala:21)
-	at play.core.server.DevServerStart$$anon$1.$anonfun$reload$3(DevServerStart.scala:174)
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21)
-	at play.core.server.DevServerStart$$anon$1.reload(DevServerStart.scala:171)
-	at play.core.server.DevServerStart$$anon$1.get(DevServerStart.scala:124)
-	at play.core.server.AkkaHttpServer.handleRequest(AkkaHttpServer.scala:202)
-	at play.core.server.AkkaHttpServer.$anonfun$createServerBinding$1(AkkaHttpServer.scala:117)
-	at akka.stream.impl.fusing.MapAsync$$anon$25.onPush(Ops.scala:1194)
-	at akka.stream.impl.fusing.GraphInterpreter.processPush(GraphInterpreter.scala:519)
-	at akka.stream.impl.fusing.GraphInterpreter.processEvent(GraphInterpreter.scala:482)
-	at akka.stream.impl.fusing.GraphInterpreter.execute(GraphInterpreter.scala:378)
-	at akka.stream.impl.fusing.GraphInterpreterShell.runBatch(ActorGraphInterpreter.scala:585)
-	at akka.stream.impl.fusing.GraphInterpreterShell$AsyncInput.execute(ActorGraphInterpreter.scala:469)
-	at akka.stream.impl.fusing.GraphInterpreterShell.processEvent(ActorGraphInterpreter.scala:560)
-	at akka.stream.impl.fusing.ActorGraphInterpreter.akka$stream$impl$fusing$ActorGraphInterpreter$$processEvent(ActorGraphInterpreter.scala:742)
-	at akka.stream.impl.fusing.ActorGraphInterpreter$$anonfun$receive$1.applyOrElse(ActorGraphInterpreter.scala:757)
-	at akka.actor.Actor.aroundReceive(Actor.scala:517)
-	at akka.actor.Actor.aroundReceive$(Actor.scala:515)
-	at akka.stream.impl.fusing.ActorGraphInterpreter.aroundReceive(ActorGraphInterpreter.scala:667)
-	at akka.actor.ActorCell.receiveMessage(ActorCell.scala:590)
-	at akka.actor.ActorCell.invoke(ActorCell.scala:559)
-	at akka.dispatch.Mailbox.processMailbox(Mailbox.scala:257)
-	at akka.dispatch.Mailbox.run(Mailbox.scala:224)
-	at akka.dispatch.Mailbox.exec(Mailbox.scala:234)
-	at akka.dispatch.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
-	at akka.dispatch.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
-	at akka.dispatch.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
-	at akka.dispatch.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
-2018-12-30 03:49:07,720 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors inserted.
-2018-12-30 03:49:07,720 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler successfully completed!
-2018-12-30 03:49:08,370 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-3 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
-2018-12-30 03:49:08,630 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-3 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2018-12-30 04:16:01,865 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Creating Pool for datasource 'default'
+2018-12-30 04:16:02,040 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-3 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2018-12-30 04:16:02,696 [WARN] from io.ebeaninternal.server.deploy.parse.DeployCreateProperties in play-dev-mode-akka.actor.default-dispatcher-3 - Huh??? property models.RelativeUser.id being defined twice but replaced property was not transient? This is not expected?
+2018-12-30 04:16:03,026 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler is started...
+2018-12-30 04:16:03,080 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors are missing. Inserting default values...
+2018-12-30 04:16:03,181 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors inserted.
+2018-12-30 04:16:03,181 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler successfully completed!
+2018-12-30 04:16:03,609 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-3 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-12-30 04:16:03,812 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-3 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
-2018-12-30 03:49:08,644 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-3 - Application started (Dev)
+2018-12-30 04:16:03,830 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-3 - Application started (Dev)

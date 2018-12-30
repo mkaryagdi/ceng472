@@ -4,31 +4,32 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 import org.joda.time.DateTime;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @DiscriminatorValue("patient")
 public class PatientUser extends User {
 
-    @NotNull
     private Long phoneNumber;
 
-    @NotNull
     private DateTime birthDate;
 
     private String address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private List<DoctorUser> doctorList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<RelativeUser> relativeList;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Record> recordList;
 
     public static final Finder<Long, PatientUser> finder = new Finder<>(PatientUser.class);

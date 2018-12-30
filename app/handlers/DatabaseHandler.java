@@ -33,7 +33,7 @@ public class DatabaseHandler {
 
     private void checkDoctors() {
 
-        if (User.finder.all().isEmpty()) {
+        if (DoctorUser.finder.all().isEmpty()) {
             Logger.info("Test doctors are missing. Inserting default values...");
 
             try {
