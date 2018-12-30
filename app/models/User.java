@@ -14,6 +14,7 @@ public class User extends Model {
     @Id
     private Long id;
 
+    @Column(length = 2048)
     private String token;
 
     private String email;

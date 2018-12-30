@@ -25,7 +25,6 @@ public class JwtHelperImpl implements JwtHelper {
                 .withClaim("nurse_grant", nurseGrant)
                 .withClaim("patient_grant", patientGrant)
                 .withClaim("relative_grant", relativeGrant)
-                .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusDays(30L).toInstant()))
                 .sign(algorithm);
     }
 

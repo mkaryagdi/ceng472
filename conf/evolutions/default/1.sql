@@ -13,7 +13,7 @@ create table record (
 create table usr (
   type                          varchar(31) not null,
   id                            bigserial not null,
-  token                         varchar(255),
+  token                         varchar(2048),
   email                         varchar(255),
   password                      varchar(255),
   name                          varchar(255),
