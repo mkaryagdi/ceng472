@@ -12,9 +12,6 @@ import java.util.List;
 @DiscriminatorValue("doctor")
 public class DoctorUser extends User {
 
-    @Id
-    private Long id;
-
     private String name;
 
     private String surname;

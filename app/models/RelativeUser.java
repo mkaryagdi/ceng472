@@ -12,8 +12,6 @@ import javax.persistence.ManyToOne;
 @DiscriminatorValue("relative")
 public class RelativeUser extends User {
 
-    private Long id;
-
     private String name;
 
     private String surname;
@@ -31,11 +29,6 @@ public class RelativeUser extends User {
         this.surname = surname;
         setPatient(patient);
         setPhoneNumber(phoneNumber);
-    }
-
-    @Override
-    public Long getId() {
-        return id;
     }
 
     public Long getPhoneNumber() {
