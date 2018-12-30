@@ -2,7 +2,6 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
-import org.joda.time.DateTime;
 
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
@@ -10,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -20,11 +20,11 @@ public class PatientUser extends User {
 
     private String surname;
 
-    private Long phoneNumber;
-
-    private DateTime birthDate;
+    private Integer birthYear;
 
     private String address;
+
+    private String gender;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private List<DoctorUser> doctorList;
@@ -37,40 +37,16 @@ public class PatientUser extends User {
 
     public static final Finder<Long, PatientUser> finder = new Finder<>(PatientUser.class);
 
-    public PatientUser(String token, String username, String password, String name, String surname, Long phoneNumber, DateTime birthDate, String address, List<DoctorUser> doctorList) {
+    public PatientUser(String token, String username, String password, String name, String surname, Integer birthYear, String address, String gender, DoctorUser doctor) {
         super(token, username, password);
         this.name = name;
-        this.surname = surname;;
-        setPhoneNumber(phoneNumber);
-        setBirthdate(birthDate);
-        setAddress(address);
-        setDoctorList(doctorList);
+        this.surname = surname;
+        this.birthYear = birthYear;
+        this.address = address;
+        this.gender = gender;
+        this.doctorList = Arrays.asList(doctor);
         this.relativeList = new ArrayList<>();
         this.recordList = new ArrayList<>();
-    }
-
-    public Long getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(Long phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public DateTime getBirthdate() {
-        return birthDate;
-    }
-
-    public void setBirthdate(DateTime birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public List<DoctorUser> getDoctorList() {

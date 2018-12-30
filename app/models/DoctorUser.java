@@ -18,16 +18,22 @@ public class DoctorUser extends User {
 
     private String major;
 
+    private Integer birthYear;
+
+    private String gender;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<PatientUser> patientList;
 
     public static final Finder<Long, DoctorUser> finder = new Finder<>(DoctorUser.class);
 
-    public DoctorUser(String token, String name, String surname, String major, String username, String password) {
+    public DoctorUser(String token, String username, String password, String name, String surname, String major, Integer birthYear, String gender) {
         super(token, username, password);
         this.name = name;
         this.surname = surname;
         this.major = major;
+        this.birthYear = birthYear;
+        this.gender = gender;
         this.patientList = new ArrayList<>();
     }
 
@@ -46,5 +52,9 @@ public class DoctorUser extends User {
 
     public void setPatientList(List<PatientUser> patientList) {
         this.patientList = patientList;
+    }
+
+    public void addPatient(PatientUser patientUser) {
+        this.patientList.add(patientUser);
     }
 }

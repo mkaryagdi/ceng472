@@ -7,25 +7,28 @@ import models.DoctorUser;
 import play.Logger;
 
 @Singleton
-public class UserGeneratorImpl implements UserGenerator {
+public class DoctorGeneratorImpl implements DoctorGenerator {
 
     private JwtHelper jwtHelper;
 
     @Inject
-    public UserGeneratorImpl(JwtHelper jwtHelper) {
+    public DoctorGeneratorImpl(JwtHelper jwtHelper) {
         this.jwtHelper = jwtHelper;
     }
 
     @Override
-    public DoctorUser generate(String username, String password) throws Exception {
+    public DoctorUser generate(String username, String password, String name, String surname,
+                               String major, Integer birthYear, String gender) throws Exception {
         Logger.debug("Generating doctor user.");
         DoctorUser user = new DoctorUser(
                 null,
-                null,
-                null,
-                null,
                 username,
-                password);
+                password,
+                name,
+                surname,
+                major,
+                birthYear,
+                gender);
         // since we need userId to generate token, first we should save bean.
         user.save();
 

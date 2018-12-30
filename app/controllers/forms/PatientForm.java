@@ -1,25 +1,21 @@
 package controllers.forms;
 
-import org.joda.time.DateTime;
 import play.data.validation.Constraints.Required;
 
 public class PatientForm {
 
     @Required
-    private String name;
+    public String name;
 
     @Required
-    private String surname;
+    public String surname;
 
-    private Long phoneNumber;
+    public Long phoneNumber;
 
-    private DateTime birthDate;
+    //public String birthDate;
 
-    private String address;
+    public String address;
 
     @Required
     public String username;
-
-    @Required
-    public String password;
 }
