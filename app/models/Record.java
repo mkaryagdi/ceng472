@@ -16,4 +16,12 @@ public class Record extends Model {
     @NotNull
     @Size(max = 256)
     private String info; // TODO: it must include name, surname, diognastics and birth date of the patient!
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getInfo() {
+        return info;
+    }
 }
