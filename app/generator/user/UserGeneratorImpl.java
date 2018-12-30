@@ -10,7 +10,6 @@ import play.Logger;
 public class UserGeneratorImpl implements UserGenerator {
 
     private JwtHelper jwtHelper;
-    private Logger.ALogger logger = Logger.of("components.generator.user.UserGenerator");
 
     @Inject
     public UserGeneratorImpl(JwtHelper jwtHelper) {
@@ -19,7 +18,7 @@ public class UserGeneratorImpl implements UserGenerator {
 
     @Override
     public DoctorUser generate(String email, String password) throws Exception {
-        logger.debug("Generating real user.");
+        Logger.debug("Generating real user.");
         DoctorUser user = new DoctorUser(
                 null,
                 null,
@@ -31,7 +30,7 @@ public class UserGeneratorImpl implements UserGenerator {
         user.save();
 
         try {
-            user.setToken(jwtHelper.getSignedToken(user.getId(), false));
+            user.setToken(jwtHelper.getSignedToken(user.getId(), false, true, false, false, false));
             user.save();
         } catch (Exception e) {
             user.delete();

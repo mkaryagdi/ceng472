@@ -44,12 +44,12 @@ public class JwtValidatorImpl implements JwtValidator {
     private JWTVerifier verifier;
 
     @Inject
-    public JwtValidatorImpl(Config config) throws UnsupportedEncodingException {
-        this.secret = config.getString("play.http.secret.key");
+    public JwtValidatorImpl() throws UnsupportedEncodingException {
+        this.secret = "secret";
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
         verifier = JWT.require(algorithm)
-                .withIssuer("iytewall")
+                .withIssuer("hospital")
                 .build();
     }
 

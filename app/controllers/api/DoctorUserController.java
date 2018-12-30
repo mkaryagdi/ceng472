@@ -10,8 +10,7 @@ public class DoctorUserController extends Controller {
 
     public Result fetch(Long id) {
 
-        Long userId = request().attrs().get(Attrs.VERIFIED_JWT).getUserId();
-        DoctorUser verifiedUser = DoctorUser.finder.byId(userId);
+        DoctorUser verifiedUser = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
 
         if(verifiedUser.getId().equals(id)) {
             return ok(Json.toJson(verifiedUser));

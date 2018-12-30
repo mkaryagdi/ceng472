@@ -12,21 +12,19 @@ import java.util.Date;
 
 public class JwtHelperImpl implements JwtHelper {
 
-    private Config config;
-
-    @Inject
-    public JwtHelperImpl(Config config) {
-        this.config = config;
-    }
-
-    public String getSignedToken(Long userId, Boolean adminGrant) throws UnsupportedEncodingException {
-        String secret = config.getString("play.http.secret.key");
+    public String getSignedToken(Long userId, Boolean adminGrant, Boolean doctorGrant,
+                                 Boolean nurseGrant, Boolean patientGrant, Boolean relativeGrant) throws UnsupportedEncodingException {
+        String secret = "secret";
 
         Algorithm algorithm = Algorithm.HMAC256(secret);
         return JWT.create()
-                .withIssuer("iytewall")
+                .withIssuer("hospital")
                 .withClaim("user_id", userId)
                 .withClaim("admin_grant", adminGrant)
+                .withClaim("doctor_grant", doctorGrant)
+                .withClaim("nurse_grant", nurseGrant)
+                .withClaim("patient_grant", patientGrant)
+                .withClaim("relative_grant", relativeGrant)
                 .withExpiresAt(Date.from(ZonedDateTime.now(ZoneId.systemDefault()).plusDays(30L).toInstant()))
                 .sign(algorithm);
     }

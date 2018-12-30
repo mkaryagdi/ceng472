@@ -47,7 +47,7 @@ public class UserController extends Controller {
 //                    request().method() + " " + request().uri());
 
         try {
-            user.setToken(jwtHelper.getSignedToken(user.getId(), true));
+            user.setToken(jwtHelper.getSignedToken(user.getId(), false, true, false, false, false));
             user.save();
         } catch (UnsupportedEncodingException e) {
             return errorHandler.onServerError("admin-signin", e, request().method() + " " + request().uri());

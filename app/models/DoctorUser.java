@@ -3,10 +3,7 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +11,9 @@ import java.util.List;
 @Entity
 @DiscriminatorValue("doctor")
 public class DoctorUser extends User {
+
+    @Id
+    private Long id;
 
     private String name;
 
