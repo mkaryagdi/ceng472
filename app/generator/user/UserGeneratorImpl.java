@@ -17,14 +17,14 @@ public class UserGeneratorImpl implements UserGenerator {
     }
 
     @Override
-    public DoctorUser generate(String email, String password) throws Exception {
-        Logger.debug("Generating real user.");
+    public DoctorUser generate(String username, String password) throws Exception {
+        Logger.debug("Generating doctor user.");
         DoctorUser user = new DoctorUser(
                 null,
                 null,
                 null,
                 null,
-                email,
+                username,
                 password);
         // since we need userId to generate token, first we should save bean.
         user.save();

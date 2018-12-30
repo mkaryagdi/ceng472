@@ -29,8 +29,8 @@ public class NurseUser extends User {
 
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
 
-    public NurseUser(String token, String name, String surname, String major, String email, String password, DoctorUser doctor) {
-        super(token, email, password);
+    public NurseUser(String token, String name, String surname, String major, String username, String password, DoctorUser doctor) {
+        super(token, username, password);
         this.name = name;
         this.surname = surname;
         this.major = major;
