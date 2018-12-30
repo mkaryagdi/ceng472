@@ -18,8 +18,8 @@ public class RelativeUser extends User {
 
     public static final Finder<Long, RelativeUser> finder = new Finder<>(RelativeUser.class);
 
-    public RelativeUser (String name, String surname, PatientUser patient, Long phoneNumber){
-        super(name, surname);
+    public RelativeUser (String token, String name, String surname, PatientUser patient, Long phoneNumber){
+        super(token, name, surname);
         setPatient(patient);
         setPhoneNumber(phoneNumber);
     }

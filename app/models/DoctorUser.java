@@ -22,8 +22,8 @@ public class DoctorUser extends User {
 
     public static final Finder<Long, DoctorUser> finder = new Finder<>(DoctorUser.class);
 
-    public DoctorUser(String name, String surname, String major, String email) {
-        super(name, surname);
+    public DoctorUser(String accessToken, String name, String surname, String major, String email) {
+        super(accessToken, name, surname);
         setMajor(major);
         setEmail(email);
         this.patientList = new ArrayList<>();

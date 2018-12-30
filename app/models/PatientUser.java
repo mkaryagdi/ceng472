@@ -33,8 +33,8 @@ public class PatientUser extends User {
 
     public static final Finder<Long, PatientUser> finder = new Finder<>(PatientUser.class);
 
-    public PatientUser(String name, String surname, Long phoneNumber, DateTime birthDate, String address, List<DoctorUser> doctorList) {
-        super(name, surname);
+    public PatientUser(String token, String name, String surname, Long phoneNumber, DateTime birthDate, String address, List<DoctorUser> doctorList) {
+        super(token, name, surname);
         setPhoneNumber(phoneNumber);
         setBirthdate(birthDate);
         setAddress(address);

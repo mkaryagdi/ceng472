@@ -15,6 +15,8 @@ public class User extends Model {
     @Id
     private Long id;
 
+    private String token;
+
     @NotNull
     private String name;
 
@@ -23,9 +25,18 @@ public class User extends Model {
 
     public static final Finder<Long, User> finder = new Finder<>(User.class);
 
-    public User(String name, String surname) {
+    public User(String token, String name, String surname) {
+        this.token = token;
         setName(name);
         setSurname(surname);
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public Long getId() {

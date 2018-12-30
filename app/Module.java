@@ -1,4 +1,5 @@
 import com.google.inject.AbstractModule;
+import handlers.DatabaseHandler;
 import jwt.JwtHelper;
 import jwt.JwtHelperImpl;
 import jwt.JwtValidator;
@@ -30,8 +31,9 @@ public class Module extends AbstractModule {
 
 
 		// jwt
-		bind(JwtValidator.class).to(JwtValidatorImpl.class).asEagerSingleton();
-		bind(JwtHelper.class).to(JwtHelperImpl.class).asEagerSingleton();
+		bind(JwtValidator.class).to(JwtValidatorImpl.class);
+		bind(JwtHelper.class).to(JwtHelperImpl.class);
+		bind(DatabaseHandler.class).asEagerSingleton();
 
     }
 
