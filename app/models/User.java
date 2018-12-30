@@ -4,7 +4,6 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="usr")
@@ -17,18 +16,16 @@ public class User extends Model {
 
     private String token;
 
-    @NotNull
-    private String name;
+    private String email;
 
-    @NotNull
-    private String surname;
+    private String password;
 
     public static final Finder<Long, User> finder = new Finder<>(User.class);
 
-    public User(String token, String name, String surname) {
+    public User(String token, String email, String password) {
         this.token = token;
-        setName(name);
-        setSurname(surname);
+        setEmail(email);
+        setPassword(password);
     }
 
     public String getToken() {
@@ -43,19 +40,19 @@ public class User extends Model {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getPassword() {
+        return password;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

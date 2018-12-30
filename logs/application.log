@@ -1,14 +1,15 @@
-2018-12-30 04:16:01,865 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Creating Pool for datasource 'default'
-2018-12-30 04:16:02,040 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-3 - Database [default] connected at jdbc:postgresql://localhost/ceng472
-2018-12-30 04:16:02,696 [WARN] from io.ebeaninternal.server.deploy.parse.DeployCreateProperties in play-dev-mode-akka.actor.default-dispatcher-3 - Huh??? property models.RelativeUser.id being defined twice but replaced property was not transient? This is not expected?
-2018-12-30 04:16:03,026 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler is started...
-2018-12-30 04:16:03,080 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors are missing. Inserting default values...
-2018-12-30 04:16:03,181 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors inserted.
-2018-12-30 04:16:03,181 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler successfully completed!
-2018-12-30 04:16:03,609 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-3 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
-2018-12-30 04:16:03,812 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-3 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2018-12-30 05:14:51,224 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Creating Pool for datasource 'default'
+2018-12-30 05:14:51,389 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-3 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2018-12-30 05:14:52,015 [WARN] from io.ebeaninternal.server.deploy.parse.DeployCreateProperties in play-dev-mode-akka.actor.default-dispatcher-3 - Huh??? property models.AdminUser.id being defined twice but replaced property was not transient? This is not expected?
+2018-12-30 05:14:52,052 [WARN] from io.ebeaninternal.server.deploy.parse.DeployCreateProperties in play-dev-mode-akka.actor.default-dispatcher-3 - Huh??? property models.RelativeUser.id being defined twice but replaced property was not transient? This is not expected?
+2018-12-30 05:14:52,505 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler is started...
+2018-12-30 05:14:52,540 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors are missing. Inserting default values...
+2018-12-30 05:14:52,608 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Test doctors inserted.
+2018-12-30 05:14:52,608 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler successfully completed!
+2018-12-30 05:14:53,030 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-3 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-12-30 05:14:53,212 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-3 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
-2018-12-30 04:16:03,830 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-3 - Application started (Dev)
+2018-12-30 05:14:53,222 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-3 - Application started (Dev)

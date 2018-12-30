@@ -36,6 +36,10 @@ public class VerifiedJwtImpl implements VerifiedJwt {
     private String issuer;
     private Long userId;
     private Boolean adminGrant;
+    private Boolean doctorGrant;
+    private Boolean nurseGrant;
+    private Boolean patientGrant;
+    private Boolean relativeGrant;
     private Date expiresAt;
 
     public VerifiedJwtImpl(DecodedJWT decodedJWT) {
@@ -45,6 +49,10 @@ public class VerifiedJwtImpl implements VerifiedJwt {
         this.expiresAt = decodedJWT.getExpiresAt();
         this.userId = decodedJWT.getClaim("user_id").asLong();
         this.adminGrant = decodedJWT.getClaim("admin_grant").asBoolean();
+        this.doctorGrant = decodedJWT.getClaim("doctor_grant").asBoolean();
+        this.nurseGrant = decodedJWT.getClaim("nurse_grant").asBoolean();
+        this.patientGrant = decodedJWT.getClaim("patient_grant").asBoolean();
+        this.relativeGrant = decodedJWT.getClaim("relative_grant").asBoolean();
     }
 
     @Override
@@ -70,6 +78,26 @@ public class VerifiedJwtImpl implements VerifiedJwt {
     @Override
     public Long getUserId() {
         return userId;
+    }
+
+    @Override
+    public Boolean isDoctor() {
+        return doctorGrant;
+    }
+
+    @Override
+    public Boolean isNurse() {
+        return nurseGrant;
+    }
+
+    @Override
+    public Boolean isPatient() {
+        return patientGrant;
+    }
+
+    @Override
+    public Boolean isRelative() {
+        return relativeGrant;
     }
 
     @Override

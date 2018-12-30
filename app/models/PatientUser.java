@@ -17,6 +17,10 @@ import java.util.List;
 @DiscriminatorValue("patient")
 public class PatientUser extends User {
 
+    private String name;
+
+    private String surname;
+
     private Long phoneNumber;
 
     private DateTime birthDate;
@@ -34,8 +38,10 @@ public class PatientUser extends User {
 
     public static final Finder<Long, PatientUser> finder = new Finder<>(PatientUser.class);
 
-    public PatientUser(String token, String name, String surname, Long phoneNumber, DateTime birthDate, String address, List<DoctorUser> doctorList) {
-        super(token, name, surname);
+    public PatientUser(String token, String email, String password, String name, String surname, Long phoneNumber, DateTime birthDate, String address, List<DoctorUser> doctorList) {
+        super(token, email, password);
+        this.name = name;
+        this.surname = surname;;
         setPhoneNumber(phoneNumber);
         setBirthdate(birthDate);
         setAddress(address);

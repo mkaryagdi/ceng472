@@ -8,7 +8,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,9 +15,11 @@ import java.util.List;
 @DiscriminatorValue("nurse")
 public class NurseUser extends User {
 
-    private String major;
+    private String name;
 
-    private String email;
+    private String surname;
+
+    private String major;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<PatientUser> patientList;
@@ -28,10 +29,11 @@ public class NurseUser extends User {
 
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
 
-    public NurseUser(String token, String name, String surname, String major, String email, DoctorUser doctor) {
-        super(token, name, surname);
-        setMajor(major);
-        setEmail(email);
+    public NurseUser(String token, String name, String surname, String major, String email, String password, DoctorUser doctor) {
+        super(token, email, password);
+        this.name = name;
+        this.surname = surname;
+        this.major = major;
         setDoctor(doctor);
         this.patientList = new ArrayList<>();
     }
@@ -42,14 +44,6 @@ public class NurseUser extends User {
 
     public void setMajor(String major) {
         this.major = major;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     @JsonIgnore

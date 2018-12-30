@@ -14,6 +14,10 @@ public class RelativeUser extends User {
 
     private Long id;
 
+    private String name;
+
+    private String surname;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private PatientUser patient;
 
@@ -21,8 +25,10 @@ public class RelativeUser extends User {
 
     public static final Finder<Long, RelativeUser> finder = new Finder<>(RelativeUser.class);
 
-    public RelativeUser (String token, String name, String surname, PatientUser patient, Long phoneNumber){
-        super(token, name, surname);
+    public RelativeUser (String token, String email, String password, String name, String surname, PatientUser patient, Long phoneNumber){
+        super(token, email, password);
+        this.name = name;
+        this.surname = surname;
         setPatient(patient);
         setPhoneNumber(phoneNumber);
     }

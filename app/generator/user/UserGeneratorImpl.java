@@ -18,14 +18,15 @@ public class UserGeneratorImpl implements UserGenerator {
     }
 
     @Override
-    public DoctorUser generate(String name, String surname) throws Exception {
+    public DoctorUser generate(String email, String password) throws Exception {
         logger.debug("Generating real user.");
         DoctorUser user = new DoctorUser(
                 null,
-                name,
-                surname,
                 null,
-                name + surname + "@email.com");
+                null,
+                null,
+                email,
+                password);
         // since we need userId to generate token, first we should save bean.
         user.save();
 

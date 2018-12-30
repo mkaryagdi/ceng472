@@ -4,5 +4,5 @@ import models.DoctorUser;
 
 public interface UserGenerator {
 
-    DoctorUser generate(String name, String surname) throws Exception;
+    DoctorUser generate(String email, String password) throws Exception;
 }

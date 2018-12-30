@@ -32,5 +32,9 @@ public interface VerifiedJwt {
     String getIssuer();
     Long getUserId();
     Boolean isAdmin();
+    Boolean isDoctor();
+    Boolean isNurse();
+    Boolean isPatient();
+    Boolean isRelative();
     Date getExpiresAt();
 }
