@@ -33,11 +33,11 @@ public class PatientGeneratorImpl implements PatientGenerator {
                 gender,
                 doctor);
         // since we need userId to generate token, first we should save bean.
-        user.save();
+        doctor.save();
 
         try {
             user.setToken(jwtHelper.getSignedToken(user.getId(), false, false, false, true, false));
-            user.save();
+            doctor.save();
         } catch (Exception e) {
             user.delete();
             throw e;

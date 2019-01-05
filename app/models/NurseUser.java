@@ -6,6 +6,7 @@ import io.ebean.Finder;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
@@ -21,10 +22,7 @@ public class NurseUser extends User {
 
     private String major;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<PatientUser> patientList;
-
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private DoctorUser doctor;
 
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
@@ -35,7 +33,6 @@ public class NurseUser extends User {
         this.surname = surname;
         this.major = major;
         setDoctor(doctor);
-        this.patientList = new ArrayList<>();
     }
 
     public String getMajor() {
@@ -53,14 +50,5 @@ public class NurseUser extends User {
 
     public void setDoctor(DoctorUser doctor) {
         this.doctor = doctor;
-    }
-
-    @JsonIgnore
-    public List<PatientUser> getPatientList() {
-        return patientList;
-    }
-
-    public void setPatientList(List<PatientUser> patientList) {
-        this.patientList = patientList;
     }
 }

@@ -2,10 +2,14 @@ package controllers.api;
 
 import com.google.inject.Inject;
 import controllers.forms.PatientForm;
+import controllers.forms.RecordForm;
+import generator.user.PatientGenerator;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
 import models.DoctorUser;
+import models.NurseUser;
 import models.PatientUser;
+import models.Record;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -20,11 +24,13 @@ public class DoctorUserController extends Controller {
 
     private FormFactory formFactory;
     private JwtHelper jwtHelper;
+    private PatientGenerator patientGenerator;
 
     @Inject
-    public DoctorUserController(FormFactory formFactory, JwtHelper jwtHelper) {
+    public DoctorUserController(FormFactory formFactory, JwtHelper jwtHelper, PatientGenerator patientGenerator) {
         this.formFactory = formFactory;
         this.jwtHelper = jwtHelper;
+        this.patientGenerator = patientGenerator;
     }
 
     public Result fetch(Long id) {
@@ -55,12 +61,11 @@ public class DoctorUserController extends Controller {
 
         Logger.debug("creating patient...");
         String password = new Random(10).toString(); // TODO: make it secure
-        PatientUser patient = new PatientUser(null, body.username, password, body.name, body.surname,
-                body.phoneNumber, body.address, doctor);
-
+        PatientUser patient = null;
         try {
-            patient.setToken(jwtHelper.getSignedToken(patient.getId(), false, false, false, true, false));
-        } catch (UnsupportedEncodingException e) {
+            patient = patientGenerator.generate(body.username, password, body.name, body.surname, body.birthYear,
+                    body.address, body.gender, doctor);
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -71,16 +76,43 @@ public class DoctorUserController extends Controller {
         return created(Json.toJson(patient));
     }
 
-//    public Result createRecord() {
-//
-//        DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
-//
-//        Form<RecordForm> form = formFactory.form(RecordForm.class).bind(request().body().asJson());
-//
-//        if (form.hasErrors()) {
-//            return badRequest("form has errors.");
-//        }
-//
-//        RecordForm body = form.get();
-//    }
+    public Result createRecord(Long id) {
+
+        DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
+
+        Form<RecordForm> form = formFactory.form(RecordForm.class).bind(request().body().asJson());
+
+        if (form.hasErrors()) {
+            return badRequest("form has errors.");
+        }
+
+        PatientUser patientUser = PatientUser.finder.byId(id);
+
+        if(patientUser == null) {
+            return notFound("patient cant be found");
+        }
+
+        RecordForm body = form.get();
+
+        Record record = new Record(body.diagnostic, patientUser);
+
+        record.save();
+        return ok();
+    }
+
+    public Result addNurse(Long id) {
+
+        DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
+
+        NurseUser nurseUser = NurseUser.finder.byId(id);
+
+        if(nurseUser == null) {
+            return notFound("nurse cant be found");
+        }
+        nurseUser.setDoctor(doctor);
+        nurseUser.save();
+        return ok();
+    }
+
+
 }

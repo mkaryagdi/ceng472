@@ -1,85 +1,19 @@
-2018-12-30 21:04:30,567 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Creating Pool for datasource 'default'
-2018-12-30 21:04:30,741 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-4 - Database [default] connected at jdbc:postgresql://localhost/ceng472
-2018-12-30 21:04:31,659 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - DB handler is started...
-2018-12-30 21:04:31,704 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Test doctors and patients are missing. Inserting default values...
-2018-12-30 21:04:31,705 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating doctor user.
-2018-12-30 21:04:31,787 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating doctor user.
-2018-12-30 21:04:31,792 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating doctor user.
-2018-12-30 21:04:31,800 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating patient user.
-2018-12-30 21:04:31,804 [ERROR] from application in play-dev-mode-akka.actor.default-dispatcher-4 - error
-javax.persistence.PersistenceException: Error inserting bean [class models.PatientUser] with unidirectional relationship. For inserts you must use cascade save on the master bean [class models.DoctorUser].
-	at io.ebeaninternal.server.persist.dmlbind.BindableUnidirectional.dmlBind(BindableUnidirectional.java:70)
-	at io.ebeaninternal.server.persist.dml.InsertMeta.bind(InsertMeta.java:154)
-	at io.ebeaninternal.server.persist.dml.InsertHandler.bind(InsertHandler.java:97)
-	at io.ebeaninternal.server.persist.dml.DmlBeanPersister.execute(DmlBeanPersister.java:67)
-	at io.ebeaninternal.server.persist.dml.DmlBeanPersister.insert(DmlBeanPersister.java:49)
-	at io.ebeaninternal.server.core.PersistRequestBean.executeInsert(PersistRequestBean.java:1085)
-	at io.ebeaninternal.server.core.PersistRequestBean.executeNow(PersistRequestBean.java:661)
-	at io.ebeaninternal.server.core.PersistRequestBean.executeOrQueue(PersistRequestBean.java:707)
-	at io.ebeaninternal.server.persist.DefaultPersister.insert(DefaultPersister.java:456)
-	at io.ebeaninternal.server.persist.DefaultPersister.insert(DefaultPersister.java:406)
-	at io.ebeaninternal.server.persist.DefaultPersister.save(DefaultPersister.java:393)
-	at io.ebeaninternal.server.core.DefaultServer.save(DefaultServer.java:1578)
-	at io.ebeaninternal.server.core.DefaultServer.save(DefaultServer.java:1570)
-	at io.ebean.Model.save(Model.java:190)
-	at generator.user.PatientGeneratorImpl.generate(PatientGeneratorImpl.java:36)
-	at handlers.DatabaseHandler.checkDoctorsandPatients(DatabaseHandler.java:55)
-	at handlers.DatabaseHandler.start(DatabaseHandler.java:32)
-	at handlers.DatabaseHandler.<init>(DatabaseHandler.java:27)
-	at handlers.DatabaseHandler$$FastClassByGuice$$841683aa.newInstance(<generated>)
-	at com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:89)
-	at com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:111)
-	at com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:90)
-	at com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:268)
-	at com.google.inject.internal.ProviderToInternalFactoryAdapter$1.call(ProviderToInternalFactoryAdapter.java:46)
-	at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1092)
-	at com.google.inject.internal.ProviderToInternalFactoryAdapter.get(ProviderToInternalFactoryAdapter.java:40)
-	at com.google.inject.internal.SingletonScope$1.get(SingletonScope.java:194)
-	at com.google.inject.internal.InternalFactoryToProviderAdapter.get(InternalFactoryToProviderAdapter.java:41)
-	at com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:205)
-	at com.google.inject.internal.InternalInjectorCreator$1.call(InternalInjectorCreator.java:199)
-	at com.google.inject.internal.InjectorImpl.callInContext(InjectorImpl.java:1085)
-	at com.google.inject.internal.InternalInjectorCreator.loadEagerSingletons(InternalInjectorCreator.java:199)
-	at com.google.inject.internal.InternalInjectorCreator.injectDynamically(InternalInjectorCreator.java:180)
-	at com.google.inject.internal.InternalInjectorCreator.build(InternalInjectorCreator.java:110)
-	at com.google.inject.Guice.createInjector(Guice.java:99)
-	at com.google.inject.Guice.createInjector(Guice.java:84)
-	at play.api.inject.guice.GuiceBuilder.injector(GuiceInjectorBuilder.scala:185)
-	at play.api.inject.guice.GuiceApplicationBuilder.build(GuiceApplicationBuilder.scala:137)
-	at play.api.inject.guice.GuiceApplicationLoader.load(GuiceApplicationLoader.scala:21)
-	at play.core.server.DevServerStart$$anon$1.$anonfun$reload$3(DevServerStart.scala:174)
-	at play.utils.Threads$.withContextClassLoader(Threads.scala:21)
-	at play.core.server.DevServerStart$$anon$1.reload(DevServerStart.scala:171)
-	at play.core.server.DevServerStart$$anon$1.get(DevServerStart.scala:124)
-	at play.core.server.AkkaHttpServer.handleRequest(AkkaHttpServer.scala:202)
-	at play.core.server.AkkaHttpServer.$anonfun$createServerBinding$1(AkkaHttpServer.scala:117)
-	at akka.stream.impl.fusing.MapAsync$$anon$25.onPush(Ops.scala:1194)
-	at akka.stream.impl.fusing.GraphInterpreter.processPush(GraphInterpreter.scala:519)
-	at akka.stream.impl.fusing.GraphInterpreter.processEvent(GraphInterpreter.scala:482)
-	at akka.stream.impl.fusing.GraphInterpreter.execute(GraphInterpreter.scala:378)
-	at akka.stream.impl.fusing.GraphInterpreterShell.runBatch(ActorGraphInterpreter.scala:585)
-	at akka.stream.impl.fusing.GraphInterpreterShell$AsyncInput.execute(ActorGraphInterpreter.scala:469)
-	at akka.stream.impl.fusing.GraphInterpreterShell.processEvent(ActorGraphInterpreter.scala:560)
-	at akka.stream.impl.fusing.ActorGraphInterpreter.akka$stream$impl$fusing$ActorGraphInterpreter$$processEvent(ActorGraphInterpreter.scala:742)
-	at akka.stream.impl.fusing.ActorGraphInterpreter$$anonfun$receive$1.applyOrElse(ActorGraphInterpreter.scala:757)
-	at akka.actor.Actor.aroundReceive(Actor.scala:517)
-	at akka.actor.Actor.aroundReceive$(Actor.scala:515)
-	at akka.stream.impl.fusing.ActorGraphInterpreter.aroundReceive(ActorGraphInterpreter.scala:667)
-	at akka.actor.ActorCell.receiveMessage(ActorCell.scala:590)
-	at akka.actor.ActorCell.invoke(ActorCell.scala:559)
-	at akka.dispatch.Mailbox.processMailbox(Mailbox.scala:257)
-	at akka.dispatch.Mailbox.run(Mailbox.scala:224)
-	at akka.dispatch.Mailbox.exec(Mailbox.scala:234)
-	at akka.dispatch.forkjoin.ForkJoinTask.doExec(ForkJoinTask.java:260)
-	at akka.dispatch.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
-	at akka.dispatch.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
-	at akka.dispatch.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
-2018-12-30 21:04:31,804 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Test doctors and patients are inserted.
-2018-12-30 21:04:31,804 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - DB handler successfully completed!
-2018-12-30 21:04:32,332 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-4 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
-2018-12-30 21:04:32,596 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-4 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2018-12-30 22:57:53,447 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Creating Pool for datasource 'default'
+2018-12-30 22:57:53,649 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-7 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2018-12-30 22:57:54,633 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - DB handler is started...
+2018-12-30 22:57:54,685 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Test doctors and patients are missing. Inserting default values...
+2018-12-30 22:57:54,685 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating doctor user.
+2018-12-30 22:57:54,768 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating doctor user.
+2018-12-30 22:57:54,775 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating doctor user.
+2018-12-30 22:57:54,785 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating patient user.
+2018-12-30 22:57:54,789 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating patient user.
+2018-12-30 22:57:54,791 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating patient user.
+2018-12-30 22:57:54,795 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Test doctors and patients are inserted.
+2018-12-30 22:57:54,795 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - DB handler successfully completed!
+2018-12-30 22:57:55,321 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-7 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2018-12-30 22:57:55,510 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-7 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
-2018-12-30 21:04:32,612 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-4 - Application started (Dev)
+2018-12-30 22:57:55,523 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-7 - Application started (Dev)

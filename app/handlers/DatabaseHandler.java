@@ -42,30 +42,27 @@ public class DatabaseHandler {
             try {
                 DoctorUser doctor1 = doctorGenerator.generate("DoktorElif", "Duran",
                         "Elif", "Duran", "Anesthesia", 1997, "female");
-                doctor1.save();
 
                 DoctorUser doctor2 = doctorGenerator.generate("DoktorMurat", "Karyagdi",
                         "Murat", "Karyagdi", "Internal Diseases", 1969, "male");
-                doctor2.save();
 
                 DoctorUser doctor3 = doctorGenerator.generate("CCandir", "Candir",
                         "Can", "Candir", "Dermatology", 1990, "male");
-                doctor3.save();
 
                 PatientUser patient1 = patientGenerator.generate("BBakar", "Bakar",
                         "Batuhan", "Bakar", 1996, "Edirne", "male",
                         doctor1);
-                patient1.save();
 
                 PatientUser patient2 = patientGenerator.generate("EBolukbasi", "Bolukbasi",
                         "Elif", "Bolukbasi", 1994, "Bandirma", "female",
                         doctor2);
-                patient2.save();
 
                 PatientUser patient3 = patientGenerator.generate("BGulbas", "Gulbas",
                         "Baran", "Gulbas", 2000, "Ankara", "male",
                         doctor3);
-                patient3.save();
+                doctor1.save();
+                doctor2.save();
+                doctor3.save();
 
             } catch (Exception e) {
                 Logger.error("error", e);

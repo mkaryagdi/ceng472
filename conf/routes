@@ -6,13 +6,33 @@
 GET     /                           controllers.HomeController.index
 
 # === USER ===
-GET         /user                   controllers.api.UserController.signIn
+GET         /user                    controllers.api.UserController.signIn
 
 # === DOCTOR_USER ===
 + doctor
-GET         /doctor/:id             controllers.api.DoctorUserController.fetch(id: Long)
+GET         /doctor/:id              controllers.api.DoctorUserController.fetch(id: Long)
 + doctor
-POST        /patient                controllers.api.DoctorUserController.createPatient
+POST        /patient                 controllers.api.DoctorUserController.createPatient
++ doctor
+POST        /record/:id              controllers.api.DoctorUserController.createRecord(id: Long)
++ doctor
+POST        /add-nurse/:id              controllers.api.DoctorUserController.addNurse(id: Long)
+
+# === PATIENT_USER ===
++ patient
+GET         /patient/:id              controllers.api.PatientController.fetch(id: Long)
++ patient
+POST        /give-access              controllers.api.PatientController.giveAccess
++ patient
+POST        /create-relative          controllers.api.PatientController.createRelative
+
+# === NURSE_USER ===
++ nurse
+GET         /nurse/:id              controllers.api.NurseController.fetch(id: Long)
+
+# === RELATIVE_USER ===
++ relative
+GET         /relative/:id              controllers.api.RelativeController.fetch(id: Long)
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file           controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)

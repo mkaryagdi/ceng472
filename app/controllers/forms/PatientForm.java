@@ -12,7 +12,9 @@ public class PatientForm {
 
     public Long phoneNumber;
 
-    //public String birthDate;
+    public Integer birthYear;
+
+    public String gender;
 
     public String address;
 

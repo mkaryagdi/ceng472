@@ -5,8 +5,8 @@
 
 create table record (
   id                            bigserial not null,
-  patient_user_id               bigint not null,
-  info                          varchar(256) not null,
+  diagnostic                    varchar(256) not null,
+  patient_user_id               bigint,
   constraint pk_record primary key (id)
 );
 

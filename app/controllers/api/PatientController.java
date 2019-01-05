@@ -29,6 +29,18 @@ public class PatientController extends Controller {
         this.formFactory = formFactory;
         this.jwtHelper = jwtHelper;
     }
+
+    public Result fetch(Long id) {
+
+        PatientUser verifiedUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
+
+        if (verifiedUser.getId().equals(id)) {
+            return ok(Json.toJson(verifiedUser));
+        } else {
+            return badRequest("You are not allowed!");
+        }
+    }
+
     public Result giveAccess() {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
