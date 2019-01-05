@@ -1,12 +1,12 @@
-2019-01-06 01:45:08,484 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - Creating Pool for datasource 'default'
-2019-01-06 01:45:08,619 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-3 - Database [default] connected at jdbc:postgresql://localhost/ceng472
-2019-01-06 01:45:09,768 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler is started...
-2019-01-06 01:45:09,817 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-3 - DB handler successfully completed!
-2019-01-06 01:45:10,181 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-3 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
-2019-01-06 01:45:10,343 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-3 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2019-01-06 02:02:16,323 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-2 - Creating Pool for datasource 'default'
+2019-01-06 02:02:16,525 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-2 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2019-01-06 02:02:17,582 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-2 - DB handler is started...
+2019-01-06 02:02:17,649 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-2 - DB handler successfully completed!
+2019-01-06 02:02:18,182 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-2 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2019-01-06 02:02:18,440 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-2 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
     play.filters.cors.CORSFilter
 
-2019-01-06 01:45:10,363 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-3 - Application started (Dev)
+2019-01-06 02:02:18,455 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-2 - Application started (Dev)
