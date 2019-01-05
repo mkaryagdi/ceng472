@@ -70,8 +70,8 @@ public class DoctorUserController extends Controller {
         }
 
         doctor.addPatient(patient);
-        patient.save();
         doctor.save();
+        patient.save();
 
         return created(Json.toJson(patient));
     }
@@ -94,7 +94,7 @@ public class DoctorUserController extends Controller {
 
         RecordForm body = form.get();
 
-        Record record = new Record(body.diagnostic, patientUser);
+        Record record = new Record(body.diagnostic, patientUser, doctor);
 
         record.save();
         return ok();

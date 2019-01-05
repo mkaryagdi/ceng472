@@ -3,10 +3,7 @@ package models;
 import io.ebean.Model;
 import io.ebean.annotation.NotNull;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -19,12 +16,17 @@ public class Record extends Model {
     @Size(max = 256)
     private String diagnostic;
 
+    @OneToOne
+    private DoctorUser doctorUser;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private PatientUser patientUser;
 
-    public Record(String diagnostic, PatientUser patientUser) {
+    public Record(String diagnostic, PatientUser patientUser, DoctorUser doctorUser) {
         this.diagnostic = diagnostic;
         this.patientUser = patientUser;
+        this.doctorUser = doctorUser;
+        patientUser.addRecord(this);
     }
 
     public Long getId() {

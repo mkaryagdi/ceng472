@@ -1,19 +1,5 @@
-2018-12-30 22:57:53,447 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Creating Pool for datasource 'default'
-2018-12-30 22:57:53,649 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-7 - Database [default] connected at jdbc:postgresql://localhost/ceng472
-2018-12-30 22:57:54,633 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - DB handler is started...
-2018-12-30 22:57:54,685 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Test doctors and patients are missing. Inserting default values...
-2018-12-30 22:57:54,685 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating doctor user.
-2018-12-30 22:57:54,768 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating doctor user.
-2018-12-30 22:57:54,775 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating doctor user.
-2018-12-30 22:57:54,785 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating patient user.
-2018-12-30 22:57:54,789 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating patient user.
-2018-12-30 22:57:54,791 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Generating patient user.
-2018-12-30 22:57:54,795 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - Test doctors and patients are inserted.
-2018-12-30 22:57:54,795 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-7 - DB handler successfully completed!
-2018-12-30 22:57:55,321 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-7 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
-2018-12-30 22:57:55,510 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-7 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
-
-    play.filters.headers.SecurityHeadersFilter
-    play.filters.hosts.AllowedHostsFilter
-
-2018-12-30 22:57:55,523 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-7 - Application started (Dev)
+2019-01-05 18:51:53,151 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Creating Pool for datasource 'default'
+2019-01-05 18:51:53,440 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-4 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2019-01-05 18:51:54,530 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - DB handler is started...
+2019-01-05 18:51:54,596 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - DB handler successfully completed!
+2019-01-05 18:51:55,124 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-4 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported

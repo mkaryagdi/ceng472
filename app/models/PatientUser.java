@@ -73,4 +73,6 @@ public class PatientUser extends User {
     public void setRecordList(List<Record> recordList) {
         this.recordList = recordList;
     }
+
+    public void addRecord(Record record) { this.recordList.add(record); }
 }

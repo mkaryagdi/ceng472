@@ -25,7 +25,6 @@ create table usr (
   gender                        varchar(255),
   patient_id                    bigint,
   phone_number                  bigint,
-  constraint uq_usr_doctor_id unique (doctor_id),
   constraint pk_usr primary key (id)
 );
 
@@ -33,6 +32,7 @@ alter table record add constraint fk_record_patient_user_id foreign key (patient
 create index ix_record_patient_user_id on record (patient_user_id);
 
 alter table usr add constraint fk_usr_doctor_id foreign key (doctor_id) references usr (id) on delete restrict on update restrict;
+create index ix_usr_doctor_id on usr (doctor_id);
 
 alter table usr add constraint fk_usr_patient_id foreign key (patient_id) references usr (id) on delete restrict on update restrict;
 create index ix_usr_patient_id on usr (patient_id);
@@ -44,6 +44,7 @@ alter table if exists record drop constraint if exists fk_record_patient_user_id
 drop index if exists ix_record_patient_user_id;
 
 alter table if exists usr drop constraint if exists fk_usr_doctor_id;
+drop index if exists ix_usr_doctor_id;
 
 alter table if exists usr drop constraint if exists fk_usr_patient_id;
 drop index if exists ix_usr_patient_id;
