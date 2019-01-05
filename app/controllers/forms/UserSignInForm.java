@@ -6,8 +6,7 @@ import play.data.validation.Constraints.Required;
 public class UserSignInForm {
 
     @Required
-    @Email
-    public String email;
+    public String username;
 
     @Required
     public String password;

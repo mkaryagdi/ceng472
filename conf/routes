@@ -3,10 +3,12 @@
 # ~~~~
 
 # An example controller showing a sample home page
++ public
 GET     /                           controllers.HomeController.index
 
 # === USER ===
-GET         /user                    controllers.api.UserController.signIn
++ public
+POST         /user                    controllers.api.UserController.signIn
 
 # === DOCTOR_USER ===
 + doctor

@@ -23,6 +23,7 @@ public class JwtFilter extends Filter {
 
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer ";
+    private static final String PUBLIC_FILTER_TAG = "public";
     private static final String DOCTOR_USER_FILTER_TAG = "doctor";
     private static final String NURSE_USER_FILTER_TAG = "nurse";
     private static final String PATIENT_USER_FILTER_TAG = "patient";
@@ -133,6 +134,10 @@ public class JwtFilter extends Filter {
 
             return CompletableFuture.completedFuture(unauthorized(ERR_NOT_PERMITTED));
         }
+        if(tags.contains(PUBLIC_FILTER_TAG)) {
+            return nextFilter.apply(requestHeader.withAttrs(requestHeader.attrs().put(Attrs.ROLE, Role.PUBLIC)));
+        }
+
 
         return CompletableFuture.completedFuture(unauthorized(ERR_AUTHORIZATION_HEADER));
     }
