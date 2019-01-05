@@ -1,5 +1,6 @@
 package controllers.api;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import controllers.forms.PatientForm;
 import controllers.forms.RecordForm;
@@ -17,7 +18,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Random;
 
 public class DoctorUserController extends Controller {
@@ -38,7 +38,11 @@ public class DoctorUserController extends Controller {
         DoctorUser verifiedUser = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
 
         if (verifiedUser.getId().equals(id)) {
-            return ok(Json.toJson(verifiedUser));
+
+            ObjectNode doctorNode = (ObjectNode) Json.toJson(verifiedUser);
+            doctorNode.set("patients", verifiedUser.getPatients());
+            return ok(doctorNode);
+
         } else {
             return badRequest("You are not allowed!");
         }
@@ -69,10 +73,6 @@ public class DoctorUserController extends Controller {
             e.printStackTrace();
         }
 
-        doctor.addPatient(patient);
-        doctor.save();
-        patient.save();
-
         return created(Json.toJson(patient));
     }
 
@@ -86,33 +86,47 @@ public class DoctorUserController extends Controller {
             return badRequest("form has errors.");
         }
 
-        PatientUser patientUser = PatientUser.finder.byId(id);
+        PatientUser patient = PatientUser.finder.byId(id);
 
-        if(patientUser == null) {
+        if (patient == null) {
             return notFound("patient cant be found");
+        }
+
+        if (!doctor.getPatientList().contains(patient)) {
+            return badRequest("you are not allowed.");
         }
 
         RecordForm body = form.get();
 
-        Record record = new Record(body.diagnostic, patientUser, doctor);
-        record.save();
+        Record record = new Record(body.diagnostic, patient, doctor);
+        patient.addRecord(record);
+        patient.save();
 
-        return ok();
+        return ok(Json.toJson(record));
     }
 
-    public Result addNurse(Long id) {
+    public Result assignNurse(Long id) {
 
         DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
 
-        NurseUser nurseUser = NurseUser.finder.byId(id);
+        NurseUser nurse = NurseUser.finder.byId(id);
 
-        if(nurseUser == null) {
+        if (nurse == null) {
             return notFound("nurse cant be found");
         }
-        nurseUser.setDoctor(doctor);
-        nurseUser.save();
-        return ok();
-    }
 
+        if (nurse.getDoctor().getId() == doctor.getId()) {
+            return badRequest("nurse is already assigned to you.");
+        }
+
+        if (nurse.getDoctor().getId() != null && nurse.getDoctor().getId() != doctor.getId()) {
+            return badRequest("nurse is already assigned to a doctor.");
+        }
+
+        nurse.setDoctor(doctor);
+        nurse.save();
+
+        return ok(doctor.getNurse(nurse));
+    }
 
 }

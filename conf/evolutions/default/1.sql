@@ -32,6 +32,7 @@ create table nurse_user (
   name                          varchar(255),
   surname                       varchar(255),
   major                         varchar(255),
+  gender                        varchar(255),
   doctor_id                     bigint,
   constraint pk_nurse_user primary key (id)
 );

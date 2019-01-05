@@ -1,8 +1,10 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.ebean.Finder;
 import io.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.*;
 
@@ -25,17 +27,20 @@ public class NurseUser extends Model {
 
     private String major;
 
+    private String gender;
+
     @ManyToOne(cascade = CascadeType.ALL)
     private DoctorUser doctor;
 
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
 
-    public NurseUser(String token, String username, String password, String name, String surname, String major, DoctorUser doctor) {
+    public NurseUser(String token, String username, String password, String name, String surname, String gender, String major, DoctorUser doctor) {
         this.token = token;
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
+        this.gender = gender;
         this.major = major;
         this.doctor = doctor;
     }
@@ -107,4 +112,13 @@ public class NurseUser extends Model {
     public void setDoctor(DoctorUser doctor) {
         this.doctor = doctor;
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
 }

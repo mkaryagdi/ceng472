@@ -2,13 +2,11 @@ package controllers.forms;
 
 import play.data.validation.Constraints;
 
-public class GiveAccessForm {
+public class GiveAccessRelativeForm {
 
     @Constraints.Required
-    public String type;
+    public Long relativeId;
 
     @Constraints.Required
-    public Long id;
-
     public Long recordId;
 }

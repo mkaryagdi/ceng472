@@ -1,8 +1,11 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.ebean.Finder;
 import io.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -136,4 +139,31 @@ public class DoctorUser extends Model {
     public void addPatient(PatientUser patientUser) {
         this.patientList.add(patientUser);
     }
+
+    public ObjectNode getPatient(PatientUser patientUser) {
+
+        ObjectNode patientNode = (ObjectNode) Json.toJson(patientUser);
+        patientNode.remove("username");
+        patientNode.remove("password");
+        patientNode.remove("token");
+        return patientNode;
+    }
+
+    public ObjectNode getNurse(NurseUser nurseUser) {
+
+        ObjectNode nurseNode = (ObjectNode) Json.toJson(nurseUser);
+        nurseNode.remove("username");
+        nurseNode.remove("password");
+        nurseNode.remove("token");
+        return nurseNode;
+    }
+
+    public ArrayNode getPatients() {
+        ArrayNode array = Json.newArray();
+        for(PatientUser patientUser: this.patientList) {
+            array.add(getPatient(patientUser));
+        }
+        return array;
+    }
+
 }

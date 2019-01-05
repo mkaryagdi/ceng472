@@ -18,13 +18,15 @@ POST        /patient                 controllers.api.DoctorUserController.create
 + doctor
 POST        /record/:id              controllers.api.DoctorUserController.createRecord(id: Long)
 + doctor
-POST        /add-nurse/:id              controllers.api.DoctorUserController.addNurse(id: Long)
+PUT         /nurse/:id               controllers.api.DoctorUserController.assignNurse(id: Long)
 
 # === PATIENT_USER ===
 + patient
 GET         /patient/:id              controllers.api.PatientController.fetch(id: Long)
 + patient
-POST        /give-access              controllers.api.PatientController.giveAccess
+PUT        /access/doctor             controllers.api.PatientController.giveAccessToDoctor
++ patient
+PUT        /access/relative           controllers.api.PatientController.giveAccessToRelative
 + patient
 POST        /create-relative          controllers.api.PatientController.createRelative
 

@@ -33,6 +33,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
                 gender,
                 doctor);
         // since we need userId to generate token, first we should save bean.
+        doctor.addPatient(user);
         doctor.save();
 
         try {
