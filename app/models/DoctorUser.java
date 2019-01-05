@@ -2,15 +2,24 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
+import io.ebean.Model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-
 @Entity
-@DiscriminatorValue("doctor")
-public class DoctorUser extends User {
+public class DoctorUser extends Model {
+
+    @Id
+    private Long id;
+
+    @Column(length = 2048)
+    private String token;
+
+    private String username;
+
+    private String password;
 
     private String name;
 
@@ -28,7 +37,9 @@ public class DoctorUser extends User {
     public static final Finder<Long, DoctorUser> finder = new Finder<>(DoctorUser.class);
 
     public DoctorUser(String token, String username, String password, String name, String surname, String major, Integer birthYear, String gender) {
-        super(token, username, password);
+        this.token = token;
+        this.username = username;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.major = major;
@@ -58,32 +69,28 @@ public class DoctorUser extends User {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getSurname() {
         return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
     }
 
     public Integer getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(Integer birthYear) {
-        this.birthYear = birthYear;
-    }
-
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public String getToken() {
+        return token;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void addPatient(PatientUser patientUser) {

@@ -2,19 +2,22 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
+import io.ebean.Model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
 @Entity
-@DiscriminatorValue("nurse")
-public class NurseUser extends User {
+public class NurseUser extends Model {
+
+    @Id
+    private Long id;
+
+    @Column(length = 2048)
+    private String token;
+
+    private String username;
+
+    private String password;
 
     private String name;
 
@@ -27,12 +30,14 @@ public class NurseUser extends User {
 
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
 
-    public NurseUser(String token, String name, String surname, String major, String username, String password, DoctorUser doctor) {
-        super(token, username, password);
+    public NurseUser(String token, String username, String password, String name, String surname, String major, DoctorUser doctor) {
+        this.token = token;
+        this.username = username;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.major = major;
-        setDoctor(doctor);
+        this.doctor = doctor;
     }
 
     public String getMajor() {
