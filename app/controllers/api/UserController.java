@@ -5,7 +5,11 @@ import com.google.inject.Inject;
 import controllers.forms.UserSignInForm;
 import handlers.ErrorHandler;
 import jwt.JwtHelper;
+import models.AdminUser;
 import models.DoctorUser;
+import models.NurseUser;
+import models.PatientUser;
+import models.RelativeUser;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -41,30 +45,58 @@ public class UserController extends Controller {
 
         UserSignInForm userSignInForm = form.get();
 
-        DoctorUser user = DoctorUser.finder.query().where().eq("username", userSignInForm.username).findOne();
+        DoctorUser doctor = DoctorUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
-        if (user != null && user.getPassword().equals(userSignInForm.password)) {
+        if (doctor != null && doctor.getPassword().equals(userSignInForm.password)) {
             ObjectNode response = Json.newObject();
-            response.put("token", user.getToken());
+            response.put("token", doctor.getToken());
             response.put("type", "doctor");
-            response.put("id", user.getId());
+            response.put("id", doctor.getId());
+
+            return ok(response);
+        }
+        PatientUser patient = PatientUser.finder.query().where().eq("username", userSignInForm.username).findOne();
+
+        if (patient != null && patient.getPassword().equals(userSignInForm.password)) {
+            ObjectNode response = Json.newObject();
+            response.put("token", patient.getToken());
+            response.put("type", "patient");
+            response.put("id", patient.getId());
+
+            return ok(response);
+        }
+        NurseUser nurse = NurseUser.finder.query().where().eq("username", userSignInForm.username).findOne();
+
+        if (nurse != null && nurse.getPassword().equals(userSignInForm.password)) {
+            ObjectNode response = Json.newObject();
+            response.put("token", nurse.getToken());
+            response.put("type", "nurse");
+            response.put("id", nurse.getId());
+
+            return ok(response);
+        }
+        RelativeUser relative = RelativeUser.finder.query().where().eq("username", userSignInForm.username).findOne();
+
+        if (relative != null && relative.getPassword().equals(userSignInForm.password)) {
+            ObjectNode response = Json.newObject();
+            response.put("token", relative.getToken());
+            response.put("type", "relative");
+            response.put("id", relative.getId());
+
+            return ok(response);
+        }
+        AdminUser admin = AdminUser.finder.query().where().eq("username", userSignInForm.username).findOne();
+
+        if (admin != null && admin.getPassword().equals(userSignInForm.password)) {
+            ObjectNode response = Json.newObject();
+            response.put("token", admin.getToken());
+            response.put("type", "admin");
+            response.put("id", admin.getId());
 
             return ok(response);
         }
 
-//        if (user == null || !BCrypt.checkpw(userSignInForm.password, user.getPassword()))
-//            return errorHandler.onClientError(NOT_FOUND, "admin-signin-emailpassword", "Email or password is wrong!",
-//                    request().method() + " " + request().uri());
-
-//        try {
-//            user.setToken(jwtHelper.getSignedToken(user.getId(), false, true, false, false, false));
-//            user.save();
-//        } catch (UnsupportedEncodingException e) {
-//            return errorHandler.onServerError("admin-signin", e, request().method() + " " + request().uri());
-//        }
-//
-//        return ok(Json.newObject().put("token", user.getToken()));
-        return notFound();
+        return notFound("user name not found");
     }
 
 }
