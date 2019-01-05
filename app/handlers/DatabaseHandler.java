@@ -1,12 +1,10 @@
 package handlers;
 
 import com.google.inject.Inject;
-import generator.user.DoctorGenerator;
-import generator.user.DoctorGeneratorImpl;
-import generator.user.PatientGenerator;
-import generator.user.PatientGeneratorImpl;
+import generator.user.*;
 import jwt.JwtHelper;
 import models.DoctorUser;
+import models.NurseUser;
 import models.PatientUser;
 import play.Logger;
 
@@ -17,12 +15,15 @@ public class DatabaseHandler {
 
     private DoctorGenerator doctorGenerator;
     private PatientGenerator patientGenerator;
+    private NurseGenerator nurseGenerator;
     private JwtHelper jwtHelper;
 
     @Inject
-    public DatabaseHandler(DoctorGeneratorImpl doctorGenerator, PatientGeneratorImpl patientGenerator, JwtHelper jwtHelper) {
+    public DatabaseHandler(DoctorGeneratorImpl doctorGenerator, PatientGeneratorImpl patientGenerator,
+                           NurseGeneratorImpl nurseGenerator, JwtHelper jwtHelper) {
         this.doctorGenerator = doctorGenerator;
         this.patientGenerator = patientGenerator;
+        this.nurseGenerator = nurseGenerator;
         this.jwtHelper = jwtHelper;
         start();
     }
@@ -30,6 +31,7 @@ public class DatabaseHandler {
     public void start() {
         Logger.info("DB handler is started...");
         checkDoctorsandPatients();
+        checkNurses();
         //checkAdmin();
         Logger.info("DB handler successfully completed!");
     }
@@ -60,7 +62,6 @@ public class DatabaseHandler {
                 PatientUser patient3 = patientGenerator.generate("BGulbas", "Gulbas",
                         "Baran", "Gulbas", 2000, "Ankara", "male",
                         doctor3);
-
             } catch (Exception e) {
                 Logger.error("error", e);
             }
@@ -68,6 +69,35 @@ public class DatabaseHandler {
             Logger.info("Test doctors and patients are inserted.");
         }
     }
+
+    private void checkNurses() {
+
+        if (NurseUser.finder.all().isEmpty()) {
+            Logger.info("Test nurses are missing. Inserting default values...");
+
+            try {
+                NurseUser nurse1 = nurseGenerator.generate("NurseSems", "Sems",
+                        "Sems", "Ozdemirden", "male", "kids", null);
+
+                NurseUser nurse2 = nurseGenerator.generate("NurseSeray", "Donmez",
+                        "Seray", "Donmez", "female", "teeth", null);
+
+                NurseUser nurse3 = nurseGenerator.generate("NurseDogus", "Eraytac",
+                        "Dogus", "Eraytac", "male", "chemistry", null);
+
+                nurse1.save();
+                nurse2.save();
+                nurse3.save();
+
+            } catch (Exception e) {
+                Logger.error("error", e);
+            }
+
+            Logger.info("Test nurses are inserted.");
+        }
+    }
+
+
 
 //    private void checkAdmin() {
 //

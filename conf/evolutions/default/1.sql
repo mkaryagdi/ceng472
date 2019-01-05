@@ -32,6 +32,7 @@ create table nurse_user (
   name                          varchar(255),
   surname                       varchar(255),
   major                         varchar(255),
+  gender                        varchar(255),
   doctor_id                     bigint,
   constraint pk_nurse_user primary key (id)
 );
@@ -69,15 +70,6 @@ create table relative_user (
   patient_id                    bigint,
   phone_number                  bigint,
   constraint pk_relative_user primary key (id)
-);
-
-create table usr (
-  dtype                         varchar(10) not null,
-  id                            bigserial not null,
-  token                         varchar(2048),
-  username                      varchar(255),
-  password                      varchar(255),
-  constraint pk_usr primary key (id)
 );
 
 alter table nurse_user add constraint fk_nurse_user_doctor_id foreign key (doctor_id) references doctor_user (id) on delete restrict on update restrict;
@@ -122,6 +114,4 @@ drop table if exists patient_user cascade;
 drop table if exists record cascade;
 
 drop table if exists relative_user cascade;
-
-drop table if exists usr cascade;
 

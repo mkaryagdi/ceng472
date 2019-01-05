@@ -1,6 +1,8 @@
 package controllers.api;
 
-import controllers.forms.GiveAccessForm;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import controllers.forms.GiveAccessDoctorForm;
+import controllers.forms.GiveAccessRelativeForm;
 import controllers.forms.RelativeForm;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
@@ -35,57 +37,82 @@ public class PatientController extends Controller {
         PatientUser verifiedUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 
         if (verifiedUser.getId().equals(id)) {
-            return ok(Json.toJson(verifiedUser));
+
+            ObjectNode patientNode = (ObjectNode) Json.toJson(verifiedUser);
+            patientNode.set("records", verifiedUser.getRecords());
+            patientNode.set("doctors", verifiedUser.getDoctors());
+            patientNode.set("relatives", verifiedUser.getRelatives());
+            return ok(patientNode);
+
         } else {
             return badRequest("You are not allowed!");
         }
     }
 
-    public Result giveAccess() {
+    public Result giveAccessToDoctor() {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 
-
-        Form<GiveAccessForm> form = formFactory.form(GiveAccessForm.class).bind(request().body().asJson());
+        Form<GiveAccessDoctorForm> form = formFactory.form(GiveAccessDoctorForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
             return badRequest(form.errorsAsJson());
         }
 
-        GiveAccessForm body = form.get();
+        GiveAccessDoctorForm body = form.get();
 
-        if (body.type.equals("doctor")) {
-            DoctorUser doctorUser = DoctorUser.finder.byId(body.id);
-            if (doctorUser == null) {
-                return notFound();
-            }
-            if (patientUser.getDoctorList().contains(doctorUser)) {
-                return badRequest("already authorized");
-            }
-            patientUser.getDoctorList().add(doctorUser);
-            patientUser.save();
-        } else if (body.type.equals("relative")) {
-            RelativeUser relativeUser = RelativeUser.finder.byId(body.id);
-            if (relativeUser == null) {
-                return notFound();
-            }
-            if (body.recordId == null) {
-                return badRequest("record id is null");
-            }
+        DoctorUser doctorUser = DoctorUser.finder.byId(body.doctorId);
 
-            Record recordToSet = null;
-            for (Record record : patientUser.getRecordList()) {
-                if (record.getId().equals(body.recordId)) {
-                    recordToSet = record;
-                    break;
-                }
-            }
-            if (recordToSet == null) {
-                return badRequest("user dont have such record");
-            }
-            relativeUser.getPatientsRecords().add(recordToSet);
-            relativeUser.save();
+        if (doctorUser == null) {
+            return notFound("doctor is not found");
         }
+
+        if (patientUser.getDoctorList().contains(doctorUser)) {
+            return badRequest("already authorized");
+        }
+
+        patientUser.getDoctorList().add(doctorUser);
+        patientUser.save();
+
+        return ok();
+    }
+
+    public Result giveAccessToRelative() {
+
+        PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
+
+        Form<GiveAccessRelativeForm> form = formFactory.form(GiveAccessRelativeForm.class).bind(request().body().asJson());
+
+        if (form.hasErrors()) {
+            return badRequest(form.errorsAsJson());
+        }
+
+        GiveAccessRelativeForm body = form.get();
+
+        RelativeUser relativeUser = RelativeUser.finder.byId(body.relativeId);
+
+        if (relativeUser == null) {
+            return notFound("relative is not found");
+        }
+
+        if (body.recordId == null) {
+            return badRequest("record id is null");
+        }
+
+        Record recordToSet = null;
+        for (Record record: patientUser.getRecordList()) {
+            if (record.getId().equals(body.recordId)) {
+                recordToSet = record;
+                break;
+            }
+        }
+
+        if (recordToSet == null) {
+            return badRequest("user does not have such a record");
+        }
+
+        relativeUser.getPatientsRecords().add(recordToSet);
+        relativeUser.save();
 
         return ok();
     }
@@ -102,11 +129,13 @@ public class PatientController extends Controller {
 
         RelativeForm body = form.get();
         String password = generateRandomPassword();
-        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(1) + body.surname, password, body.name, body.surname, null, body.phoneNumber);
-        relativeUser.save();
+        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(1) + body.surname, password, body.name, body.surname, patientUser, body.phoneNumber);
+
         try {
             relativeUser.setToken(jwtHelper.getSignedToken(relativeUser.getId(), false, false, false, false, true));
-            relativeUser.save();
+            patientUser.addRelative(relativeUser);
+            patientUser.save();
+
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
