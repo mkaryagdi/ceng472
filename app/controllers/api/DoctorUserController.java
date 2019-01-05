@@ -95,8 +95,8 @@ public class DoctorUserController extends Controller {
         RecordForm body = form.get();
 
         Record record = new Record(body.diagnostic, patientUser, doctor);
-
         record.save();
+
         return ok();
     }
 

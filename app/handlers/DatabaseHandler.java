@@ -60,9 +60,6 @@ public class DatabaseHandler {
                 PatientUser patient3 = patientGenerator.generate("BGulbas", "Gulbas",
                         "Baran", "Gulbas", 2000, "Ankara", "male",
                         doctor3);
-                doctor1.save();
-                doctor2.save();
-                doctor3.save();
 
             } catch (Exception e) {
                 Logger.error("error", e);
