@@ -44,6 +44,57 @@ public class NurseUser extends Model {
         return major;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Long getId() {
+
+        return id;
+    }
+
+    public NurseUser setToken(String token) {
+
+        this.token = token;
+        return this;
+    }
+
+    public NurseUser setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public NurseUser setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public NurseUser setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public NurseUser setSurname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
     public void setMajor(String major) {
         this.major = major;
     }

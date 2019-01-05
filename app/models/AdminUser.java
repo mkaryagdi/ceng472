@@ -29,4 +29,18 @@ public class AdminUser extends Model {
         this.password = password;
     }
 
+    public AdminUser setToken(String token) {
+        this.token = token;
+        return this;
+    }
+
+    public AdminUser setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public AdminUser setPassword(String password) {
+        this.password = password;
+        return this;
+    }
 }

@@ -52,6 +52,46 @@ public class DoctorUser extends Model {
         return major;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public DoctorUser setToken(String token) {
+
+        this.token = token;
+        return this;
+    }
+
+    public DoctorUser setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public DoctorUser setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public DoctorUser setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public DoctorUser setSurname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
+    public DoctorUser setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+        return this;
+    }
+
+    public DoctorUser setGender(String gender) {
+        this.gender = gender;
+        return this;
+    }
+
     public void setMajor(String major) {
         this.major = major;
     }

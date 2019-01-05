@@ -54,7 +54,38 @@ public class RelativeUser extends Model {
         return phoneNumber;
     }
 
+    public RelativeUser setToken(String token) {
+        this.token = token;
+        return this;
+    }
+
+    public RelativeUser setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public RelativeUser setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public RelativeUser setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public RelativeUser setSurname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
+    public RelativeUser setPatientsRecords(List<Record> patientsRecords) {
+        this.patientsRecords = patientsRecords;
+        return this;
+    }
+
     @JsonIgnore
+
     public PatientUser getPatient() {
         return patient;
     }

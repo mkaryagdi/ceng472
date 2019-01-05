@@ -67,6 +67,46 @@ public class PatientUser extends Model {
         return doctorList;
     }
 
+    public PatientUser setToken(String token) {
+        this.token = token;
+        return this;
+    }
+
+    public PatientUser setUsername(String username) {
+        this.username = username;
+        return this;
+    }
+
+    public PatientUser setPassword(String password) {
+        this.password = password;
+        return this;
+    }
+
+    public PatientUser setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public PatientUser setSurname(String surname) {
+        this.surname = surname;
+        return this;
+    }
+
+    public PatientUser setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+        return this;
+    }
+
+    public PatientUser setAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public PatientUser setGender(String gender) {
+        this.gender = gender;
+        return this;
+    }
+
     @JsonIgnore
     public void setDoctorList(List<DoctorUser> doctorList) {
         this.doctorList = doctorList;
