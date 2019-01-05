@@ -5,10 +5,8 @@ import io.ebean.Model;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name="usr")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
+
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class User extends Model {
 
     @Id

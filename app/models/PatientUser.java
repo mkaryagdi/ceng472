@@ -2,10 +2,13 @@ package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.ebean.Finder;
+import io.ebean.Model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -13,8 +16,17 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("patient")
-public class PatientUser extends User {
+public class PatientUser extends Model {
+
+    @Id
+    private Long id;
+
+    @Column(length = 2048)
+    private String token;
+
+    private String username;
+
+    private String password;
 
     private String name;
 
@@ -38,7 +50,9 @@ public class PatientUser extends User {
     public static final Finder<Long, PatientUser> finder = new Finder<>(PatientUser.class);
 
     public PatientUser(String token, String username, String password, String name, String surname, Integer birthYear, String address, String gender, DoctorUser doctor) {
-        super(token, username, password);
+        this.token = token;
+        this.username = username;
+        this.password = password;
         this.name = name;
         this.surname = surname;
         this.birthYear = birthYear;
@@ -75,4 +89,40 @@ public class PatientUser extends User {
     }
 
     public void addRecord(Record record) { this.recordList.add(record); }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
 }
