@@ -3,7 +3,6 @@ package models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.google.inject.Inject;
 import io.ebean.Finder;
 import io.ebean.Model;
 import play.libs.Json;
@@ -177,37 +176,37 @@ public class PatientUser extends Model {
         return gender;
     }
 
-    public ArrayNode getRecords() {
-        ArrayNode array = Json.newArray();
-        for(Record record: this.recordList) {
-            array.add(Json.toJson(record));
-        }
-        return array;
-    }
-
-    public ArrayNode getRelatives() {
-        ArrayNode array = Json.newArray();
-        for(RelativeUser relative: this.relativeList) {
-            array.add(Json.toJson(relative));
-        }
-        return array;
-    }
-
-    public ObjectNode getDoctor(DoctorUser doctorUser) {
-
-        ObjectNode doctorNode = (ObjectNode) Json.toJson(doctorUser);
-        doctorNode.remove("username");
-        doctorNode.remove("password");
-        doctorNode.remove("token");
-        return doctorNode;
-    }
-
-    public ArrayNode getDoctors() {
-        ArrayNode array = Json.newArray();
-        for (DoctorUser doctor: this.doctorList) {
-            array.add(getDoctor(doctor));
-        }
-        return array;
-    }
+//    public ArrayNode getRecords() {
+//        ArrayNode array = Json.newArray();
+//        for(Record record: this.recordList) {
+//            array.add(Json.toJson(record));
+//        }
+//        return array;
+//    }
+//
+//    public ArrayNode getRelatives() {
+//        ArrayNode array = Json.newArray();
+//        for(RelativeUser relative: this.relativeList) {
+//            array.add(Json.toJson(relative));
+//        }
+//        return array;
+//    }
+//
+//    public ObjectNode getDoctor(DoctorUser doctorUser) {
+//
+//        ObjectNode doctorNode = (ObjectNode) Json.toJson(doctorUser);
+//        doctorNode.remove("username");
+//        doctorNode.remove("password");
+//        doctorNode.remove("token");
+//        return doctorNode;
+//    }
+//
+//    public ArrayNode getDoctors() {
+//        ArrayNode array = Json.newArray();
+//        for (DoctorUser doctor: this.doctorList) {
+//            array.add(getDoctor(doctor));
+//        }
+//        return array;
+//    }
 
 }

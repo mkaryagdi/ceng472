@@ -39,9 +39,9 @@ public class PatientController extends Controller {
         if (verifiedUser.getId().equals(id)) {
 
             ObjectNode patientNode = (ObjectNode) Json.toJson(verifiedUser);
-            patientNode.set("records", verifiedUser.getRecords());
-            patientNode.set("doctors", verifiedUser.getDoctors());
-            patientNode.set("relatives", verifiedUser.getRelatives());
+//            patientNode.set("records", verifiedUser.getRecords());
+//            patientNode.set("doctors", verifiedUser.getDoctors());
+//            patientNode.set("relatives", verifiedUser.getRelatives());
             return ok(patientNode);
 
         } else {
@@ -71,8 +71,9 @@ public class PatientController extends Controller {
             return badRequest("already authorized");
         }
 
-        patientUser.getDoctorList().add(doctorUser);
-        patientUser.save();
+        patientUser.getDoctorList().add(doctorUser); // cascade?? which one to save
+        doctorUser.addPatient(patientUser);
+        doctorUser.save();
 
         return ok();
     }
