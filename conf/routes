@@ -22,13 +22,13 @@ PUT         /nurse/:id               controllers.api.DoctorUserController.assign
 
 # === PATIENT_USER ===
 + patient
-GET         /patient/:id              controllers.api.PatientController.fetch(id: Long)
+GET         /patient/:id                       controllers.api.PatientController.fetch(id: Long)
 + patient
-PUT        /access/doctor/:id         controllers.api.PatientController.giveAccessToDoctor(id: Long)
+PUT        /access/doctor/:id                  controllers.api.PatientController.giveAccessToDoctor(id: Long)
 + patient
-PUT        /access/relative/:id       controllers.api.PatientController.giveAccessToRelative(relativeId: Long, recordId: Long)
+PUT        /access/relative/:relativeId        controllers.api.PatientController.giveAccessToRelative(relativeId: Long, recordId: Long)
 + patient
-POST        /create-relative          controllers.api.PatientController.createRelative
+POST        /create-relative                   controllers.api.PatientController.createRelative
 
 # === NURSE_USER ===
 + nurse
