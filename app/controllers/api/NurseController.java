@@ -18,15 +18,17 @@ public class NurseController extends Controller {
         NurseUser verifiedUser = request().attrs().get(Attrs.VERIFIED_NURSE_USER);
 
         if (verifiedUser.getId().equals(id)) {
+
             ObjectNode response = (ObjectNode) Json.toJson(verifiedUser);
-            response.set("doctors", getDocsAndPatiens(verifiedUser.getDoctorList()));
+            response.set("doctors", getDocsAndPatients(verifiedUser.getDoctorList()));
             return ok(response);
+
         } else {
             return badRequest("You are not allowed!");
         }
     }
 
-    private ArrayNode getDocsAndPatiens(List<DoctorUser> docList) {
+    private ArrayNode getDocsAndPatients(List<DoctorUser> docList) {
         ArrayNode docs = Json.newArray();
         for (DoctorUser doctor : docList) {
             docs.add(Json.newObject().put("name", doctor.getName()).put("surname", doctor.getSurname())

@@ -21,6 +21,7 @@ public class NurseGeneratorImpl implements NurseGenerator {
     @Override
     public NurseUser generate(String username, String password, String name, String surname,
                                 String gender, String major, DoctorUser doctor) throws Exception {
+
         Logger.debug("Generating nurse user.");
         NurseUser user = new NurseUser(
                 null,
@@ -33,6 +34,7 @@ public class NurseGeneratorImpl implements NurseGenerator {
                 doctor);
         // since we need userId to generate token, first we should save bean.
         user.save();
+
         try {
             user.setToken(jwtHelper.getSignedToken(user.getId(), false, false, true, false, false));
             user.save();
