@@ -1,15 +1,11 @@
 package controllers.api;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.forms.GiveAccessDoctorForm;
-import controllers.forms.GiveAccessRelativeForm;
 import controllers.forms.RelativeForm;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
-import models.DoctorUser;
-import models.PatientUser;
-import models.Record;
-import models.RelativeUser;
+import models.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -39,9 +35,18 @@ public class PatientController extends Controller {
         if (verifiedUser.getId().equals(id)) {
 
             ObjectNode patientNode = (ObjectNode) Json.toJson(verifiedUser);
-//            patientNode.set("records", verifiedUser.getRecords());
-//            patientNode.set("doctors", verifiedUser.getDoctors());
-//            patientNode.set("relatives", verifiedUser.getRelatives());
+            patientNode.set("selfDoctors", verifiedUser.getDoctors());
+            patientNode.set("records", verifiedUser.getRecords());
+            patientNode.set("relatives", verifiedUser.getRelatives());
+
+            ArrayNode array = Json.newArray();
+            for (DoctorUser doctor: DoctorUser.finder.all()) {
+                if (!verifiedUser.getDoctorList().contains(doctor)) {
+                    array.add(verifiedUser.getDoctor(doctor));
+                }
+            }
+            patientNode.set("doctors", array);
+
             return ok(patientNode);
 
         } else {
@@ -49,19 +54,11 @@ public class PatientController extends Controller {
         }
     }
 
-    public Result giveAccessToDoctor() {
+    public Result giveAccessToDoctor(Long id) {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 
-        Form<GiveAccessDoctorForm> form = formFactory.form(GiveAccessDoctorForm.class).bind(request().body().asJson());
-
-        if (form.hasErrors()) {
-            return badRequest(form.errorsAsJson());
-        }
-
-        GiveAccessDoctorForm body = form.get();
-
-        DoctorUser doctorUser = DoctorUser.finder.byId(body.doctorId);
+        DoctorUser doctorUser = DoctorUser.finder.byId(id);
 
         if (doctorUser == null) {
             return notFound("doctor is not found");
@@ -78,41 +75,37 @@ public class PatientController extends Controller {
         return ok();
     }
 
-    public Result giveAccessToRelative() {
+    public Result giveAccessToRelative(Long relativeId, Long recordId) {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 
-        Form<GiveAccessRelativeForm> form = formFactory.form(GiveAccessRelativeForm.class).bind(request().body().asJson());
-
-        if (form.hasErrors()) {
-            return badRequest(form.errorsAsJson());
-        }
-
-        GiveAccessRelativeForm body = form.get();
-
-        RelativeUser relativeUser = RelativeUser.finder.byId(body.relativeId);
+        RelativeUser relativeUser = RelativeUser.finder.byId(relativeId);
 
         if (relativeUser == null) {
             return notFound("relative is not found");
         }
 
-        if (body.recordId == null) {
+        if (!patientUser.getRelativeList().contains(relativeUser)) {
+            return badRequest("relative is not yours");
+        }
+
+        if (recordId == null) {
             return badRequest("record id is null");
         }
 
-        Record recordToSet = null;
-        for (Record record: patientUser.getRecordList()) {
-            if (record.getId().equals(body.recordId)) {
-                recordToSet = record;
+        Record record = null;
+        for (Record r: patientUser.getRecordList()) {
+            if (r.getId().equals(recordId)) {
+                record = r;
                 break;
             }
         }
 
-        if (recordToSet == null) {
+        if (record == null) {
             return badRequest("user does not have such a record");
         }
 
-        relativeUser.getPatientsRecords().add(recordToSet);
+        relativeUser.getPatientsRecords().add(record);
         relativeUser.save();
 
         return ok();
@@ -125,12 +118,12 @@ public class PatientController extends Controller {
         Form<RelativeForm> form = formFactory.form(RelativeForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
-            return badRequest(form.errorsAsJson());
+            return badRequest("form has errors");
         }
 
         RelativeForm body = form.get();
         String password = generateRandomPassword();
-        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(1) + body.surname, password, body.name, body.surname, body.phoneNumber);
+        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(0,1).toUpperCase() + body.surname, password, body.name, body.surname, body.phoneNumber);
 
         try {
             relativeUser.setToken(jwtHelper.getSignedToken(relativeUser.getId(), false, false, false, false, true));

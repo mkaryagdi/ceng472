@@ -1,12 +1,15 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.ebean.Finder;
 import io.ebean.Model;
+import play.libs.Json;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -35,7 +38,7 @@ public class PatientUser extends Model {
     @ManyToMany(cascade = CascadeType.ALL)
     private List<DoctorUser> doctorList;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<RelativeUser> relativeList;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -169,37 +172,50 @@ public class PatientUser extends Model {
         return gender;
     }
 
-//    public ArrayNode getRecords() {
-//        ArrayNode array = Json.newArray();
-//        for(Record record: this.recordList) {
-//            array.add(Json.toJson(record));
-//        }
-//        return array;
-//    }
-//
-//    public ArrayNode getRelatives() {
-//        ArrayNode array = Json.newArray();
-//        for(RelativeUser relative: this.relativeList) {
-//            array.add(Json.toJson(relative));
-//        }
-//        return array;
-//    }
-//
-//    public ObjectNode getDoctor(DoctorUser doctorUser) {
-//
-//        ObjectNode doctorNode = (ObjectNode) Json.toJson(doctorUser);
-//        doctorNode.remove("username");
-//        doctorNode.remove("password");
-//        doctorNode.remove("token");
-//        return doctorNode;
-//    }
-//
-//    public ArrayNode getDoctors() {
-//        ArrayNode array = Json.newArray();
-//        for (DoctorUser doctor: this.doctorList) {
-//            array.add(getDoctor(doctor));
-//        }
-//        return array;
-//    }
+    @JsonIgnore
+    public ArrayNode getRecords() {
+        ArrayNode array = Json.newArray();
+        for(Record record: this.recordList) {
+            array.add(getRecord(record));
+        }
+        return array;
+    }
+
+    private JsonNode getRecord(Record record) {
+        return Json.newObject().put("diagnostic", record.getDiagnostic())
+                .set("doctor", getDoctor(record.getDoctorUser()));
+    }
+
+    @JsonIgnore
+    public ArrayNode getRelatives() {
+        ArrayNode array = Json.newArray();
+        for(RelativeUser relative: this.relativeList) {
+            array.add(getRelative(relative));
+        }
+        return array;
+    }
+
+    private JsonNode getRelative(RelativeUser relative) {
+        return Json.newObject().put("name", relative.getName())
+                .put("surname", relative.getSurname());
+    }
+
+    @JsonIgnore
+    public ArrayNode getDoctors() {
+        ArrayNode array = Json.newArray();
+        for (DoctorUser doctor: this.doctorList) {
+            array.add(getDoctor(doctor));
+        }
+        return array;
+    }
+
+    public JsonNode getDoctor(DoctorUser doctorUser) {
+        ObjectNode doctorNode = (ObjectNode) Json.toJson(doctorUser);
+        doctorNode.remove("username");
+        doctorNode.remove("password");
+        doctorNode.remove("token");
+        doctorNode.remove("patients");
+        return doctorNode;
+    }
 
 }

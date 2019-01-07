@@ -1,13 +1,13 @@
 package controllers.forms;
 
-import play.data.validation.Constraints;
+import play.data.validation.Constraints.Required;
 
 public class RelativeForm {
 
-    @Constraints.Required
+    @Required
     public String name;
 
-    @Constraints.Required
+    @Required
     public String surname;
 
     public Double phoneNumber;

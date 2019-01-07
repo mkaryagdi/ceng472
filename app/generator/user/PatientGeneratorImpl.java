@@ -21,6 +21,7 @@ public class PatientGeneratorImpl implements PatientGenerator {
     @Override
     public PatientUser generate(String username, String password, String name, String surname, Integer birthYear,
                                 String address, String gender, DoctorUser doctor) throws Exception {
+
         Logger.debug("Generating patient user.");
         PatientUser user = new PatientUser(
                 null,
