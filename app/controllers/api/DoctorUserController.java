@@ -48,34 +48,6 @@ public class DoctorUserController extends Controller {
         }
     }
 
-    public Result createPatient() {
-
-        DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
-
-        Form<PatientForm> form = formFactory.form(PatientForm.class).bind(request().body().asJson());
-
-        if (form.hasErrors()) {
-            return badRequest("form has errors.");
-        }
-
-        PatientForm body = form.get();
-
-        if (PatientUser.finder.query().where().eq("username", body.username).findCount() != 0)
-            return badRequest("username already exists.");
-
-        Logger.debug("creating patient...");
-        String password = new Random(10).toString(); // TODO: make it secure
-        PatientUser patient = null;
-        try {
-            patient = patientGenerator.generate(body.username, password, body.name, body.surname, body.birthYear,
-                    body.address, body.gender, doctor);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return created(Json.toJson(patient));
-    }
-
     public Result createRecord() {
 
         DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
@@ -86,17 +58,54 @@ public class DoctorUserController extends Controller {
             return badRequest("form has errors.");
         }
 
+//        if (PatientUser.finder.query().where().eq("username", body.username).findCount() != 0)
+//            return badRequest("username already exists."); //TODO
 
         RecordForm body = form.get();
         PatientUser patient;
+        Logger.debug("creating patient...");
         try {
-            patient = patientGenerator.generate(body.name.substring(0, 1) + body.surname, new Random(10).toString(), body.name, body.surname, body.birthYear, body.address, body.gender, doctor);
+            patient = patientGenerator.generate(body.patient.name.substring(0, 1) + body.patient.surname,
+                    new Random(10).toString(),
+                    body.patient.name,
+                    body.patient.surname,
+                    body.patient.birthYear,
+                    body.patient.address,
+                    body.patient.gender,
+                    doctor);
         } catch (Exception e) {
             return badRequest("patient generation failed");
         }
 
         Record record = new Record(body.diagnostic, patient, doctor);
-        patient.addRecord(record);
+        record.save();
+
+        return ok(Json.toJson(record));
+    }
+
+    public Result addRecord(Long id) {
+
+        PatientUser patient = PatientUser.finder.byId(id);
+
+        DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
+
+        if (!patient.getDoctorList().contains(doctor)) {
+            return badRequest("You are not allowed!");
+        }
+        
+        Form<RecordForm> form = formFactory.form(RecordForm.class).bind(request().body().asJson());
+
+        if (form.hasErrors()) {
+            return badRequest("form has errors.");
+        }
+
+        RecordForm body = form.get();
+
+        if (patient == null) {
+            return notFound("patient does not found");
+        }
+
+        Record record = new Record(body.diagnostic, patient, doctor);
         doctor.save();
 
         return ok(Json.toJson(record));
@@ -109,14 +118,14 @@ public class DoctorUserController extends Controller {
         NurseUser nurse = NurseUser.finder.byId(id);
 
         if (nurse == null) {
-            return notFound("nurse cant be found");
+            return notFound("nurse does not found");
         }
 
-        if (nurse.getDoctor().getId() == doctor.getId()) {
+        if (nurse.getDoctor() != null && nurse.getDoctor().getId() == doctor.getId()) {
             return badRequest("nurse is already assigned to you.");
         }
 
-        if (nurse.getDoctor().getId() != null && nurse.getDoctor().getId() != doctor.getId()) {
+        if (nurse.getDoctor() != null && nurse.getDoctor().getId() != doctor.getId()) {
             return badRequest("nurse is already assigned to a doctor.");
         }
 

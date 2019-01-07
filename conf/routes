@@ -14,7 +14,7 @@ POST         /user                    controllers.api.UserController.signIn
 + doctor
 GET         /doctor/:id              controllers.api.DoctorUserController.fetch(id: Long)
 + doctor
-POST        /patient                 controllers.api.DoctorUserController.createPatient
+PUT        /record/:id               controllers.api.DoctorUserController.addRecord(id: Long)
 + doctor
 POST        /record                  controllers.api.DoctorUserController.createRecord()
 + doctor
