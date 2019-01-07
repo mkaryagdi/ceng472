@@ -74,6 +74,19 @@ public class DatabaseHandler {
                 Record record2 = new Record("diagnostic", patient2, doctor2);
                 Record record3 = new Record("diagnostic", patient3, doctor3);
 
+                RelativeUser relative1 = relativeGenerator.generate("r1", "r1",
+                        "Arda", "Ermis", 45356.0, record1);
+
+                RelativeUser relative2 = relativeGenerator.generate("r2", "r2",
+                        "Caglar", "Yilmaz", 34567.9, record2);
+
+                RelativeUser relative3 = relativeGenerator.generate("r3", "r3",
+                        "Damla", "Karadag", 45678.0, record3);
+
+                relative1.save();
+                relative2.save();
+                relative3.save();
+
                 record1.save();
                 record2.save();
                 record3.save();

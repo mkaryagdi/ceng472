@@ -26,7 +26,7 @@ GET         /patient/:id              controllers.api.PatientController.fetch(id
 + patient
 PUT        /access/doctor/:id         controllers.api.PatientController.giveAccessToDoctor(id: Long)
 + patient
-PUT        /access/relative           controllers.api.PatientController.giveAccessToRelative
+PUT        /access/relative/:id       controllers.api.PatientController.giveAccessToRelative(relativeId: Long, recordId: Long)
 + patient
 POST        /create-relative          controllers.api.PatientController.createRelative
 

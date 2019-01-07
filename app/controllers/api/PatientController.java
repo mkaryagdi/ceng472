@@ -2,7 +2,6 @@ package controllers.api;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.forms.GiveAccessRelativeForm;
 import controllers.forms.RelativeForm;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
@@ -76,41 +75,33 @@ public class PatientController extends Controller {
         return ok();
     }
 
-    public Result giveAccessToRelative(Long id) {
+    public Result giveAccessToRelative(Long relativeId, Long recordId) {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 
-        Form<GiveAccessRelativeForm> form = formFactory.form(GiveAccessRelativeForm.class).bind(request().body().asJson());
-
-        if (form.hasErrors()) {
-            return badRequest(form.errorsAsJson());
-        }
-
-        GiveAccessRelativeForm body = form.get();
-
-        RelativeUser relativeUser = RelativeUser.finder.byId(body.relativeId);
+        RelativeUser relativeUser = RelativeUser.finder.byId(relativeId);
 
         if (relativeUser == null) {
             return notFound("relative is not found");
         }
 
-        if (body.recordId == null) {
+        if (recordId == null) {
             return badRequest("record id is null");
         }
 
-        Record recordToSet = null;
-        for (Record record: patientUser.getRecordList()) {
-            if (record.getId().equals(body.recordId)) {
-                recordToSet = record;
+        Record record = null;
+        for (Record r: patientUser.getRecordList()) {
+            if (r.getId().equals(recordId)) {
+                record = r;
                 break;
             }
         }
 
-        if (recordToSet == null) {
+        if (record == null) {
             return badRequest("user does not have such a record");
         }
 
-        relativeUser.getPatientsRecords().add(recordToSet);
+        relativeUser.getPatientsRecords().add(record);
         relativeUser.save();
 
         return ok();
