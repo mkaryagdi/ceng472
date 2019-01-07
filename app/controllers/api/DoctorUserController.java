@@ -76,7 +76,7 @@ public class DoctorUserController extends Controller {
         PatientUser patient;
         Logger.debug("creating patient...");
         try {
-            patient = patientGenerator.generate(body.patient.name.substring(0, 1) + body.patient.surname,
+            patient = patientGenerator.generate(body.patient.name.substring(0, 1).toUpperCase() + body.patient.surname,
                     new Random(10).toString(),
                     body.patient.name,
                     body.patient.surname,

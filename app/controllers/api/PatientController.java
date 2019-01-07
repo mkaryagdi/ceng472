@@ -118,12 +118,12 @@ public class PatientController extends Controller {
         Form<RelativeForm> form = formFactory.form(RelativeForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
-            return badRequest(form.errorsAsJson());
+            return badRequest("form has errors");
         }
 
         RelativeForm body = form.get();
         String password = generateRandomPassword();
-        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(1) + body.surname, password, body.name, body.surname, body.phoneNumber);
+        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(0,1).toUpperCase() + body.surname, password, body.name, body.surname, body.phoneNumber);
 
         try {
             relativeUser.setToken(jwtHelper.getSignedToken(relativeUser.getId(), false, false, false, false, true));

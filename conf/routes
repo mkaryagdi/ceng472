@@ -4,7 +4,7 @@
 
 # An example controller showing a sample home page
 + public
-GET     /                           controllers.HomeController.index
+GET     /                             controllers.HomeController.index
 
 # === USER ===
 + public
@@ -28,7 +28,7 @@ PUT        /access/doctor/:id                  controllers.api.PatientController
 + patient
 PUT        /access/relative/:relativeId        controllers.api.PatientController.giveAccessToRelative(relativeId: Long, recordId: Long)
 + patient
-POST        /create-relative                   controllers.api.PatientController.createRelative
+POST        /relative                          controllers.api.PatientController.createRelative
 
 # === NURSE_USER ===
 + nurse

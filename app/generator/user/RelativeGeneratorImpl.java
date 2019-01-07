@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class RelativeGeneratorImpl {
+public class RelativeGeneratorImpl implements RelativeGenerator {
 
     private JwtHelper jwtHelper;
 
@@ -19,6 +19,7 @@ public class RelativeGeneratorImpl {
 
     public RelativeUser generate(String username, String password, String name, String surname,
                                  Double phoneNumber, Record record) throws Exception {
+
         Logger.debug("Generating nurse user.");
         RelativeUser user = new RelativeUser(
                 null,
@@ -30,6 +31,7 @@ public class RelativeGeneratorImpl {
         // since we need userId to generate token, first we should save bean.
         record.getPatientUser().addRelative(user);
         record.save();
+
         try {
             user.setToken(jwtHelper.getSignedToken(user.getId(), false, false, false, false, true));
             record.getPatientUser().save();
