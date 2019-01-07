@@ -74,25 +74,13 @@ public class DatabaseHandler {
                 Record record2 = new Record("diagnostic", patient2, doctor2);
                 Record record3 = new Record("diagnostic", patient3, doctor3);
 
-                RelativeUser relative1 = relativeGenerator.generate("relative1", "relative1",
-                        "relative1", "relative1", 05330009876.0, patient1, doctor1);
-                patient1.addRelative(relative1);
-
-                RelativeUser relative2 = relativeGenerator.generate("relative2", "relative2",
-                        "relative2", "relative2", 05330009876.0, patient2, doctor2);
-                patient2.addRelative(relative2);
-
-                RelativeUser relative3 = relativeGenerator.generate("relative3", "relative3",
-                        "relative3", "relative3", 05330009876.0, patient3, doctor3);
-                patient3.addRelative(relative3);
-                relative1.addRecords(record1);
-                relative1.addRecords(record2);
-                relative1.addRecords(record3);
+                record1.save();
+                record2.save();
+                record3.save();
 
                 doctor1.save();
                 doctor2.save();
                 doctor3.save();
-
 
             } catch (Exception e) {
                 Logger.error("error", e);

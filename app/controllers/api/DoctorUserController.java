@@ -78,7 +78,7 @@ public class DoctorUserController extends Controller {
         }
 
         Record record = new Record(body.diagnostic, patient, doctor);
-        record.save();
+        doctor.save();
 
         return ok(Json.toJson(record));
     }

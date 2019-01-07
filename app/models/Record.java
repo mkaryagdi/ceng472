@@ -16,7 +16,6 @@ public class Record extends Model {
     @Size(max = 256)
     private String diagnostic;
 
-    @OneToOne
     private DoctorUser doctorUser;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -39,5 +38,21 @@ public class Record extends Model {
 
     public PatientUser getPatientUser() {
         return patientUser;
+    }
+
+    public void setDiagnostic(String diagnostic) {
+        this.diagnostic = diagnostic;
+    }
+
+    public DoctorUser getDoctorUser() {
+        return doctorUser;
+    }
+
+    public void setDoctorUser(DoctorUser doctorUser) {
+        this.doctorUser = doctorUser;
+    }
+
+    public void setPatientUser(PatientUser patientUser) {
+        this.patientUser = patientUser;
     }
 }

@@ -1,6 +1,6 @@
-2019-01-07 20:37:58,069 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Creating Pool for datasource 'default'
-2019-01-07 20:37:58,309 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-6 - Database [default] connected at jdbc:postgresql://localhost/ceng472
-2019-01-07 20:37:59,450 [ERROR] from org.jdbcdslog.StatementLogger in play-dev-mode-akka.actor.default-dispatcher-6 - java.sql.Statement.executeQuery: select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%';
+2019-01-07 22:03:40,232 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Creating Pool for datasource 'default'
+2019-01-07 22:03:40,458 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-4 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2019-01-07 22:03:41,540 [ERROR] from org.jdbcdslog.StatementLogger in play-dev-mode-akka.actor.default-dispatcher-4 - java.sql.Statement.executeQuery: select id, hash, apply_script, revert_script, state, last_problem from play_evolutions where state like 'applying_%';
 throws exception: org.postgresql.util.PSQLException: ERROR: relation "play_evolutions" does not exist
   Position: 72
 org.postgresql.util.PSQLException: ERROR: relation "play_evolutions" does not exist
@@ -21,7 +21,7 @@ org.postgresql.util.PSQLException: ERROR: relation "play_evolutions" does not ex
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
 	at java.lang.reflect.Method.invoke(Method.java:498)
 	at org.jdbcdslog.StatementLoggingHandler.invoke(StatementLoggingHandler.java:27)
-	at com.sun.proxy.$Proxy39.executeQuery(Unknown Source)
+	at com.sun.proxy.$Proxy41.executeQuery(Unknown Source)
 	at play.api.db.evolutions.DatabaseEvolutions.executeQuery(EvolutionsApi.scala:316)
 	at play.api.db.evolutions.DatabaseEvolutions.checkEvolutionsState(EvolutionsApi.scala:270)
 	at play.api.db.evolutions.DatabaseEvolutions.databaseEvolutions(EvolutionsApi.scala:135)
@@ -86,29 +86,41 @@ org.postgresql.util.PSQLException: ERROR: relation "play_evolutions" does not ex
 	at akka.dispatch.forkjoin.ForkJoinPool$WorkQueue.runTask(ForkJoinPool.java:1339)
 	at akka.dispatch.forkjoin.ForkJoinPool.runWorker(ForkJoinPool.java:1979)
 	at akka.dispatch.forkjoin.ForkJoinWorkerThread.run(ForkJoinWorkerThread.java:107)
-2019-01-07 20:37:59,724 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - DB handler is started...
-2019-01-07 20:37:59,872 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Test doctors and patients are missing. Inserting default values...
-2019-01-07 20:37:59,872 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating doctor user.
-2019-01-07 20:38:00,031 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating doctor user.
-2019-01-07 20:38:00,046 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating doctor user.
-2019-01-07 20:38:00,059 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating patient user.
-2019-01-07 20:38:00,079 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating patient user.
-2019-01-07 20:38:00,091 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating patient user.
-2019-01-07 20:38:00,098 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating nurse user.
-2019-01-07 20:38:00,109 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating nurse user.
-2019-01-07 20:38:00,124 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating nurse user.
-2019-01-07 20:38:00,138 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Test doctors and patients are inserted.
-2019-01-07 20:38:00,140 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Test nurses are missing. Inserting default values...
-2019-01-07 20:38:00,140 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating nurse user.
-2019-01-07 20:38:00,156 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating nurse user.
-2019-01-07 20:38:00,169 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Generating nurse user.
-2019-01-07 20:38:00,175 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Test nurses are inserted.
-2019-01-07 20:38:00,175 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - DB handler successfully completed!
-2019-01-07 20:38:00,791 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-6 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
-2019-01-07 20:38:01,052 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-6 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2019-01-07 22:03:41,949 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - DB handler is started...
+2019-01-07 22:03:42,031 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Test doctors and patients are missing. Inserting default values...
+2019-01-07 22:03:42,031 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating doctor user.
+2019-01-07 22:03:42,123 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating doctor user.
+2019-01-07 22:03:42,129 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating doctor user.
+2019-01-07 22:03:42,137 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating patient user.
+2019-01-07 22:03:42,162 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating patient user.
+2019-01-07 22:03:42,176 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating patient user.
+2019-01-07 22:03:42,204 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Test doctors and patients are inserted.
+2019-01-07 22:03:42,206 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Test nurses are missing. Inserting default values...
+2019-01-07 22:03:42,206 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating nurse user.
+2019-01-07 22:03:42,214 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating nurse user.
+2019-01-07 22:03:42,221 [DEBUG] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Generating nurse user.
+2019-01-07 22:03:42,229 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - Test nurses are inserted.
+2019-01-07 22:03:42,229 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-4 - DB handler successfully completed!
+2019-01-07 22:03:42,933 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-4 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2019-01-07 22:03:43,239 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-4 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
     play.filters.cors.CORSFilter
 
-2019-01-07 20:38:01,067 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-6 - Application started (Dev)
+2019-01-07 22:03:43,253 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-4 - Application started (Dev)
+2019-01-07 22:04:38,228 [INFO] from application in application-akka.actor.default-dispatcher-7 - Shutting down connection pool.
+2019-01-07 22:04:38,493 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - Creating Pool for datasource 'default'
+2019-01-07 22:04:38,502 [INFO] from play.api.db.DefaultDBApi in play-dev-mode-akka.actor.default-dispatcher-6 - Database [default] connected at jdbc:postgresql://localhost/ceng472
+2019-01-07 22:04:38,560 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - DB handler is started...
+2019-01-07 22:04:38,572 [INFO] from application in play-dev-mode-akka.actor.default-dispatcher-6 - DB handler successfully completed!
+2019-01-07 22:04:38,707 [WARN] from org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator in play-dev-mode-akka.actor.default-dispatcher-6 - HV000184: ParameterMessageInterpolator has been chosen, EL interpolation will not be supported
+2019-01-07 22:04:38,870 [INFO] from play.api.http.EnabledFilters in play-dev-mode-akka.actor.default-dispatcher-6 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+
+    play.filters.headers.SecurityHeadersFilter
+    play.filters.hosts.AllowedHostsFilter
+    play.filters.cors.CORSFilter
+
+2019-01-07 22:04:38,873 [INFO] from play.api.Play in play-dev-mode-akka.actor.default-dispatcher-6 - Application started (Dev)
+2019-01-07 22:04:39,355 [DEBUG] from application in application-akka.actor.default-dispatcher-4 - creating patient...
+2019-01-07 22:04:39,355 [DEBUG] from application in application-akka.actor.default-dispatcher-4 - Generating patient user.
