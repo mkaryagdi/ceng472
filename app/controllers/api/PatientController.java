@@ -85,6 +85,10 @@ public class PatientController extends Controller {
             return notFound("relative is not found");
         }
 
+        if (!patientUser.getRelativeList().contains(relativeUser)) {
+            return badRequest("relative is not yours");
+        }
+
         if (recordId == null) {
             return badRequest("record id is null");
         }
