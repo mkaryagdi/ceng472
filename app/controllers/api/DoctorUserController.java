@@ -92,7 +92,7 @@ public class DoctorUserController extends Controller {
         if (!patient.getDoctorList().contains(doctor)) {
             return badRequest("You are not allowed!");
         }
-        
+
         Form<RecordForm> form = formFactory.form(RecordForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
