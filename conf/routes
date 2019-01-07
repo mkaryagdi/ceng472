@@ -4,39 +4,49 @@
 
 # An example controller showing a sample home page
 + public
-GET     /                             controllers.HomeController.index
+GET     /                                  controllers.HomeController.index
 
 # === USER ===
 + public
-POST         /user                    controllers.api.UserController.signIn
+POST         /user                         controllers.api.UserController.signIn
 
 # === DOCTOR_USER ===
 + doctor
-GET         /doctor/:id              controllers.api.DoctorUserController.fetch(id: Long)
+GET         /doctor/:id                    controllers.api.DoctorUserController.fetch(id: Long)
 + doctor
-PUT        /record/:id               controllers.api.DoctorUserController.addRecord(id: Long)
+PUT        /record/:id                     controllers.api.DoctorUserController.addRecord(id: Long)
 + doctor
-POST        /record                  controllers.api.DoctorUserController.createRecord()
+POST        /record                        controllers.api.DoctorUserController.createRecord()
 + doctor
-PUT         /nurse/:id               controllers.api.DoctorUserController.assignNurse(id: Long)
+PUT         /nurse/:id                     controllers.api.DoctorUserController.assignNurse(id: Long)
 
 # === PATIENT_USER ===
 + patient
-GET         /patient/:id                       controllers.api.PatientController.fetch(id: Long)
+GET         /patient/:id                   controllers.api.PatientController.fetch(id: Long)
 + patient
-PUT        /access/doctor/:id                  controllers.api.PatientController.giveAccessToDoctor(id: Long)
+PUT        /access/doctor/:id              controllers.api.PatientController.giveAccessToDoctor(id: Long)
 + patient
-PUT        /access/relative/:relativeId        controllers.api.PatientController.giveAccessToRelative(relativeId: Long, recordId: Long)
+PUT        /access/relative/:relativeId    controllers.api.PatientController.giveAccessToRelative(relativeId: Long, recordId: Long)
 + patient
-POST        /relative                          controllers.api.PatientController.createRelative
+POST        /relative                      controllers.api.PatientController.createRelative
 
 # === NURSE_USER ===
 + nurse
-GET         /nurse/:id              controllers.api.NurseController.fetch(id: Long)
+GET         /nurse/:id                     controllers.api.NurseController.fetch(id: Long)
 
 # === RELATIVE_USER ===
 + relative
-GET         /relative/:id              controllers.api.RelativeController.fetch(id: Long)
+GET         /relative/:id                  controllers.api.RelativeController.fetch(id: Long)
+
+# === ADMIN ===
++ admin
+POST         /doctor                       controllers.api.AdminController.createDoctor
++ admin
+POST         /patient                      controllers.api.AdminController.createPatient
++ admin
+POST         /nurse                        controllers.api.AdminController.createNurse
++ admin
+POST         /relative                     controllers.api.AdminController.createRelative
 
 # Map static resources from the /public folder to the /assets URL path
 GET         /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)

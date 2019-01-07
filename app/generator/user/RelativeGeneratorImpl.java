@@ -20,7 +20,7 @@ public class RelativeGeneratorImpl implements RelativeGenerator {
     public RelativeUser generate(String username, String password, String name, String surname,
                                  Double phoneNumber, Record record) throws Exception {
 
-        Logger.debug("Generating nurse user.");
+        Logger.debug("Generating relative user.");
         RelativeUser user = new RelativeUser(
                 null,
                 username,

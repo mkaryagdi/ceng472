@@ -17,8 +17,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.io.UnsupportedEncodingException;
-
 public class UserController extends Controller {
 
     private FormFactory formFactory;

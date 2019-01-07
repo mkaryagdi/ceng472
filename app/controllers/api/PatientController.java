@@ -3,9 +3,11 @@ package controllers.api;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import controllers.forms.RelativeForm;
+import generator.user.RelativeGenerator;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
 import models.*;
+import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -21,11 +23,13 @@ public class PatientController extends Controller {
 
     private FormFactory formFactory;
     private JwtHelper jwtHelper;
+    private RelativeGenerator relativeGenerator;
 
     @Inject
-    public PatientController(FormFactory formFactory, JwtHelper jwtHelper) {
+    public PatientController(FormFactory formFactory, JwtHelper jwtHelper, RelativeGenerator relativeGenerator) {
         this.formFactory = formFactory;
         this.jwtHelper = jwtHelper;
+        this.relativeGenerator = relativeGenerator;
     }
 
     public Result fetch(Long id) {
@@ -118,23 +122,27 @@ public class PatientController extends Controller {
         Form<RelativeForm> form = formFactory.form(RelativeForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
-            return badRequest("form has errors");
+            return badRequest(form.errorsAsJson());
         }
 
         RelativeForm body = form.get();
-        String password = generateRandomPassword();
-        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(0,1).toUpperCase() + body.surname, password, body.name, body.surname, body.phoneNumber);
-
+        RelativeUser relative;
+        Logger.debug("creating relative...");
         try {
-            relativeUser.setToken(jwtHelper.getSignedToken(relativeUser.getId(), false, false, false, false, true));
-            patientUser.addRelative(relativeUser);
-            patientUser.save();
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            relative = relativeGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
+                    generateRandomPassword(),
+                    body.name,
+                    body.surname,
+                    body.phoneNumber,
+                    null);
+        } catch (Exception e) {
+            return badRequest("relative generation failed");
         }
 
-        return created(Json.toJson(relativeUser));
+        patientUser.addRelative(relative);
+        patientUser.save();
+
+        return created(Json.toJson(relative));
     }
 
     private String generateRandomPassword() {
