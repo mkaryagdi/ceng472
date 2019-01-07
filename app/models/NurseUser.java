@@ -7,6 +7,8 @@ import io.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class NurseUser extends Model {
@@ -29,8 +31,8 @@ public class NurseUser extends Model {
 
     private String gender;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private DoctorUser doctor;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<DoctorUser> doctorList;
 
     public static final Finder<Long, NurseUser> finder = new Finder<>(NurseUser.class);
 
@@ -42,7 +44,10 @@ public class NurseUser extends Model {
         this.surname = surname;
         this.gender = gender;
         this.major = major;
-        this.doctor = doctor;
+        this.doctorList = new ArrayList<>();
+        if (doctor != null) {
+            this.doctorList.add(doctor);
+        }
     }
 
     public String getMajor() {
@@ -105,12 +110,17 @@ public class NurseUser extends Model {
     }
 
     @JsonIgnore
-    public DoctorUser getDoctor() {
-        return doctor;
+    public List<DoctorUser> getDoctorList() {
+        return doctorList;
     }
 
-    public void setDoctor(DoctorUser doctor) {
-        this.doctor = doctor;
+    public NurseUser addDoctorList(DoctorUser doctor) {
+        this.doctorList.add(doctor);
+        return this;
+    }
+
+    public static Finder<Long, NurseUser> getFinder() {
+        return finder;
     }
 
     public String getGender() {

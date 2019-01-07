@@ -146,6 +146,11 @@ public class DoctorUser extends Model {
         patientNode.remove("username");
         patientNode.remove("password");
         patientNode.remove("token");
+        ArrayNode recordArray = Json.newArray();
+        for (Record record : patientUser.getRecordList()) {
+            recordArray.add(record.getDiagnostic());
+        }
+        patientNode.set("records", recordArray);
         return patientNode;
     }
 

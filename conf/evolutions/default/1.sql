@@ -39,8 +39,13 @@ create table nurse_user (
   surname                       varchar(255),
   major                         varchar(255),
   gender                        varchar(255),
-  doctor_id                     bigint,
   constraint pk_nurse_user primary key (id)
+);
+
+create table nurse_user_doctor_user (
+  nurse_user_id                 bigint not null,
+  doctor_user_id                bigint not null,
+  constraint pk_nurse_user_doctor_user primary key (nurse_user_id,doctor_user_id)
 );
 
 create table patient_user (
@@ -93,8 +98,11 @@ create index ix_doctor_user_patient_user_doctor_user on doctor_user_patient_user
 alter table doctor_user_patient_user add constraint fk_doctor_user_patient_user_patient_user foreign key (patient_user_id) references patient_user (id) on delete restrict on update restrict;
 create index ix_doctor_user_patient_user_patient_user on doctor_user_patient_user (patient_user_id);
 
-alter table nurse_user add constraint fk_nurse_user_doctor_id foreign key (doctor_id) references doctor_user (id) on delete restrict on update restrict;
-create index ix_nurse_user_doctor_id on nurse_user (doctor_id);
+alter table nurse_user_doctor_user add constraint fk_nurse_user_doctor_user_nurse_user foreign key (nurse_user_id) references nurse_user (id) on delete restrict on update restrict;
+create index ix_nurse_user_doctor_user_nurse_user on nurse_user_doctor_user (nurse_user_id);
+
+alter table nurse_user_doctor_user add constraint fk_nurse_user_doctor_user_doctor_user foreign key (doctor_user_id) references doctor_user (id) on delete restrict on update restrict;
+create index ix_nurse_user_doctor_user_doctor_user on nurse_user_doctor_user (doctor_user_id);
 
 alter table patient_user_doctor_user add constraint fk_patient_user_doctor_user_patient_user foreign key (patient_user_id) references patient_user (id) on delete restrict on update restrict;
 create index ix_patient_user_doctor_user_patient_user on patient_user_doctor_user (patient_user_id);
@@ -123,8 +131,11 @@ drop index if exists ix_doctor_user_patient_user_doctor_user;
 alter table if exists doctor_user_patient_user drop constraint if exists fk_doctor_user_patient_user_patient_user;
 drop index if exists ix_doctor_user_patient_user_patient_user;
 
-alter table if exists nurse_user drop constraint if exists fk_nurse_user_doctor_id;
-drop index if exists ix_nurse_user_doctor_id;
+alter table if exists nurse_user_doctor_user drop constraint if exists fk_nurse_user_doctor_user_nurse_user;
+drop index if exists ix_nurse_user_doctor_user_nurse_user;
+
+alter table if exists nurse_user_doctor_user drop constraint if exists fk_nurse_user_doctor_user_doctor_user;
+drop index if exists ix_nurse_user_doctor_user_doctor_user;
 
 alter table if exists patient_user_doctor_user drop constraint if exists fk_patient_user_doctor_user_patient_user;
 drop index if exists ix_patient_user_doctor_user_patient_user;
@@ -151,6 +162,8 @@ drop table if exists doctor_user cascade;
 drop table if exists doctor_user_patient_user cascade;
 
 drop table if exists nurse_user cascade;
+
+drop table if exists nurse_user_doctor_user cascade;
 
 drop table if exists patient_user cascade;
 

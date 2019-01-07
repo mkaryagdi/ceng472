@@ -17,7 +17,4 @@ public class PatientForm {
     public String gender;
 
     public String address;
-
-    @Required
-    public String username;
 }

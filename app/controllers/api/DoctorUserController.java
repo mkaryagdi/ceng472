@@ -34,13 +34,21 @@ public class DoctorUserController extends Controller {
         this.patientGenerator = patientGenerator;
     }
 
-    private ArrayNode getNurses() {
+    private ArrayNode getNurses(DoctorUser user) {
         ArrayNode array = Json.newArray();
-        for (NurseUser nurse: NurseUser.finder.all()) {
-            array.add(Json.toJson(nurse));
-        }
+        ArrayNode doctorNurse = Json.newArray();
+        ArrayNode outherArray = Json.newArray();
 
-        return array;
+        for (NurseUser nurse: NurseUser.finder.all()) {
+            if (nurse.getDoctorList().contains(user)){
+                doctorNurse.add(Json.toJson(nurse));
+            } else {
+                array.add(Json.toJson(nurse));
+            }
+        }
+        outherArray.add(array);
+        outherArray.add(doctorNurse);
+        return outherArray;
     }
 
     public Result fetch(Long id) {
@@ -51,7 +59,9 @@ public class DoctorUserController extends Controller {
 
             ObjectNode doctorNode = (ObjectNode) Json.toJson(verifiedUser);
             doctorNode.set("patients", verifiedUser.getPatients());
-            doctorNode.set("nurses", getNurses());
+            ArrayNode arrayNode = getNurses(verifiedUser);
+            doctorNode.set("nurses", arrayNode.get(0));
+            doctorNode.set("docNurses", arrayNode.get(1));
             return ok(doctorNode);
 
         } else {
@@ -66,7 +76,7 @@ public class DoctorUserController extends Controller {
         Form<RecordForm> form = formFactory.form(RecordForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
-            return badRequest("form has errors.");
+            return badRequest(form.errorsAsJson());
         }
 
 //        if (PatientUser.finder.query().where().eq("username", body.username).findCount() != 0)
@@ -132,15 +142,12 @@ public class DoctorUserController extends Controller {
             return notFound("nurse does not found");
         }
 
-        if (nurse.getDoctor() != null && nurse.getDoctor().getId() == doctor.getId()) {
+        if (nurse.getDoctorList() != null && nurse.getDoctorList().contains(doctor)) {
             return badRequest("nurse is already assigned to you.");
         }
 
-        if (nurse.getDoctor() != null && nurse.getDoctor().getId() != doctor.getId()) {
-            return badRequest("nurse is already assigned to a doctor.");
-        }
 
-        nurse.setDoctor(doctor);
+        nurse.addDoctorList(doctor);
         nurse.save();
 
         return ok(doctor.getNurse(nurse));
