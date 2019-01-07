@@ -24,7 +24,7 @@ PUT         /nurse/:id               controllers.api.DoctorUserController.assign
 + patient
 GET         /patient/:id              controllers.api.PatientController.fetch(id: Long)
 + patient
-PUT        /access/doctor             controllers.api.PatientController.giveAccessToDoctor
+PUT        /access/doctor/:id         controllers.api.PatientController.giveAccessToDoctor(id: Long)
 + patient
 PUT        /access/relative           controllers.api.PatientController.giveAccessToRelative
 + patient

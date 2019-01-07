@@ -1,15 +1,12 @@
 package controllers.api;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import controllers.forms.GiveAccessDoctorForm;
 import controllers.forms.GiveAccessRelativeForm;
 import controllers.forms.RelativeForm;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
-import models.DoctorUser;
-import models.PatientUser;
-import models.Record;
-import models.RelativeUser;
+import models.*;
 import play.data.Form;
 import play.data.FormFactory;
 import play.libs.Json;
@@ -39,9 +36,18 @@ public class PatientController extends Controller {
         if (verifiedUser.getId().equals(id)) {
 
             ObjectNode patientNode = (ObjectNode) Json.toJson(verifiedUser);
-//            patientNode.set("records", verifiedUser.getRecords());
-//            patientNode.set("doctors", verifiedUser.getDoctors());
-//            patientNode.set("relatives", verifiedUser.getRelatives());
+            patientNode.set("selfDoctors", verifiedUser.getDoctors());
+            patientNode.set("records", verifiedUser.getRecords());
+            patientNode.set("relatives", verifiedUser.getRelatives());
+
+            ArrayNode array = Json.newArray();
+            for (DoctorUser doctor: DoctorUser.finder.all()) {
+                if (!verifiedUser.getDoctorList().contains(doctor)) {
+                    array.add(verifiedUser.getDoctor(doctor));
+                }
+            }
+            patientNode.set("doctors", array);
+
             return ok(patientNode);
 
         } else {
@@ -49,19 +55,11 @@ public class PatientController extends Controller {
         }
     }
 
-    public Result giveAccessToDoctor() {
+    public Result giveAccessToDoctor(Long id) {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 
-        Form<GiveAccessDoctorForm> form = formFactory.form(GiveAccessDoctorForm.class).bind(request().body().asJson());
-
-        if (form.hasErrors()) {
-            return badRequest(form.errorsAsJson());
-        }
-
-        GiveAccessDoctorForm body = form.get();
-
-        DoctorUser doctorUser = DoctorUser.finder.byId(body.doctorId);
+        DoctorUser doctorUser = DoctorUser.finder.byId(id);
 
         if (doctorUser == null) {
             return notFound("doctor is not found");
@@ -78,7 +76,7 @@ public class PatientController extends Controller {
         return ok();
     }
 
-    public Result giveAccessToRelative() {
+    public Result giveAccessToRelative(Long id) {
 
         PatientUser patientUser = request().attrs().get(Attrs.VERIFIED_PATIENT_USER);
 

@@ -62,16 +62,22 @@ create table patient_user_doctor_user (
   constraint pk_patient_user_doctor_user primary key (patient_user_id,doctor_user_id)
 );
 
+create table patient_user_relative_user (
+  patient_user_id               bigint not null,
+  relative_user_id              bigint not null,
+  constraint pk_patient_user_relative_user primary key (patient_user_id,relative_user_id)
+);
+
 create table record (
   id                            bigserial not null,
   diagnostic                    varchar(256) not null,
+  doctor_user_id                bigint,
   patient_user_id               bigint,
   constraint pk_record primary key (id)
 );
 
 create table relative_user (
   id                            bigserial not null,
-  patient_user_id               bigint not null,
   token                         varchar(2048),
   username                      varchar(255),
   password                      varchar(255),
@@ -102,11 +108,17 @@ create index ix_patient_user_doctor_user_patient_user on patient_user_doctor_use
 alter table patient_user_doctor_user add constraint fk_patient_user_doctor_user_doctor_user foreign key (doctor_user_id) references doctor_user (id) on delete restrict on update restrict;
 create index ix_patient_user_doctor_user_doctor_user on patient_user_doctor_user (doctor_user_id);
 
+alter table patient_user_relative_user add constraint fk_patient_user_relative_user_patient_user foreign key (patient_user_id) references patient_user (id) on delete restrict on update restrict;
+create index ix_patient_user_relative_user_patient_user on patient_user_relative_user (patient_user_id);
+
+alter table patient_user_relative_user add constraint fk_patient_user_relative_user_relative_user foreign key (relative_user_id) references relative_user (id) on delete restrict on update restrict;
+create index ix_patient_user_relative_user_relative_user on patient_user_relative_user (relative_user_id);
+
+alter table record add constraint fk_record_doctor_user_id foreign key (doctor_user_id) references doctor_user (id) on delete restrict on update restrict;
+create index ix_record_doctor_user_id on record (doctor_user_id);
+
 alter table record add constraint fk_record_patient_user_id foreign key (patient_user_id) references patient_user (id) on delete restrict on update restrict;
 create index ix_record_patient_user_id on record (patient_user_id);
-
-alter table relative_user add constraint fk_relative_user_patient_user_id foreign key (patient_user_id) references patient_user (id) on delete restrict on update restrict;
-create index ix_relative_user_patient_user_id on relative_user (patient_user_id);
 
 alter table relative_user_record add constraint fk_relative_user_record_relative_user foreign key (relative_user_id) references relative_user (id) on delete restrict on update restrict;
 create index ix_relative_user_record_relative_user on relative_user_record (relative_user_id);
@@ -132,11 +144,17 @@ drop index if exists ix_patient_user_doctor_user_patient_user;
 alter table if exists patient_user_doctor_user drop constraint if exists fk_patient_user_doctor_user_doctor_user;
 drop index if exists ix_patient_user_doctor_user_doctor_user;
 
+alter table if exists patient_user_relative_user drop constraint if exists fk_patient_user_relative_user_patient_user;
+drop index if exists ix_patient_user_relative_user_patient_user;
+
+alter table if exists patient_user_relative_user drop constraint if exists fk_patient_user_relative_user_relative_user;
+drop index if exists ix_patient_user_relative_user_relative_user;
+
+alter table if exists record drop constraint if exists fk_record_doctor_user_id;
+drop index if exists ix_record_doctor_user_id;
+
 alter table if exists record drop constraint if exists fk_record_patient_user_id;
 drop index if exists ix_record_patient_user_id;
-
-alter table if exists relative_user drop constraint if exists fk_relative_user_patient_user_id;
-drop index if exists ix_relative_user_patient_user_id;
 
 alter table if exists relative_user_record drop constraint if exists fk_relative_user_record_relative_user;
 drop index if exists ix_relative_user_record_relative_user;
@@ -155,6 +173,8 @@ drop table if exists nurse_user cascade;
 drop table if exists patient_user cascade;
 
 drop table if exists patient_user_doctor_user cascade;
+
+drop table if exists patient_user_relative_user cascade;
 
 drop table if exists record cascade;
 

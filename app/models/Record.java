@@ -16,6 +16,7 @@ public class Record extends Model {
     @Size(max = 256)
     private String diagnostic;
 
+    @ManyToOne(cascade = CascadeType.ALL)
     private DoctorUser doctorUser;
 
     @ManyToOne(cascade = CascadeType.ALL)
