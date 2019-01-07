@@ -1,8 +1,12 @@
 import com.google.inject.AbstractModule;
 import generator.user.DoctorGenerator;
 import generator.user.DoctorGeneratorImpl;
+import generator.user.NurseGenerator;
+import generator.user.NurseGeneratorImpl;
 import generator.user.PatientGenerator;
 import generator.user.PatientGeneratorImpl;
+import generator.user.RelativeGenerator;
+import generator.user.RelativeGeneratorImpl;
 import handlers.DatabaseHandler;
 import jwt.JwtHelper;
 import jwt.JwtHelperImpl;
@@ -39,6 +43,8 @@ public class Module extends AbstractModule {
 		bind(JwtHelper.class).to(JwtHelperImpl.class);
 		bind(PatientGenerator.class).to(PatientGeneratorImpl.class);
 		bind(DoctorGenerator.class).to(DoctorGeneratorImpl.class);
+		bind(NurseGenerator.class).to(NurseGeneratorImpl.class);
+		bind(RelativeGenerator.class).to(RelativeGeneratorImpl.class);
 		bind(JwtHelper.class).to(JwtHelperImpl.class);
 		bind(DatabaseHandler.class).asEagerSingleton();
 
