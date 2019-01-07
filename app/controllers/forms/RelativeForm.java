@@ -4,7 +4,6 @@ import play.data.validation.Constraints;
 
 public class RelativeForm {
 
-
     @Constraints.Required
     public String name;
 

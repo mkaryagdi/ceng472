@@ -1,8 +1,9 @@
 package controllers.api;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
-import controllers.forms.PatientForm;
+import controllers.forms.DiagnosticForm;
 import controllers.forms.RecordForm;
 import generator.user.PatientGenerator;
 import jwt.JwtHelper;
@@ -33,6 +34,15 @@ public class DoctorUserController extends Controller {
         this.patientGenerator = patientGenerator;
     }
 
+    private ArrayNode getNurses() {
+        ArrayNode array = Json.newArray();
+        for (NurseUser nurse: NurseUser.finder.all()) {
+            array.add(Json.toJson(nurse));
+        }
+
+        return array;
+    }
+
     public Result fetch(Long id) {
 
         DoctorUser verifiedUser = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
@@ -41,6 +51,7 @@ public class DoctorUserController extends Controller {
 
             ObjectNode doctorNode = (ObjectNode) Json.toJson(verifiedUser);
             doctorNode.set("patients", verifiedUser.getPatients());
+            doctorNode.set("nurses", getNurses());
             return ok(doctorNode);
 
         } else {
@@ -85,28 +96,28 @@ public class DoctorUserController extends Controller {
 
     public Result addRecord(Long id) {
 
-        PatientUser patient = PatientUser.finder.byId(id);
-
         DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
+
+        PatientUser patient = PatientUser.finder.byId(id);
 
         if (!patient.getDoctorList().contains(doctor)) {
             return badRequest("You are not allowed!");
         }
 
-        Form<RecordForm> form = formFactory.form(RecordForm.class).bind(request().body().asJson());
+        Form<DiagnosticForm> form = formFactory.form(DiagnosticForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
             return badRequest("form has errors.");
         }
 
-        RecordForm body = form.get();
+        DiagnosticForm body = form.get();
 
         if (patient == null) {
             return notFound("patient does not found");
         }
 
         Record record = new Record(body.diagnostic, patient, doctor);
-        doctor.save();
+        record.save();
 
         return ok(Json.toJson(record));
     }

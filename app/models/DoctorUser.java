@@ -34,7 +34,7 @@ public class DoctorUser extends Model {
 
     private String gender;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<PatientUser> patientList;
 
     public static final Finder<Long, DoctorUser> finder = new Finder<>(DoctorUser.class);

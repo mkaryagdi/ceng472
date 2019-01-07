@@ -1,18 +1,10 @@
 package models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.ebean.Finder;
 import io.ebean.Model;
-import play.libs.Json;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +32,7 @@ public class PatientUser extends Model {
 
     private String gender;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<DoctorUser> doctorList;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -60,7 +52,8 @@ public class PatientUser extends Model {
         this.birthYear = birthYear;
         this.address = address;
         this.gender = gender;
-        this.doctorList = Arrays.asList(doctor);
+        this.doctorList = new ArrayList<>();
+        this.doctorList.add(doctor);
         this.relativeList = new ArrayList<>();
         this.recordList = new ArrayList<>();
     }
