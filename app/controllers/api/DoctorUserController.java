@@ -76,7 +76,7 @@ public class DoctorUserController extends Controller {
         return created(Json.toJson(patient));
     }
 
-    public Result createRecord(Long id) {
+    public Result createRecord() {
 
         DoctorUser doctor = request().attrs().get(Attrs.VERIFIED_DOCTOR_USER);
 
@@ -86,21 +86,18 @@ public class DoctorUserController extends Controller {
             return badRequest("form has errors.");
         }
 
-        PatientUser patient = PatientUser.finder.byId(id);
-
-        if (patient == null) {
-            return notFound("patient cant be found");
-        }
-
-        if (!doctor.getPatientList().contains(patient)) {
-            return badRequest("you are not allowed.");
-        }
 
         RecordForm body = form.get();
+        PatientUser patient;
+        try {
+            patient = patientGenerator.generate(body.name.substring(0, 1) + body.surname, new Random(10).toString(), body.name, body.surname, body.birthYear, body.address, body.gender, doctor);
+        } catch (Exception e) {
+            return badRequest("patient generation failed");
+        }
 
         Record record = new Record(body.diagnostic, patient, doctor);
         patient.addRecord(record);
-        patient.save();
+        doctor.save();
 
         return ok(Json.toJson(record));
     }

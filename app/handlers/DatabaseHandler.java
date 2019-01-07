@@ -6,6 +6,8 @@ import jwt.JwtHelper;
 import models.DoctorUser;
 import models.NurseUser;
 import models.PatientUser;
+import models.Record;
+import models.RelativeUser;
 import play.Logger;
 
 import javax.inject.Singleton;
@@ -16,14 +18,18 @@ public class DatabaseHandler {
     private DoctorGenerator doctorGenerator;
     private PatientGenerator patientGenerator;
     private NurseGenerator nurseGenerator;
+    private RelativeGeneratorImpl relativeGenerator;
     private JwtHelper jwtHelper;
 
     @Inject
     public DatabaseHandler(DoctorGeneratorImpl doctorGenerator, PatientGeneratorImpl patientGenerator,
-                           NurseGeneratorImpl nurseGenerator, JwtHelper jwtHelper) {
+                           NurseGeneratorImpl nurseGenerator, RelativeGeneratorImpl relativeGenerator,
+                           JwtHelper jwtHelper) {
         this.doctorGenerator = doctorGenerator;
         this.patientGenerator = patientGenerator;
         this.nurseGenerator = nurseGenerator;
+        this.relativeGenerator = relativeGenerator;
+        this.relativeGenerator = relativeGenerator;
         this.jwtHelper = jwtHelper;
         start();
     }
@@ -51,6 +57,7 @@ public class DatabaseHandler {
                 DoctorUser doctor3 = doctorGenerator.generate("CCandir", "Candir",
                         "Can", "Candir", "Dermatology", 1990, "male");
 
+
                 PatientUser patient1 = patientGenerator.generate("BBakar", "Bakar",
                         "Batuhan", "Bakar", 1996, "Edirne", "male",
                         doctor1);
@@ -62,6 +69,31 @@ public class DatabaseHandler {
                 PatientUser patient3 = patientGenerator.generate("BGulbas", "Gulbas",
                         "Baran", "Gulbas", 2000, "Ankara", "male",
                         doctor3);
+
+                Record record1 = new Record("diagnostic", patient1, doctor1);
+                Record record2 = new Record("diagnostic", patient2, doctor2);
+                Record record3 = new Record("diagnostic", patient3, doctor3);
+
+                RelativeUser relative1 = relativeGenerator.generate("relative1", "relative1",
+                        "relative1", "relative1", 05330009876.0, patient1, doctor1);
+                patient1.addRelative(relative1);
+
+                RelativeUser relative2 = relativeGenerator.generate("relative2", "relative2",
+                        "relative2", "relative2", 05330009876.0, patient2, doctor2);
+                patient2.addRelative(relative2);
+
+                RelativeUser relative3 = relativeGenerator.generate("relative3", "relative3",
+                        "relative3", "relative3", 05330009876.0, patient3, doctor3);
+                patient3.addRelative(relative3);
+                relative1.addRecords(record1);
+                relative1.addRecords(record2);
+                relative1.addRecords(record3);
+
+                doctor1.save();
+                doctor2.save();
+                doctor3.save();
+
+
             } catch (Exception e) {
                 Logger.error("error", e);
             }
@@ -96,7 +128,6 @@ public class DatabaseHandler {
             Logger.info("Test nurses are inserted.");
         }
     }
-
 
 
 //    private void checkAdmin() {

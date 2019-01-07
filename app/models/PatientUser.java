@@ -43,7 +43,7 @@ public class PatientUser extends Model {
     @ManyToOne(cascade = CascadeType.ALL)
     private List<DoctorUser> doctorList;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<RelativeUser> relativeList;
 
     @OneToMany(cascade = CascadeType.ALL)

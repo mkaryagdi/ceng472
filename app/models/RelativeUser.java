@@ -10,6 +10,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,27 +31,24 @@ public class RelativeUser extends Model {
 
     private String surname;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private PatientUser patient;
-
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Record> patientsRecords;
 
-    private Long phoneNumber;
+    private Double phoneNumber;
 
     public static final Finder<Long, RelativeUser> finder = new Finder<>(RelativeUser.class);
 
-    public RelativeUser (String token, String username, String password, String name, String surname, PatientUser patient, Long phoneNumber){
+    public RelativeUser (String token, String username, String password, String name, String surname, Double phoneNumber){
         this.token = token;
         this.username = username;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.patientsRecords = new ArrayList<>();
-        setPatient(patient);
         setPhoneNumber(phoneNumber);
     }
 
-    public Long getPhoneNumber() {
+    public Double getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -83,18 +81,12 @@ public class RelativeUser extends Model {
         this.patientsRecords = patientsRecords;
         return this;
     }
-
-    @JsonIgnore
-
-    public PatientUser getPatient() {
-        return patient;
+    public RelativeUser addRecords(Record record) {
+        this.patientsRecords.add(record);
+        return this;
     }
 
-    public void setPatient(PatientUser patient) {
-        this.patient = patient;
-    }
-
-    public void setPhoneNumber(Long phoneNumber) {
+    public void setPhoneNumber(Double phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

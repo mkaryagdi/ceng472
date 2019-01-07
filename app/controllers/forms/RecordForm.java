@@ -6,6 +6,15 @@ public class RecordForm {
 
     public String diagnostic;
 
-    public PatientUser patientUser;
+    public String name;
+
+    public String surname;
+
+    public Integer birthYear;
+
+    public String address;
+
+    public String gender;
+
 
 }

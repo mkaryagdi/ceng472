@@ -16,6 +16,7 @@ public class RelativeController extends Controller {
             return ok(Json.toJson(verifiedUser));
         } else {
             return badRequest("You are not allowed!");
+
         }
     }
 }

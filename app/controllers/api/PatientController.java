@@ -130,7 +130,7 @@ public class PatientController extends Controller {
 
         RelativeForm body = form.get();
         String password = generateRandomPassword();
-        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(1) + body.surname, password, body.name, body.surname, patientUser, body.phoneNumber);
+        RelativeUser relativeUser = new RelativeUser(null, body.name.substring(1) + body.surname, password, body.name, body.surname, body.phoneNumber);
 
         try {
             relativeUser.setToken(jwtHelper.getSignedToken(relativeUser.getId(), false, false, false, false, true));

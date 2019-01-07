@@ -11,5 +11,5 @@ public class RelativeForm {
     @Constraints.Required
     public String surname;
 
-    public Long phoneNumber;
+    public Double phoneNumber;
 }
