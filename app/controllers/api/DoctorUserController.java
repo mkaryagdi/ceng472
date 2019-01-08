@@ -100,6 +100,7 @@ public class DoctorUserController extends Controller {
         }
 
         Record record = new Record(body.diagnostic, patient, doctor);
+        record.save();
         doctor.save();
         ObjectNode result = (ObjectNode) Json.toJson(record);
         result.put("password", password);
