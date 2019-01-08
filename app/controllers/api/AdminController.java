@@ -1,13 +1,17 @@
 package controllers.api;
 
 import com.google.inject.Inject;
-import controllers.forms.*;
+import controllers.forms.DoctorForm;
+import controllers.forms.NurseForm;
+import controllers.forms.PatientForm;
+import controllers.forms.RelativeForm;
 import generator.user.DoctorGenerator;
 import generator.user.NurseGenerator;
-import generator.user.PatientGenerator;
-import generator.user.RelativeGenerator;
 import jwt.JwtHelper;
-import models.*;
+import models.DoctorUser;
+import models.NurseUser;
+import models.PatientUser;
+import models.RelativeUser;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -15,7 +19,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import javax.print.Doc;
 import java.nio.charset.Charset;
 import java.util.Random;
 

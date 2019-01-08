@@ -1,7 +1,8 @@
 package generator.user;
 
 import jwt.JwtHelper;
-import models.*;
+import models.Record;
+import models.RelativeUser;
 import play.Logger;
 
 import javax.inject.Inject;

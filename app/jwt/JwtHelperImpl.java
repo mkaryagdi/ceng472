@@ -2,9 +2,7 @@ package jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.typesafe.config.Config;
 
-import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;

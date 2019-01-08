@@ -6,7 +6,10 @@ import controllers.forms.RelativeForm;
 import generator.user.RelativeGenerator;
 import jwt.JwtHelper;
 import jwt.filter.Attrs;
-import models.*;
+import models.DoctorUser;
+import models.PatientUser;
+import models.Record;
+import models.RelativeUser;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -15,7 +18,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Random;
 

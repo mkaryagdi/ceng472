@@ -4,7 +4,6 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
