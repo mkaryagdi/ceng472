@@ -270,7 +270,7 @@ $( "#authNurse" ).click(function() {
 	$.ajax(authNurse).done(function (response) {
 		window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 });
 

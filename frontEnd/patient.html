@@ -103,7 +103,7 @@ tr:nth-child(even) {
   <div class="row">
 	<div class="col-md-4">
 		<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
-			<h2>Choose Doctor to Authorized</h2>
+			<h2>Choose Doctor to Authorize</h2>
 			<table id='doctor' style="width:400px; margin-left:20%; margin-bottom;30px; margin-top:30px;">
 					<tr >
 							<th>Id</th>
@@ -127,7 +127,7 @@ tr:nth-child(even) {
   
   <div class="col-md-4">
 		<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
-		  <h2>Choose Relative to Authorized</h2>
+		  <h2>Choose Relative to Authorize</h2>
 			<table id='relatives' style="width:400px; margin-left:20%; margin-bottom;30px; margin-top:30px;">
 					<tr >
 							<th>Id</th>
@@ -231,7 +231,7 @@ var id = queries[1];
 	$.ajax(authDoctor).done(function (response) {
 		window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 	});
 
@@ -249,7 +249,7 @@ var id = queries[1];
 		$.ajax(settings).done(function (response) {
 			console.log(response);
 		}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 	});
 
@@ -271,7 +271,7 @@ var id = queries[1];
 			alert("successfully \n username: " + response.username + "\n password: " + response.password)
 		  window.location.replace(window.location.href)
 		}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 	});
 

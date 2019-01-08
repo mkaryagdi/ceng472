@@ -234,7 +234,7 @@ var addRelative	 = {
 $.ajax(addRelative).done(function (response) {
 	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
 	}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 });
 
@@ -257,7 +257,7 @@ var addPatient = {
 $.ajax(addPatient).done(function (response) {
 	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
 	}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 });
 
@@ -281,7 +281,7 @@ var addNurse = {
 $.ajax(addNurse).done(function (response) {
 	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
 	}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
   	});
 });
 
@@ -305,7 +305,7 @@ $.ajax(addDoctor).done(function (response) {
 			alert("successfully \n username: " + response.username + "\n password: " + response.password)
 			
 	}).fail(function(error) {
-			alert("invalid Id")
+			alert(JSON.stringify(error.responseText))
 		});
 		
 	
