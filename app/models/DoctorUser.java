@@ -8,6 +8,9 @@ import io.ebean.Model;
 import play.libs.Json;
 
 import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +25,7 @@ public class DoctorUser extends Model {
 
     private String username;
 
-    private String password;
+    private byte[] password;
 
     private String name;
 
@@ -41,8 +44,15 @@ public class DoctorUser extends Model {
 
     public DoctorUser(String token, String username, String password, String name, String surname, String major, Integer birthYear, String gender) {
         this.token = token;
-        this.username = username;
-        this.password = password;
+        this.username = username;        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] encPassword = digest.digest(
+                password.getBytes(StandardCharsets.UTF_8));
+        this.password = encPassword;
         this.name = name;
         this.surname = surname;
         this.major = major;
@@ -67,11 +77,6 @@ public class DoctorUser extends Model {
 
     public DoctorUser setUsername(String username) {
         this.username = username;
-        return this;
-    }
-
-    public DoctorUser setPassword(String password) {
-        this.password = password;
         return this;
     }
 
@@ -132,7 +137,7 @@ public class DoctorUser extends Model {
         return username;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 

@@ -85,9 +85,10 @@ public class DoctorUserController extends Controller {
         RecordForm body = form.get();
         PatientUser patient;
         Logger.debug("creating patient...");
+        String password = AdminController.generateRandomPassword();
         try {
             patient = patientGenerator.generate(body.patient.name.substring(0, 1).toUpperCase() + body.patient.surname,
-                    new Random(10).toString(),
+                    password,
                     body.patient.name,
                     body.patient.surname,
                     body.patient.birthYear,
@@ -100,8 +101,10 @@ public class DoctorUserController extends Controller {
 
         Record record = new Record(body.diagnostic, patient, doctor);
         doctor.save();
+        ObjectNode result = (ObjectNode) Json.toJson(record);
+        result.put("userPassword", password);
 
-        return ok(Json.toJson(record));
+        return ok(result);
     }
 
     public Result addRecord(Long id) {

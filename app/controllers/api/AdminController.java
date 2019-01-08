@@ -1,5 +1,6 @@
 package controllers.api;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.inject.Inject;
 import controllers.forms.DoctorForm;
 import controllers.forms.NurseForm;
@@ -8,10 +9,7 @@ import controllers.forms.RelativeForm;
 import generator.user.DoctorGenerator;
 import generator.user.NurseGenerator;
 import jwt.JwtHelper;
-import models.DoctorUser;
-import models.NurseUser;
-import models.PatientUser;
-import models.RelativeUser;
+import models.*;
 import play.Logger;
 import play.data.Form;
 import play.data.FormFactory;
@@ -19,7 +17,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.nio.charset.Charset;
 import java.util.Random;
 
 public class AdminController extends Controller {
@@ -49,9 +46,11 @@ public class AdminController extends Controller {
         DoctorForm body = form.get();
         DoctorUser doctor;
         Logger.debug("creating doctor...");
+        String password = generateRandomPassword();
+        String username = body.name.substring(0, 1).toUpperCase() + body.surname;
         try {
-            doctor = doctorGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
-                    generateRandomPassword(),
+            doctor = doctorGenerator.generate(username,
+                    password,
                     body.name,
                     body.surname,
                     body.major,
@@ -61,7 +60,10 @@ public class AdminController extends Controller {
             return badRequest("doctor generation failed");
         }
 
-        return created(Json.toJson(doctor));
+        ObjectNode result = (ObjectNode) Json.toJson(doctor);
+        result.put("username", username);
+        result.put("password", password);
+        return created(result);
     }
 
     public Result createPatient() throws Exception {
@@ -158,10 +160,17 @@ public class AdminController extends Controller {
         return created(Json.toJson(relative));
     }
 
-    private String generateRandomPassword() {
-        byte[] array = new byte[7]; // length is bounded by 7
-        new Random().nextBytes(array);
-        return new String(array, Charset.forName("UTF-8"));
-    }
+    static public String generateRandomPassword() {
+            String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+
+            StringBuilder salt = new StringBuilder();
+            Random rnd = new Random();
+            while (salt.length() < 8) { // length of the random string.
+                int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+                salt.append(SALTCHARS.charAt(index));
+            }
+            String saltStr = salt.toString();
+            return saltStr;
+        }
 
 }

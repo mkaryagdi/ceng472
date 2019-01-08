@@ -4,6 +4,9 @@ import io.ebean.Finder;
 import io.ebean.Model;
 
 import javax.persistence.*;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +21,7 @@ public class RelativeUser extends Model {
 
     private String username;
 
-    private String password;
+    private byte[] password;
 
     private String name;
 
@@ -34,7 +37,15 @@ public class RelativeUser extends Model {
     public RelativeUser (String token, String username, String password, String name, String surname, Double phoneNumber){
         this.token = token;
         this.username = username;
-        this.password = password;
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] encPassword = digest.digest(
+                password.getBytes(StandardCharsets.UTF_8));
+        this.password = encPassword;
         this.name = name;
         this.surname = surname;
         this.patientsRecords = new ArrayList<>();
@@ -52,11 +63,6 @@ public class RelativeUser extends Model {
 
     public RelativeUser setUsername(String username) {
         this.username = username;
-        return this;
-    }
-
-    public RelativeUser setPassword(String password) {
-        this.password = password;
         return this;
     }
 
@@ -99,7 +105,7 @@ public class RelativeUser extends Model {
         return username;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 

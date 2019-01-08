@@ -6,6 +6,9 @@ import io.ebean.Model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Entity
 public class AdminUser extends Model {
@@ -18,14 +21,22 @@ public class AdminUser extends Model {
 
     private String username;
 
-    private String password;
+    private byte[] password;
 
     public static final Finder<Long, AdminUser> finder = new Finder<>(AdminUser.class);
 
     public AdminUser(String token, String username, String password) {
         this.token = token;
         this.username = username;
-        this.password = password;
+        MessageDigest digest = null;
+        try {
+            digest = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        byte[] encPassword = digest.digest(
+                password.getBytes(StandardCharsets.UTF_8));
+        this.password = encPassword;
     }
 
     public Long getId() {
@@ -40,7 +51,7 @@ public class AdminUser extends Model {
         return username;
     }
 
-    public String getPassword() {
+    public byte[] getPassword() {
         return password;
     }
 
@@ -52,11 +63,6 @@ public class AdminUser extends Model {
 
     public AdminUser setUsername(String username) {
         this.username = username;
-        return this;
-    }
-
-    public AdminUser setPassword(String password) {
-        this.password = password;
         return this;
     }
 }

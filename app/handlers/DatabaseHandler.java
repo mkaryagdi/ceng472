@@ -1,6 +1,7 @@
 package handlers;
 
 import com.google.inject.Inject;
+import controllers.api.AdminController;
 import generator.user.*;
 import jwt.JwtHelper;
 import models.*;
@@ -45,25 +46,25 @@ public class DatabaseHandler {
             Logger.info("Test doctors and patients are missing. Inserting default values...");
 
             try {
-                DoctorUser doctor1 = doctorGenerator.generate("DoktorElif", "Duran",
+                DoctorUser doctor1 = doctorGenerator.generate("DoktorElif",  "Elif",
                         "Elif", "Duran", "Anesthesia", 1997, "female");
 
-                DoctorUser doctor2 = doctorGenerator.generate("DoktorMurat", "Karyagdi",
+                DoctorUser doctor2 = doctorGenerator.generate("DoktorMurat",  "Murat",
                         "Murat", "Karyagdi", "Internal Diseases", 1969, "male");
 
-                DoctorUser doctor3 = doctorGenerator.generate("CCandir", "Candir",
+                DoctorUser doctor3 = doctorGenerator.generate("CCandir",  "Candir",
                         "Can", "Candir", "Dermatology", 1990, "male");
 
 
-                PatientUser patient1 = patientGenerator.generate("BBakar", "Bakar",
+                PatientUser patient1 = patientGenerator.generate("BBakar", AdminController.generateRandomPassword(),
                         "Batuhan", "Bakar", 1996, "Edirne", "male",
                         doctor1);
 
-                PatientUser patient2 = patientGenerator.generate("EBolukbasi", "Bolukbasi",
+                PatientUser patient2 = patientGenerator.generate("EBolukbasi",  AdminController.generateRandomPassword(),
                         "Elif", "Bolukbasi", 1994, "Bandirma", "female",
                         doctor2);
 
-                PatientUser patient3 = patientGenerator.generate("BGulbas", "Gulbas",
+                PatientUser patient3 = patientGenerator.generate("BGulbas",  AdminController.generateRandomPassword(),
                         "Baran", "Gulbas", 2000, "Ankara", "male",
                         doctor3);
 
@@ -71,13 +72,13 @@ public class DatabaseHandler {
                 Record record2 = new Record("diagnostic", patient2, doctor2);
                 Record record3 = new Record("diagnostic", patient3, doctor3);
 
-                RelativeUser relative1 = relativeGenerator.generate("r1", "r1",
+                RelativeUser relative1 = relativeGenerator.generate("r1",  AdminController.generateRandomPassword(),
                         "Arda", "Ermis", 45356.0, record1);
 
-                RelativeUser relative2 = relativeGenerator.generate("r2", "r2",
+                RelativeUser relative2 = relativeGenerator.generate("r2",  AdminController.generateRandomPassword(),
                         "Caglar", "Yilmaz", 34567.9, record2);
 
-                RelativeUser relative3 = relativeGenerator.generate("r3", "r3",
+                RelativeUser relative3 = relativeGenerator.generate("r3",  AdminController.generateRandomPassword(),
                         "Damla", "Karadag", 45678.0, record3);
 
                 relative1.save();
