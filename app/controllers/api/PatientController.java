@@ -18,8 +18,6 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import javax.inject.Inject;
-import java.nio.charset.Charset;
-import java.util.Random;
 
 public class PatientController extends Controller {
 
@@ -88,15 +86,15 @@ public class PatientController extends Controller {
         RelativeUser relativeUser = RelativeUser.finder.byId(relativeId);
 
         if (relativeUser == null) {
-            return notFound("relative is not found");
+            return notFound("Relative is not found!");
         }
 
         if (!patientUser.getRelativeList().contains(relativeUser)) {
-            return badRequest("relative is not yours");
+            return badRequest("Relative is not yours!");
         }
 
         if (recordId == null) {
-            return badRequest("record id is null");
+            return badRequest("Record id is null.");
         }
 
         Record record = null;
@@ -108,11 +106,11 @@ public class PatientController extends Controller {
         }
 
         if (record == null) {
-            return badRequest("user does not have such a record");
+            return badRequest("Patient does not have such a record.");
         }
 
         if (relativeUser.getPatientsRecords().contains(record)) {
-            return badRequest("relative is already authorized for this record");
+            return badRequest("Relative is already authorized for this record.");
         }
 
         relativeUser.getPatientsRecords().add(record);
@@ -144,7 +142,7 @@ public class PatientController extends Controller {
                     body.phoneNumber,
                     null);
         } catch (Exception e) {
-            return badRequest("relative generation failed");
+            return badRequest("Relative generation failed.");
         }
 
         patientUser.addRelative(relative);

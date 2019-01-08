@@ -54,6 +54,7 @@ public class UserController extends Controller {
 
             return ok(response);
         }
+
         PatientUser patient = PatientUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
         if (patient != null && Arrays.equals(patient.getPassword(),(getEncPassword(userSignInForm.password)))) {
@@ -64,6 +65,7 @@ public class UserController extends Controller {
 
             return ok(response);
         }
+
         NurseUser nurse = NurseUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
         if (nurse != null && Arrays.equals(nurse.getPassword(),getEncPassword(userSignInForm.password))) {
@@ -74,6 +76,7 @@ public class UserController extends Controller {
 
             return ok(response);
         }
+
         RelativeUser relative = RelativeUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
         if (relative != null && Arrays.equals(relative.getPassword(),getEncPassword(userSignInForm.password))) {
@@ -84,6 +87,7 @@ public class UserController extends Controller {
 
             return ok(response);
         }
+
         AdminUser admin = AdminUser.finder.query().where().eq("username", userSignInForm.username).findOne();
         byte[] password = getEncPassword(userSignInForm.password);
         if (admin != null && Arrays.equals(admin.getPassword(),password)) {
@@ -96,7 +100,7 @@ public class UserController extends Controller {
             return ok(response);
         }
 
-        return notFound("user name not found");
+        return notFound("Account does not found!");
     }
     private byte[] getEncPassword(String password) {
         MessageDigest digest = null;
