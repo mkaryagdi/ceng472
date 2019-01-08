@@ -135,8 +135,9 @@ public class PatientController extends Controller {
         RelativeUser relative;
         Logger.debug("creating relative...");
         String password = AdminController.generateRandomPassword();
+        String username = body.name.substring(0, 1).toUpperCase() + body.surname;
         try {
-            relative = relativeGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
+            relative = relativeGenerator.generate(username,
                     password,
                     body.name,
                     body.surname,
@@ -150,7 +151,8 @@ public class PatientController extends Controller {
         patientUser.save();
 
         ObjectNode result = (ObjectNode) Json.toJson(relative);
-        result.put("relativePassword", password);
+        result.put("password", password);
+        result.put("username", username);
         return created(result);
     }
 }

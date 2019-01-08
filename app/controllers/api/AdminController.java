@@ -114,9 +114,11 @@ public class AdminController extends Controller {
         NurseForm body = form.get();
         NurseUser nurse;
         Logger.debug("creating nurse...");
+        String username = body.name.substring(0, 1).toUpperCase() + body.surname;
+        String password = generateRandomPassword();
         try {
-            nurse = nurseGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
-                    generateRandomPassword(),
+            nurse = nurseGenerator.generate(username,
+                    password,
                     body.name,
                     body.surname,
                     body.major,
@@ -126,7 +128,10 @@ public class AdminController extends Controller {
             return badRequest("nurse generation failed");
         }
 
-        return created(Json.toJson(nurse));
+        ObjectNode result = (ObjectNode) Json.toJson(nurse);
+        result.put("username", username);
+        result.put("password", password);
+        return created(result);
     }
 
     public Result createRelative() throws Exception {
@@ -139,10 +144,12 @@ public class AdminController extends Controller {
 
         RelativeForm body = form.get();
         Logger.debug("Generating relative user.");
+        String username = body.name.substring(0, 1).toUpperCase() + body.surname;
+        String password = generateRandomPassword();
         RelativeUser relative = new RelativeUser(
                 null,
-                body.name.substring(0, 1).toUpperCase() + body.surname,
-                generateRandomPassword(),
+                username,
+                password,
                 body.name,
                 body.surname,
                 body.phoneNumber);
@@ -157,6 +164,9 @@ public class AdminController extends Controller {
             throw e;
         }
 
+        ObjectNode result = (ObjectNode) Json.toJson(relative);
+        result.put("username", username);
+        result.put("password", password);
         return created(Json.toJson(relative));
     }
 

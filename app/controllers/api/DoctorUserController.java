@@ -19,7 +19,6 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
-import java.util.Random;
 
 public class DoctorUserController extends Controller {
 
@@ -85,9 +84,10 @@ public class DoctorUserController extends Controller {
         RecordForm body = form.get();
         PatientUser patient;
         Logger.debug("creating patient...");
+        String username = body.patient.name.substring(0, 1).toUpperCase() + body.patient.surname;
         String password = AdminController.generateRandomPassword();
         try {
-            patient = patientGenerator.generate(body.patient.name.substring(0, 1).toUpperCase() + body.patient.surname,
+            patient = patientGenerator.generate(username,
                     password,
                     body.patient.name,
                     body.patient.surname,
@@ -102,7 +102,8 @@ public class DoctorUserController extends Controller {
         Record record = new Record(body.diagnostic, patient, doctor);
         doctor.save();
         ObjectNode result = (ObjectNode) Json.toJson(record);
-        result.put("userPassword", password);
+        result.put("password", password);
+        result.put("username", username);
 
         return ok(result);
     }
