@@ -28,7 +28,7 @@ public class JwtFilter extends Filter {
     private static final String NURSE_USER_FILTER_TAG = "nurse";
     private static final String PATIENT_USER_FILTER_TAG = "patient";
     private static final String RELATIVE_USER_FILTER_TAG = "relative";
-    private static final String ADMIN_FILTER_TAG = "adminFilter";
+    private static final String ADMIN_FILTER_TAG = "admin";
     private static final String UNAUTHORIZED = "UNAUTHORIZED";
     private static final String ERR_TOKEN_MISMATCH = "ERR_TOKEN_MISMATCH";
     private static final String ERR_DOCTOR_NOT_FOUND = "ERR_DOCTOR_NOT_FOUND";

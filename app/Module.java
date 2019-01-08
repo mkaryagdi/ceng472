@@ -1,12 +1,5 @@
 import com.google.inject.AbstractModule;
-import generator.user.DoctorGenerator;
-import generator.user.DoctorGeneratorImpl;
-import generator.user.NurseGenerator;
-import generator.user.NurseGeneratorImpl;
-import generator.user.PatientGenerator;
-import generator.user.PatientGeneratorImpl;
-import generator.user.RelativeGenerator;
-import generator.user.RelativeGeneratorImpl;
+import generator.user.*;
 import handlers.DatabaseHandler;
 import jwt.JwtHelper;
 import jwt.JwtHelperImpl;

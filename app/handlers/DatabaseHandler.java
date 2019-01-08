@@ -3,14 +3,11 @@ package handlers;
 import com.google.inject.Inject;
 import generator.user.*;
 import jwt.JwtHelper;
-import models.DoctorUser;
-import models.NurseUser;
-import models.PatientUser;
-import models.Record;
-import models.RelativeUser;
+import models.*;
 import play.Logger;
 
 import javax.inject.Singleton;
+import java.io.UnsupportedEncodingException;
 
 @Singleton
 public class DatabaseHandler {
@@ -36,13 +33,13 @@ public class DatabaseHandler {
 
     public void start() {
         Logger.info("DB handler is started...");
-        checkDoctorsandPatients();
+        checkDoctorsandPatientsandRelativesandRecords();
         checkNurses();
-        //checkAdmin();
+        checkAdmin();
         Logger.info("DB handler successfully completed!");
     }
 
-    private void checkDoctorsandPatients() {
+    private void checkDoctorsandPatientsandRelativesandRecords() {
 
         if (DoctorUser.finder.all().isEmpty() && PatientUser.finder.all().isEmpty()) {
             Logger.info("Test doctors and patients are missing. Inserting default values...");
@@ -130,29 +127,24 @@ public class DatabaseHandler {
         }
     }
 
+    private void checkAdmin() {
 
-//    private void checkAdmin() {
-//
-//        if(Admin.finder.all().isEmpty()) {
-//            Logger.info("Admin accounts are missing. Inserting default values...");
-//
-//            HashMap<String, String> accountMap = (HashMap<String, String>) config.getAnyRef("adminAccounts");
-//
-//            accountMap.forEach((key, value) -> {
-//                Admin admin = new Admin(key + "@uncosoft.com", BCrypt.hashpw(value, BCrypt.gensalt()));
-//                admin.save();
-//
-//                try {
-//                    admin.setToken(jwtHelper.getSignedToken(admin.getId(), true, false));
-//                    admin.save();
-//                } catch (UnsupportedEncodingException e) {
-//                    Logger.error("create admin error", e);
-//                }
-//            });
-//
-//            Logger.info("Admin accounts inserted.");
-//        }
-//
-//    }
-//
+        if(AdminUser.finder.all().isEmpty()) {
+            Logger.info("Admin accounts are missing. Inserting default values...");
+
+           AdminUser admin = new AdminUser(null, "powerpuffgirls", "make me secure");
+           admin.save();
+
+            try {
+                admin.setToken(jwtHelper.getSignedToken(admin.getId(), true, false, false, false, false));
+                admin.save();
+            } catch (UnsupportedEncodingException e) {
+                Logger.error("create admin error", e);
+            }
+
+            Logger.info("Admin account is inserted.");
+        }
+
+    }
+
 }

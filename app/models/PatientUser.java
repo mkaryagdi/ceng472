@@ -56,7 +56,8 @@ public class PatientUser extends Model {
         this.address = address;
         this.gender = gender;
         this.doctorList = new ArrayList<>();
-        this.doctorList.add(doctor);
+        if (doctor != null)
+            this.doctorList.add(doctor);
         this.relativeList = new ArrayList<>();
         this.recordList = new ArrayList<>();
     }
