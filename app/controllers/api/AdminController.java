@@ -1,10 +1,8 @@
 package controllers.api;
 
 import com.google.inject.Inject;
-import controllers.forms.NurseForm;
-import controllers.forms.PatientForm;
-import controllers.forms.RecordForm;
-import controllers.forms.RelativeForm;
+import controllers.forms.*;
+import generator.user.DoctorGenerator;
 import generator.user.NurseGenerator;
 import generator.user.PatientGenerator;
 import generator.user.RelativeGenerator;
@@ -17,6 +15,7 @@ import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 
+import javax.print.Doc;
 import java.nio.charset.Charset;
 import java.util.Random;
 
@@ -24,26 +23,45 @@ public class AdminController extends Controller {
 
     private FormFactory formFactory;
     private JwtHelper jwtHelper;
-    private PatientGenerator patientGenerator;
-    private RelativeGenerator relativeGenerator;
+    private DoctorGenerator doctorGenerator;
     private NurseGenerator nurseGenerator;
 
     @Inject
     public AdminController(FormFactory formFactory, JwtHelper jwtHelper,
-                           PatientGenerator patientGenerator, RelativeGenerator relativeGenerator,
-                           NurseGenerator nurseGenerator) {
+                           DoctorGenerator doctorGenerator, NurseGenerator nurseGenerator) {
         this.formFactory = formFactory;
         this.jwtHelper = jwtHelper;
-        this.patientGenerator = patientGenerator;
-        this.relativeGenerator = relativeGenerator;
+        this.doctorGenerator = doctorGenerator;
         this.nurseGenerator = nurseGenerator;
     }
 
     public Result createDoctor() {
-        return null;
+
+        Form<DoctorForm> form = formFactory.form(DoctorForm.class).bind(request().body().asJson());
+
+        if (form.hasErrors()) {
+            return badRequest(form.errorsAsJson());
+        }
+
+        DoctorForm body = form.get();
+        DoctorUser doctor;
+        Logger.debug("creating doctor...");
+        try {
+            doctor = doctorGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
+                    generateRandomPassword(),
+                    body.name,
+                    body.surname,
+                    body.major,
+                    body.birthYear,
+                    body.gender);
+        } catch (Exception e) {
+            return badRequest("doctor generation failed");
+        }
+
+        return created(Json.toJson(doctor));
     }
 
-    public Result createPatient() {
+    public Result createPatient() throws Exception {
 
         Form<PatientForm> form = formFactory.form(PatientForm.class).bind(request().body().asJson());
 
@@ -55,22 +73,27 @@ public class AdminController extends Controller {
 //            return badRequest("username already exists."); //TODO
 
         PatientForm body = form.get();
-        PatientUser patient;
-        Logger.debug("creating patient...");
-        try {
-            patient = patientGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
-                    generateRandomPassword(),
-                    body.name,
-                    body.surname,
-                    body.birthYear,
-                    body.address,
-                    body.gender,
-                    null);
-        } catch (Exception e) {
-            return badRequest("patient generation failed");
-        }
-
+        Logger.debug("Generating patient user.");
+        PatientUser patient = new PatientUser(
+                null,
+                body.name.substring(0, 1).toUpperCase() + body.surname,
+                generateRandomPassword(),
+                body.name,
+                body.surname,
+                body.birthYear,
+                body.address,
+                body.gender,
+                null);
+        // since we need userId to generate token, first we should save bean.
         patient.save();
+
+        try {
+            patient.setToken(jwtHelper.getSignedToken(patient.getId(), false, false, false, true, false));
+            patient.save();
+        } catch (Exception e) {
+            patient.delete();
+            throw e;
+        }
 
         return ok(Json.toJson(patient));
     }
@@ -101,7 +124,7 @@ public class AdminController extends Controller {
         return created(Json.toJson(nurse));
     }
 
-    public Result createRelative() {
+    public Result createRelative() throws Exception {
 
         Form<RelativeForm> form = formFactory.form(RelativeForm.class).bind(request().body().asJson());
 
@@ -110,17 +133,23 @@ public class AdminController extends Controller {
         }
 
         RelativeForm body = form.get();
-        RelativeUser relative;
-        Logger.debug("creating relative...");
+        Logger.debug("Generating relative user.");
+        RelativeUser relative = new RelativeUser(
+                null,
+                body.name.substring(0, 1).toUpperCase() + body.surname,
+                generateRandomPassword(),
+                body.name,
+                body.surname,
+                body.phoneNumber);
+        // since we need userId to generate token, first we should save bean.
+        relative.save();
+
         try {
-            relative = relativeGenerator.generate(body.name.substring(0, 1).toUpperCase() + body.surname,
-                    generateRandomPassword(),
-                    body.name,
-                    body.surname,
-                    body.phoneNumber,
-                    null);
+            relative.setToken(jwtHelper.getSignedToken(relative.getId(), false, false, false, false, true));
+            relative.save();
         } catch (Exception e) {
-            return badRequest("relative generation failed");
+            relative.delete();
+            throw e;
         }
 
         return created(Json.toJson(relative));

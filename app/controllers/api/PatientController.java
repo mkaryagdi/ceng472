@@ -109,6 +109,10 @@ public class PatientController extends Controller {
             return badRequest("user does not have such a record");
         }
 
+        if (relativeUser.getPatientsRecords().contains(record)) {
+            return badRequest("relative is already authorized for this record");
+        }
+
         relativeUser.getPatientsRecords().add(record);
         relativeUser.save();
 
