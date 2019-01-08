@@ -39,7 +39,7 @@ $( "#sign" ).click(function() {
 			  document.write("incorrect");
 		  }
 		}).fail(function(error) {
-			alert("Invalid Username Or Pasword")
+			alert("Invalid Username Or Password")
   	});
 		  
   

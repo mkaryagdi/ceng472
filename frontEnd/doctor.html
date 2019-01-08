@@ -229,7 +229,7 @@ $.ajax(record).done(function (response) {
 	  alert("successfully \n username: " + response.username + "\n password: " + response.password)
 		window.location.replace(window.location.href)
 }).fail(function(error) {
-			alert("invalid input")
+    alert(JSON.stringify(error.responseText))
   	});
 	});
 
@@ -251,7 +251,7 @@ $( "#add-record" ).click(function() {
 	$.ajax(settings).done(function (response) {
 		window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert("invalid input")
+        alert(JSON.stringify(error.responseText))
   	});
 });
 
