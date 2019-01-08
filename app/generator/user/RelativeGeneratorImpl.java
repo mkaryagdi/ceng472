@@ -29,12 +29,13 @@ public class RelativeGeneratorImpl implements RelativeGenerator {
                 surname,
                 phoneNumber);
         // since we need userId to generate token, first we should save bean.
-        record.getPatientUser().addRelative(user);
-        record.save();
+//        record.getPatientUser().addRelative(user);
+//        record.save();
+        user.save();
 
         try {
             user.setToken(jwtHelper.getSignedToken(user.getId(), false, false, false, false, true));
-            record.getPatientUser().save();
+            user.save();
         } catch (Exception e) {
             user.delete();
             throw e;
