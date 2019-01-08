@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="doctor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="hospital.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.anasayfa {
+
+	
+	background-color :#76b852;
+
+
+}
+.table{
+
+	width : 800px;
+	text-align : center;
+	top : 200px
+}
+
+.patient{
+	width: 160px;
+	height: 160px;
+	margin-left: 50px;
+	margin-top: 80px;
+}
+.line{
+	background-color: #fff;
+	height: 5px;
+	width: 1200px;
+	align: center;
+	margin-top: 50px;
+
+}
+</style>
+</head>
+<body>
+<div class="row">
+	<div class="col-md-2">
+		<img class="patient" src="images/patient.jpg">
+	</div>
+	<div class="col-md-10">
+			<button id="exit" class="topright">Exit</button>
+		<h2 style="margin-left:100px ;margin-bottom:30px;">Patient Profile</h2>
+
+		<table style="width:600px; margin-left:100px;  margin-bottom:30px;">
+			<tr>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Birth Year</th>
+				<th>Gender</th>
+			 </tr>
+			   
+			 <tr id="data">
+				
+			  </tr>
+			  
+		</table>
+	</div>
+</div>
+<hr class="line"></hr>
+ <h2 style="text-align : center;">Authorized Doctors</h2>
+
+<table id="selfDoctor" style="width:800px; margin-left:28%; margin-bottom;30px; margin-top:30px;">
+  <tr>
+    <th>Name</th>
+    <th>Surname</th>
+	<th>Age</th>
+    <th>Speciality</th>
+  </tr>
+   
+  </table>
+  <hr class="line"></hr>
+   <h2 style="text-align : center;">Records</h2>
+  <table id="record" style="width:800px; margin-left:28%; margin-bottom;30px; margin-top:30px;">
+  <tr>
+			<th>Record Id</th>
+			<th>Doctor Name</th>
+    	<th>Diognastics</th>
+  </tr>
+   
+  </table>
+  <div class="row">
+	<div class="col-md-4">
+		<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+			<h2>Choose Doctor to Authorized</h2>
+			<table id='doctor' style="width:400px; margin-left:20%; margin-bottom;30px; margin-top:30px;">
+					<tr >
+							<th>Id</th>
+							<th>Name</th>
+							<th>Major</th>
+							
+					</tr>
+					</table>
+		  <form>
+		  Doctor Id:<br>
+		  <input type="text" id="doctorId" name="firstname"  placeholder=" ">
+		  <br>
+		  
+		  
+		  <button type="button" id="authDoctor">Give</button>
+		</form> 
+		
+		
+		</div>
+  </div>
+  
+  <div class="col-md-4">
+		<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Choose Relative to Authorized</h2>
+			<table id='relatives' style="width:400px; margin-left:20%; margin-bottom;30px; margin-top:30px;">
+					<tr >
+							<th>Id</th>
+							<th>Name</th>
+							<th>surname</th>
+							
+					</tr>
+					</table>
+		  <form>
+		  Relative Id:<br>
+		  <input type="text" id="relativeId" name="firstname"  placeholder=" ">
+		  <br>
+		  Record Id:<br>
+		  <input type="text" id="recordId" name="lastname" placeholder=" ">
+		  <br></br>
+		  
+		  <button type="button" id="authRelative">Give</button>
+		</form> 
+		</div>
+  </div>
+  <div class="col-md-4">
+  <div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Create Relative</h2>
+		  <form>
+		  First name:<br>
+		  <input type="text" id="name" name="firstname"  placeholder=" ">
+		  <br>
+		  Last name:<br>
+		  <input type="text" id="surname" name="lastname" placeholder=" ">
+		  <br>
+		  Phone Number:<br>
+		  <input type="text" id ="phoneNumber" name="age" placeholder=" ">
+		  <br><br>
+		  <button type="button" id="createRelative">Create</button>
+		</form> 
+		</div>
+  </div>
+   </div>
+</div>
+
+<script>
+		var $data =$('#data');
+	var $doctor =$('#doctor');
+	var $selfDoctor =$('#selfDoctor');
+  var $record =$('#record');
+  var $relatives =$('#relatives');
+  var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+var token = queries[0];
+var id = queries[1];
+  
+  var settings = {
+	  "async": true,
+	  "crossDomain": true,
+	  "url": "http://localhost:9000/patient/" +id,
+	  "method": "GET",
+	  "headers": {
+		"Content-Type": "application/json",
+		"Authorization": "Bearer " + token,
+		"Cache-Control": "no-cache",
+		"Postman-Token": "9ff30e0a-b1f3-4bad-9052-b583c0d1de8e"
+	  }
+	}
+	
+	$.ajax(settings).done(function (response) {
+	  $data.append('<td>'+ response.name  +'</td>');
+	  $data.append('<td>'+ response.surname  +'</td>');
+	  $data.append('<td>'+ response.birthYear  +'</td>');
+		$data.append('<td>'+ response.gender  +'</td>');	
+		
+		$.each(response.selfDoctors, function(i, doctor) {
+		$selfDoctor.append('<tr><td>'+ doctor.name  +'</td><td>'+ doctor.surname  +'</td><td>'+ doctor.birthYear  +'</td><td>'+ doctor.major  +'</td></tr>');
+		})
+		
+		$.each(response.doctors, function(i, doctor) {
+			$doctor.append('<tr><td>'+ doctor.id  +'</td><td>'+ doctor.name  +'</td><td>'+ doctor.major  +'</td></tr>');
+		})
+
+		$.each(response.relatives, function(i, relative) {
+			$relatives.append('<tr><td>'+ relative.id  +'</td><td>'+ relative.name  +'</td><td>'+ relative.surname  +'</td></tr>');
+		})
+
+		$.each(response.records, function(i, record) {
+			$record.append('<tr><td>'+ record.id  +'</td><td>'+ record.doctor.name  +'</td><td>'+ record.diagnostic  +'</td></tr>');  // attribute bak
+		})
+		
+	});
+	$( "#authDoctor" ).click(function() {
+	var authDoctor = {
+		"async": true,
+		"crossDomain": true,
+		"url": "http://localhost:9000/access/doctor/" + $("#doctorId").val(),
+		"method": "PUT",
+		"headers": {
+			"Authorization": "Bearer " + token,
+			"Cache-Control": "no-cache"
+		}
+	}	
+
+	$.ajax(authDoctor).done(function (response) {
+		window.location.replace(window.location.href)
+	}).fail(function(error) {
+			alert("invalid Id")
+  	});
+	});
+
+	$( "#authRelative" ).click(function() {
+		var settings = {
+			"async": true,
+			"crossDomain": true,
+			"url": "http://localhost:9000/access/relative/" + $("#relativeId").val() + "?recordId=" + $("#recordId").val(),
+			"method": "PUT",
+			"headers": {
+				"Authorization": "Bearer " + token,
+				"Cache-Control": "no-cache"
+			}
+		}
+		$.ajax(settings).done(function (response) {
+			console.log(response);
+		}).fail(function(error) {
+			alert("invalid Id")
+  	});
+	});
+
+	$( "#createRelative" ).click(function() {
+		var settings = {
+		"async": true,
+		"crossDomain": true,
+		"url": "http://localhost:9000/relative",
+		"method": "POST",
+		"headers": {
+			"Content-Type": "application/json",
+			"Authorization": "Bearer " + token,
+			"Cache-Control": "no-cache"
+			},
+		"processData": false,
+		"data": "{\n\t\"name\": \"" + $("#name").val() + "\",\n\t\"surname\": \"" + $("#surname").val() + "\",\n\t\"phoneNumber\": " + $("#phoneNumber").val() + "\n}"
+		}
+		$.ajax(settings).done(function (response) {
+			alert("successfully \n username: " + response.username + "\n password: " + response.password)
+		  window.location.replace(window.location.href)
+		}).fail(function(error) {
+			alert("invalid Id")
+  	});
+	});
+
+	
+$( "#exit" ).click(function() {
+	window.location.replace("index.html?")
+});
+</script>
+</body>
+</html>

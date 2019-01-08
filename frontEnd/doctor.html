@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="hospital.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.doctor{
+	width: 160px;
+	height: 160px;
+	margin-left: 50px;
+	margin-top: 80px;
+}
+.line{
+	background-color: #fff;
+	height: 5px;
+	width: 1200px;
+	align: center;
+	margin-top: 50px;
+
+}
+</style>
+</head>
+<body>
+
+<div class="row">
+	<div class="col-md-2">
+		<img class="doctor" src="images/doctor.jpg">
+	</div>
+	<div class="col-md-10">
+			<button id="exit" class="topright">Exit</button>
+		<h2 style="margin-left:100px ;margin-bottom:30px;">Doctor Profile</h2>
+
+		<table style="width:600px; margin-left:100px;  margin-bottom:30px;">
+			<tr >
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Bith Year</th>
+				<th>Specialty</th>
+			 </tr>
+			   </tr>
+			  <tr id="data">
+				
+			  </tr>
+			   </tr>
+		</table>
+	</div>
+</div>
+<hr class="line"></hr>
+<div style="margin-top: 50px;">
+ <h2 style="text-align : center;">My Patients</h2>
+
+<table id='patient' style="width: 800px; text-align: center; margin-left:28%; margin-bottom;30px; margin-top:30px;">
+  <tr >
+		  <th>Id</th>
+			<th>Name</th>
+			<th>Surname</th>
+			<th>Birth Year</th>
+			<th>Gender</th>
+			<th>Diagnoctics</th>
+  </tr>
+	</table>
+	
+<hr class="line"></hr>
+<div style="margin-top: 50px;">
+ <h2 style="text-align : center;">Authorized Nurses </h2>
+  <table id='selfNurse' style="width:800px; margin-left:28%; margin-bottom;30px; margin-top:30px;">
+			<tr >
+					<th>Name</th>
+					<th>Surname</th>
+					<th>Major</th>
+			</tr>
+			</table>
+  
+  <div class="row">
+	<div class="col-md-4">
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Create Patient and Record</h2>
+		  <form>
+		  First name:<br>
+		  <input type="text" id="name" name="firstname"  placeholder=" ">
+		  <br>
+		  Last name:<br>
+		  <input type="text" id="surname" name="lastname" placeholder=" ">
+		  <br>
+		  Birht Year:<br>
+		  <input type="text" id ="birthYear" name="age" placeholder=" ">
+		  <br>
+		  Phone:<br>
+		  <input type="text" id ="phoneNumber" name="age" placeholder=" ">
+		  <br>
+		  Gender:<br>
+		  <input type="text" id ="gender" name="age" placeholder=" ">
+		  <br>
+		  Address:<br>
+		  <input type="text" id ="address" name="age" placeholder=" ">
+		  <br>
+		  Diognastics:<br>
+			<input type="text" id="diagnostic" name="diognastics" placeholder=" "> <br>
+			<p><button type="button" id="add-record-patient" >Create</button></p>
+		  <br><br>
+		</form> 
+		</div>
+	</div>
+	
+	<div class="col-md-4">
+		
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Add Record</h2>
+		  <form>
+					Diagnostic<br>
+					<input type="text" id="addDiagnostic" name="firstname"  placeholder=" ">
+					<br>
+					Patient Id<br>
+					<input type="text" id="patientId" name="firstname"  placeholder=" ">
+					<br>
+			<p><button type="button" id="add-record" >Add</button></p>
+		  <br><br>
+		</form> 
+		</div>
+	</div>
+
+	<div class="col-md-4">
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+					<h2>Choose Nurse to Authorizate</h2>
+					<table id='nurse' style="width:400px; margin-left:20%; margin-bottom;30px; margin-top:30px;">
+							<tr >
+									<th>Id</th>
+									<th>Name</th>
+									<th>Major</th>
+									
+							</tr>
+							</table>
+					<form>
+					Nurse Id:<br>
+					<input type="text" id="nurseId" name="firstname"  placeholder=" ">
+					<br>
+					
+					<button type="button" id="authNurse">Give Authorization</button>
+				</form> 
+				</div>
+	</div>	
+	
+	
+	</div>
+</div>
+<script>
+	var $data =$('#data');
+  var $patient =$('#patient');
+  var $nurse =$('#nurse');
+  var $selfNurse =$('#selfNurse');
+  var queryString = decodeURIComponent(window.location.search);
+	queryString = queryString.substring(1);
+	var queries = queryString.split("&");
+	var token = queries[0];
+	var id = queries[1];
+		
+  var settings = {
+	  "async": true,
+	  "crossDomain": true,
+	  "url": "http://localhost:9000/doctor/" +id,
+	  "method": "GET",
+	  "headers": {
+		"Content-Type": "application/json",
+		"Authorization": "Bearer " + token,
+		"Cache-Control": "no-cache",
+		"Postman-Token": "9ff30e0a-b1f3-4bad-9052-b583c0d1de8e"
+	  }
+	}
+	
+	$.ajax(settings).done(function (response) {
+	  $data.append('<td>'+ response.name  +'</td>');
+	  $data.append('<td>'+ response.surname  +'</td>');
+	  $data.append('<td>'+ response.birthYear  +'</td>');
+		$data.append('<td>'+ response.major  +'</td>');	
+		
+		$.each(response.patients, function(i, patient) {
+			var a = "";
+			$.each(patient.records, function(i, recor) {
+				a +=recor +' - ';
+			})
+			$patient.append('<tr><td>'+ patient.id  +'</td><td>'+ patient.name  +'</td><td>'+ patient.surname  +'</td><td>'+ patient.birthYear  +'</td><td>'+ patient.gender  +'</td><td>' + a.substr(0, a.length-2) + '</td></tr>');
+		})
+
+		$.each(response.nurses, function(i, nurse) {
+			$nurse.append('<tr><td>'+ nurse.id  +'</td><td>'+ nurse.name  +'</td><td>'+ nurse.major  +'</td></tr>');
+		})
+		$.each(response.docNurses, function(i, nurse) {
+			$selfNurse.append('<tr><td>'+ nurse.name  +'</td><td>'+ nurse.surname  +'</td><td>'+ nurse.major  +'</td></tr>');
+		})
+	});
+
+	$( "#add-record-patient" ).click(function() {
+		var record = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:9000/record",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+		"Authorization": "Bearer " + token,
+    "Cache-Control": "no-cache",
+    "Postman-Token": "dfe1d3ca-87bf-41d1-9598-2c19b20adfbb"
+  },
+  "processData": false,
+  "data": "{\n  \"diagnostic\" : \"" + $("#diagnostic").val() + "\",\n  \"patient\" : {\n\t  \"name\": \"" + $("#name").val() + "\",\n\t  \"surname\": \"" + $("#surname").val() + "\",\n\t  \"phoneNumber\": " + $("#phoneNumber").val() + ",\n\t  \"birthYear\": " + $("#birthYear").val() + ",\n\t  \"gender\": \"" + $("#gender").val() + "\",\n\t  \"address\": \"" + $("#address").val() + "\"\n\t}\n}"
+}
+
+$.ajax(record).done(function (response) {
+	  alert("successfully \n username: " + response.username + "\n password: " + response.password)
+		window.location.replace(window.location.href)
+}).fail(function(error) {
+			alert("invalid input")
+  	});
+	});
+
+$( "#add-record" ).click(function() {
+	var settings = {
+		"async": true,
+		"crossDomain": true,
+		"url": "http://localhost:9000/record/" + $("#patientId").val(),
+		"method": "PUT",
+		"headers": {
+			"Content-Type": "application/json",
+			"Authorization": "Bearer " + token,
+			"Cache-Control": "no-cache"
+		},
+		"processData": false,
+		"data": "{\n  \"diagnostic\" : \"" + $("#addDiagnostic").val() + "\"\n}"
+	}
+
+	$.ajax(settings).done(function (response) {
+		window.location.replace(window.location.href)
+	}).fail(function(error) {
+			alert("invalid input")
+  	});
+});
+
+$( "#authNurse" ).click(function() {
+	var authNurse = {
+		"async": true,
+		"crossDomain": true,
+		"url": "http://localhost:9000/nurse/" + $("#nurseId").val(),
+		"method": "PUT",
+		"headers": {
+			"Authorization": "Bearer " + token,
+			"Cache-Control": "no-cache"
+		}
+	}	
+
+	$.ajax(authNurse).done(function (response) {
+		window.location.replace(window.location.href)
+	}).fail(function(error) {
+			alert("invalid Id")
+  	});
+});
+
+$( "#exit" ).click(function() {
+	window.location.replace("index.html?")
+});
+</script>
+</body>
+</html>

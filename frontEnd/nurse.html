@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" type="text/css" href="hospital.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.nurse{
+	width: 160px;
+	height: 160px;
+	margin-left: 50px;
+	margin-top: 80px;
+}
+.line{
+	background-color: #fff;
+	height: 5px;
+	width: 1200px;
+	align: center;
+	margin-top: 50px;
+
+}
+</style>
+</head>
+<body>
+
+<div class="row">
+	<div class="col-md-2">
+		<img class="nurse" src="images/nurse.jpg">
+	</div>
+	<div class="col-md-10">
+			<button id="exit" class="topright">Exit</button>
+		<h2 style="margin-left:100px ;margin-bottom:30px;">Nurse Profile</h2>
+
+		<table  style="width:600px; margin-left:100px;  margin-bottom:30px;">
+			<tr>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Gender</th>
+				<th>Major</th>
+			 </tr>
+			 <tr id='nurse'>
+			 </tr>
+		</table>
+	</div>
+</div>
+<hr class="line"></hr>
+<div style="margin-top: 50px;">
+ <h2 style="text-align : center;">Doctor Profiles</h2>
+
+<table id="doctor" style="width:1000px; margin-left:28%; margin-bottom;30px; margin-top:30px;">
+  <tr>
+    <th>Name</th>
+    <th>Surname</th>
+    <th>Gender</th>
+	<th>Major</th>
+  </tr>
+   
+</table>
+  
+</div>
+<script>
+  var $nurse =$('#nurse');
+  var $doctor =$('#doctor');
+  var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+var token = queries[0];
+var id = queries[1];
+  
+  var settings = {
+	  "async": true,
+	  "crossDomain": true,
+	  "url": "http://localhost:9000/nurse/" +id,
+	  "method": "GET",
+	  "headers": {
+		"Content-Type": "application/json",
+		"Authorization": "Bearer " + token,
+		"Cache-Control": "no-cache",
+		"Postman-Token": "9ff30e0a-b1f3-4bad-9052-b583c0d1de8e"
+	  }
+	}
+	
+	$.ajax(settings).done(function (response) {
+	  $nurse.append('<td>'+ response.name  +'</td>');
+	  $nurse.append('<td>'+ response.surname  +'</td>');
+	  $nurse.append('<td>'+ response.gender  +'</td>'); //bunların attributeu değişcek
+		$nurse.append('<td>'+ response.major  +'</td>');	
+
+		$.each(response.doctors, function(i, doc) {
+		  $doctor.append('<tr><td>'+ doc.name  +'</td><td>'+ doc.surname  +'</td><td>'+ doc.gender  +'</td><td>'+ doc.major  +'</td></tr>');
+			$doctor.append('<tr style="font-weight: bold;"><td></td><td>'+ 'Patient Name'  +'</td><td>'+ 'Patient Surname' +'</td><td>'+ 'Birth Year' +'</td><td>'+ 'Gender' +'</td><td>'+ 'Diagnostics' +'</td></tr>');
+			$.each(doc.patients, function(i, patient) {
+				var a = "";
+				$.each(patient.records, function(i, recor) {
+					a +=recor +' - ';
+				})
+				$doctor.append('<tr><td>Patient:' + (i + 1) + '</td><td>'+ patient.name  +'</td><td>'+ patient.surname +'</td><td>'+ patient.birthYear +'</td><td>'+ patient.gender +'</td><td>'+ a.substr(0, a.length-2) +'</td></tr>');
+			})
+			$doctor.append('<tr><td></td></tr>');
+		})
+	});
+	
+
+$( "#exit" ).click(function() {
+	window.location.replace("index.html?")
+});
+		
+</script>
+</body>
+</html>

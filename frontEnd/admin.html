@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/5.7.0/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="doctor.js"></script>
+
+<link rel="stylesheet" type="text/css" href="hospital.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.anasayfa {
+
+	
+	background-color :#76b852;
+
+
+}
+.table{
+
+	width : 800px;
+	text-align : center;
+	top : 200px
+}
+
+.patient{
+	width: 160px;
+	height: 160px;
+	margin-left: 50px;
+	margin-top: 80px;
+}
+.line{
+	background-color: #fff;
+	height: 5px;
+	width: 1200px;
+	align: center;
+	margin-top: 50px;
+
+}
+</style>
+</head>
+<body>
+		
+<div class="row">
+	<div class="col-md-2">
+		<img class="patient" src="images/admin.jpg">
+		
+	</div>
+	<div class="col-md-10">
+		<button id="exit" class="topright">Exit</button>
+		<h2 style="margin-left:100px ;margin-bottom:30px;">Admin</h2>
+
+		<!-- <table style="width:600px; margin-left:100px;  margin-bottom:30px;">
+			<tr>
+				<th>Name</th>
+				<th>Surname</th>
+				<th>Age</th>
+				
+			 </tr>
+			 <tr id='data'></tr>
+			   
+		</table> -->
+		 
+
+	</div>
+</div>
+<hr class="line"></hr>
+
+  <div class="row">
+	<div class="col-md-3">
+		
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Create Doctor</h2>
+		  <form>
+		  First name:<br>
+		  <input type="text" id="doctorName" name="doctorName"  placeholder=" ">
+		  <br>
+		  Last name:<br>
+		  <input type="text" id="doctorSurname" name="lastname" placeholder=" ">
+		  <br>
+		  Major:<br>
+		  <input type="text" id ="doctorMajor" name="age" placeholder=" ">
+			<br>
+			Birth Year:<br>
+		  <input type="text" id ="doctorBirthYear" name="age" placeholder=" ">
+			<br>
+			Gender:<br>
+		  <input type="text" id ="doctorGender" name="age" placeholder=" ">
+		  <br></br>
+		 
+		  
+		  <button type="button" id="add-doctor">Add</button>
+		</form> 
+		</div>
+		</div>
+		<div class="col-md-3">
+		
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Create Nurse</h2>
+		  <form>
+		  First name:<br>
+		  <input type="text" id="nurseName" name="firstname"  placeholder=" ">
+		  <br>
+		  Last name:<br>
+		  <input type="text" id="nurseSurname" name="lastname" placeholder=" ">
+		  <br>
+		  Major:<br>
+		  <input type="text" id ="nurseMajor" name="age" placeholder=" ">
+			<br>
+			Gender:<br>
+		  <input type="text" id ="nurseGender" name="age" placeholder=" ">
+		  <br></br>
+		 
+		  <button type="button" id="add-nurse">Add</button>
+		</form> 
+		</div>
+	</div>
+
+	
+	<div class="col-md-3">
+		
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Create Patient</h2>
+		  <form>
+					First name:<br>
+					<input type="text" id="patientName" name="firstname"  placeholder=" ">
+					<br>
+					Last name:<br>
+					<input type="text" id="patientSurname" name="lastname" placeholder=" ">
+					<br>
+					Age:<br>
+					<input type="text" id ="patientPhone" name="age" placeholder=" ">
+					<br>
+					Birth Year:<br>
+					<input type="text" id="patientBirthYear" name="firstname"  placeholder=" ">
+					<br>
+					Gender:<br>
+					<input type="text" id="patientGender" name="firstname"  placeholder=" ">
+					<br>
+					Address:<br>
+					<input type="text" id="patientAddress" name="firstname"  placeholder=" ">
+					<br><br>
+		  
+		  
+		  <button type="button" id="add-patient">Add</button>
+		</form> 
+		</div>
+	</div>
+	
+	
+	<div class="col-md-3">
+		
+			<div style="margin-top: 70px; margin-left: 50px; margin-bottom: 50px; text-align:center;">
+		  <h2>Create Relative</h2>
+		  <form>
+		  First name:<br>
+		  <input type="text" id="relativeName" name="firstname"  placeholder=" ">
+		  <br>
+		  Last name:<br>
+		  <input type="text" id="relativeSurname" name="lastname" placeholder=" ">
+		  <br>
+		  Age:<br>
+		  <input type="text" id ="relativePhone" name="age" placeholder=" ">
+			<br><br>
+		 
+		  
+		  <button type="button" id="add-relative">Add</button>
+		</form> 
+		</div>
+	</div>
+
+	<script>
+		var $data =$('#data');
+  var $patient =$('#patient');
+  var queryString = decodeURIComponent(window.location.search);
+queryString = queryString.substring(1);
+var queries = queryString.split("&");
+var token = queries[0];
+var id = queries[1];
+  
+  // var settings = {
+	//   "async": true,
+	//   "crossDomain": true,
+	//   "url": "http://localhost:9000/admin/" +id,
+	//   "method": "GET",
+	//   "headers": {
+	// 	"Content-Type": "application/json",
+	// 	"Authorization": "Bearer " + token,
+	// 	"Cache-Control": "no-cache",
+	// 	"Postman-Token": "9ff30e0a-b1f3-4bad-9052-b583c0d1de8e"
+	//   }
+	// }
+	
+	// $.ajax(settings).done(function (response) {
+	//   $data.append('<td>'+ response.name  +'</td>');
+	//   $data.append('<td>'+ response.surname  +'</td>');  //attribute isimleri gene
+	//   $data.append('<td>'+ response.birthYear  +'</td>');
+	// 	$data.append('<td>'+ response.major  +'</td>');	
+		
+		
+		
+	// });
+
+	$( "#add-relative" ).click(function() {
+var addRelative	 = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:9000/admin/relative",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token,
+    "Cache-Control": "no-cache"
+  },
+  "processData": false,
+	"data": "{\n\t\"name\": \""+ $("#relativeName").val() + "\",\n\t\"surname\": \""+ $("#relativeSurname").val() +"\",\n\t\"phoneNumber\": "+ $("#relativePhone").val() + "\n}"
+	
+}
+$.ajax(addRelative).done(function (response) {
+	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
+	}).fail(function(error) {
+			alert("invalid Id")
+  	});
+});
+
+$( "#add-patient" ).click(function() {
+var addPatient = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:9000/admin/patient",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token,
+    "Cache-Control": "no-cache",
+    "Postman-Token": "b36a5a14-7cd2-4ee4-a114-850a984c97fa"
+  },
+  "processData": false,
+  "data": "{\n\t  \"name\": \"" + $("#patientName").val() + "\",\n\t  \"surname\": \"" + $("#patientSurname").val() + "\",\n\t  \"phoneNumber\": " + $("#patientPhone").val() +",\n\t  \"birthYear\":" + $("#patientBirthYear").val() + ",\n\t  \"gender\": \""+ $("#patientGender").val() + "\",\n\t  \"address\": \""+ $("#patientAddress").val() +"\"\n}"
+}
+
+$.ajax(addPatient).done(function (response) {
+	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
+	}).fail(function(error) {
+			alert("invalid Id")
+  	});
+});
+
+
+$( "#add-nurse" ).click(function() {
+var addNurse = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:9000/admin/nurse",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token,
+    "Cache-Control": "no-cache",
+    "Postman-Token": "b32c3b74-a9c5-4473-a384-2594f9c1f8f7"
+  },
+  "processData": false,
+  "data": "{\n\t  \"name\": \"" + $("#nurseName").val() + "\",\n\t  \"surname\": \"" + $("#nurseSurname").val() + "\",\n\t  \"major\": \"" + $("#nurseMajor").val() + "\",\n\t  \"gender\": \"" + $("#nurseGender").val() + "\"\n\t\n}"
+}
+
+$.ajax(addNurse).done(function (response) {
+	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
+	}).fail(function(error) {
+			alert("invalid Id")
+  	});
+});
+
+$( "#add-doctor" ).click(function() {
+var addDoctor = {
+  "async": true,
+  "crossDomain": true,
+  "url": "http://localhost:9000/admin/doctor",
+  "method": "POST",
+  "headers": {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token ,
+    "Cache-Control": "no-cache",
+    "Postman-Token": "43b55cec-2285-4a49-80eb-1746197aee83"
+  },
+  "processData": false,
+  "data": "{\n\t  \"name\": \"" + $("#doctorName").val() + "\",\n\t  \"surname\": \"" + $("#doctorSurname").val() + "\",\n\t  \"major\": \"" + $("#doctorMajor").val() + "\",\n\t  \"birthYear\": " + $("#doctorBirthYear").val() + ",\n\t  \"gender\": \"" + $("#doctorGender").val() + "\"\n\t\n}"
+}
+
+$.ajax(addDoctor).done(function (response) {
+			alert("successfully \n username: " + response.username + "\n password: " + response.password)
+			
+	}).fail(function(error) {
+			alert("invalid Id")
+		});
+		
+	
+});
+$( "#exit" ).click(function() {
+	window.location.replace("index.html?")
+});
+
+</script>
+</body>
+</html>
