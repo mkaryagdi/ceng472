@@ -233,8 +233,9 @@ var addRelative	 = {
 }
 $.ajax(addRelative).done(function (response) {
 	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
+		  window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert(JSON.stringify(error.responseText))
+			alert("Invalid Input")
   	});
 });
 
@@ -256,8 +257,9 @@ var addPatient = {
 
 $.ajax(addPatient).done(function (response) {
 	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
+		  window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert(JSON.stringify(error.responseText))
+			alert("Invalid Input")
   	});
 });
 
@@ -280,8 +282,9 @@ var addNurse = {
 
 $.ajax(addNurse).done(function (response) {
 	    alert("successfully \n username: " + response.username + "\n password: " + response.password)
+		  window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert(JSON.stringify(error.responseText))
+			alert("Invalid Input")
   	});
 });
 
@@ -303,9 +306,9 @@ var addDoctor = {
 
 $.ajax(addDoctor).done(function (response) {
 			alert("successfully \n username: " + response.username + "\n password: " + response.password)
-			
+		  window.location.replace(window.location.href)
 	}).fail(function(error) {
-			alert(JSON.stringify(error.responseText))
+			alert("Invalid Input")
 		});
 		
 	

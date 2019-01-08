@@ -108,13 +108,13 @@ public class DatabaseHandler {
 
             try {
                 NurseUser nurse1 = nurseGenerator.generate("NurseSems", "Sems",
-                        "Sems", "Ozdemirden", "male", "kids", null);
+                        "Sems", "Ozdemirden", "male", "Kids", null);
 
                 NurseUser nurse2 = nurseGenerator.generate("NurseSeray", "Donmez",
-                        "Seray", "Donmez", "female", "teeth", null);
+                        "Seray", "Donmez", "female", "Teeth", null);
 
                 NurseUser nurse3 = nurseGenerator.generate("NurseDogus", "Eraytac",
-                        "Dogus", "Eraytac", "male", "chemistry", null);
+                        "Dogus", "Eraytac", "male", "Brain", null);
 
                 nurse1.save();
                 nurse2.save();
