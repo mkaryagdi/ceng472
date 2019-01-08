@@ -16,6 +16,7 @@ import play.mvc.Result;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 
 public class UserController extends Controller {
 
@@ -45,7 +46,7 @@ public class UserController extends Controller {
 
         DoctorUser doctor = DoctorUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
-        if (doctor != null && doctor.getPassword().equals(getEncPassword(userSignInForm.password))) {
+        if (doctor != null && Arrays.equals(doctor.getPassword(),getEncPassword(userSignInForm.password))) {
             ObjectNode response = Json.newObject();
             response.put("token", doctor.getToken());
             response.put("type", "doctor");
@@ -55,7 +56,7 @@ public class UserController extends Controller {
         }
         PatientUser patient = PatientUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
-        if (patient != null && patient.getPassword().equals(getEncPassword(userSignInForm.password))) {
+        if (patient != null && Arrays.equals(patient.getPassword(),(getEncPassword(userSignInForm.password)))) {
             ObjectNode response = Json.newObject();
             response.put("token", patient.getToken());
             response.put("type", "patient");
@@ -65,7 +66,7 @@ public class UserController extends Controller {
         }
         NurseUser nurse = NurseUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
-        if (nurse != null && nurse.getPassword().equals(getEncPassword(userSignInForm.password))) {
+        if (nurse != null && Arrays.equals(nurse.getPassword(),getEncPassword(userSignInForm.password))) {
             ObjectNode response = Json.newObject();
             response.put("token", nurse.getToken());
             response.put("type", "nurse");
@@ -75,7 +76,7 @@ public class UserController extends Controller {
         }
         RelativeUser relative = RelativeUser.finder.query().where().eq("username", userSignInForm.username).findOne();
 
-        if (relative != null && relative.getPassword().equals(getEncPassword(userSignInForm.password))) {
+        if (relative != null && Arrays.equals(relative.getPassword(),getEncPassword(userSignInForm.password))) {
             ObjectNode response = Json.newObject();
             response.put("token", relative.getToken());
             response.put("type", "relative");
@@ -84,8 +85,9 @@ public class UserController extends Controller {
             return ok(response);
         }
         AdminUser admin = AdminUser.finder.query().where().eq("username", userSignInForm.username).findOne();
+        byte[] password = getEncPassword(userSignInForm.password);
+        if (admin != null && Arrays.equals(admin.getPassword(),password)) {
 
-        if (admin != null && admin.getPassword().equals(getEncPassword(userSignInForm.password))) {
             ObjectNode response = Json.newObject();
             response.put("token", admin.getToken());
             response.put("type", "admin");
