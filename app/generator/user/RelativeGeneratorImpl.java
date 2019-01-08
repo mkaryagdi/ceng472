@@ -30,7 +30,7 @@ public class RelativeGeneratorImpl implements RelativeGenerator {
                 surname,
                 phoneNumber);
         // since we need userId to generate token, first we should save bean.
-//        record.getPatientUser().addRelative(user);
+        record.getPatientUser().addRelative(user);
 //        record.save();
         user.save();
 

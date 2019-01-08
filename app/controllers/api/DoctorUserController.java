@@ -96,7 +96,7 @@ public class DoctorUserController extends Controller {
                     body.patient.gender,
                     doctor);
         } catch (Exception e) {
-            return badRequest("patient generation failed");
+            return badRequest("Patient generation failed.");
         }
 
         Record record = new Record(body.diagnostic, patient, doctor);
@@ -122,13 +122,13 @@ public class DoctorUserController extends Controller {
         Form<DiagnosticForm> form = formFactory.form(DiagnosticForm.class).bind(request().body().asJson());
 
         if (form.hasErrors()) {
-            return badRequest("form has errors.");
+            return badRequest(form.errorsAsJson());
         }
 
         DiagnosticForm body = form.get();
 
         if (patient == null) {
-            return notFound("patient does not found");
+            return notFound("Patient does not found!");
         }
 
         Record record = new Record(body.diagnostic, patient, doctor);
@@ -144,13 +144,12 @@ public class DoctorUserController extends Controller {
         NurseUser nurse = NurseUser.finder.byId(id);
 
         if (nurse == null) {
-            return notFound("nurse does not found");
+            return notFound("Nurse does not found!");
         }
 
         if (nurse.getDoctorList() != null && nurse.getDoctorList().contains(doctor)) {
-            return badRequest("nurse is already assigned to you.");
+            return badRequest("Nurse is already assigned to you.");
         }
-
 
         nurse.addDoctorList(doctor);
         nurse.save();
