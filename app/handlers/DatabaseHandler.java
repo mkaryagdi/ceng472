@@ -132,7 +132,7 @@ public class DatabaseHandler {
         if(AdminUser.finder.all().isEmpty()) {
             Logger.info("Admin accounts are missing. Inserting default values...");
 
-           AdminUser admin = new AdminUser(null, "powerpuffgirls", "make me secure");
+           AdminUser admin = new AdminUser(null, "admin", "admin");
            admin.save();
 
             try {
