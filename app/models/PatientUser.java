@@ -183,6 +183,7 @@ public class PatientUser extends Model {
 
     private JsonNode getRecord(Record record) {
         return Json.newObject().put("diagnostic", record.getDiagnostic())
+                .put("id", record.getId())
                 .set("doctor", getDoctor(record.getDoctorUser()));
     }
 
@@ -197,7 +198,8 @@ public class PatientUser extends Model {
 
     private JsonNode getRelative(RelativeUser relative) {
         return Json.newObject().put("name", relative.getName())
-                .put("surname", relative.getSurname());
+                .put("surname", relative.getSurname())
+                .put("id", relative.getId());
     }
 
     @JsonIgnore
