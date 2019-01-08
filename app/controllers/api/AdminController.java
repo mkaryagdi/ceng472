@@ -79,10 +79,12 @@ public class AdminController extends Controller {
 
         PatientForm body = form.get();
         Logger.debug("Generating patient user.");
+        String username = body.name.substring(0, 1).toUpperCase() + body.surname;
+        String password = generateRandomPassword();
         PatientUser patient = new PatientUser(
                 null,
-                body.name.substring(0, 1).toUpperCase() + body.surname,
-                generateRandomPassword(),
+                username,
+                password,
                 body.name,
                 body.surname,
                 body.birthYear,
@@ -100,7 +102,10 @@ public class AdminController extends Controller {
             throw e;
         }
 
-        return ok(Json.toJson(patient));
+        ObjectNode result = (ObjectNode) Json.toJson(patient);
+        result.put("username", username);
+        result.put("password", password);
+        return ok(result);
     }
 
     public Result createNurse() {
@@ -167,7 +172,7 @@ public class AdminController extends Controller {
         ObjectNode result = (ObjectNode) Json.toJson(relative);
         result.put("username", username);
         result.put("password", password);
-        return created(Json.toJson(relative));
+        return created(result);
     }
 
     static public String generateRandomPassword() {
